@@ -1,27 +1,21 @@
-import { useEffect } from 'react';
-
+import { useEffect } from "react";
+import { GPT_SCRIPT_URL, initializeGPT } from "./AdManager";
 const AdScriptLoader = () => {
-  const clientId = import.meta.env.VITE_ADSENSE_PUBLISHER_ID || import.meta.env.VITE_ADSENSE_CLIENT_ID || '';
-
   useEffect(() => {
-    if (!clientId) return undefined;
-
-    window.adsbygoogle = window.adsbygoogle || [];
-    const selector = 'script[data-finvexa-adsense="true"]';
-    if (document.querySelector(selector)) return undefined;
-
-    const script = document.createElement('script');
+    window.googletag = window.googletag || { cmd: [] };
+    if (document.querySelector('script[data-finvexa-gpt="true"]')) {
+      initializeGPT();
+      return undefined;
+    }
+    const script = document.createElement("script");
     script.async = true;
-    script.crossOrigin = 'anonymous';
-    script.dataset.finvexaAdsense = 'true';
-    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(clientId)}`;
+    script.dataset.finvexaGpt = "true";
+    script.src = GPT_SCRIPT_URL;
+    script.onload = initializeGPT;
     script.onerror = () => script.remove();
     document.head.appendChild(script);
-
     return undefined;
-  }, [clientId]);
-
+  }, []);
   return null;
 };
-
 export default AdScriptLoader;

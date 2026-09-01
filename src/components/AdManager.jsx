@@ -1,24 +1,17 @@
-import { useEffect } from 'react';
-
-// Initialize Google Publisher Tag
+import { useEffect } from "react";
+export const GPT_SCRIPT_URL =
+  "https://securepubads.g.doubleclick.net/tag/js/gpt.js";
+let servicesEnabled = false;
 export const initializeGPT = () => {
-  if (typeof window === 'undefined') return;
-
+  if (typeof window === "undefined") return;
   window.googletag = window.googletag || { cmd: [] };
-
   window.googletag.cmd.push(() => {
-    // Enable single request mode
+    if (servicesEnabled) return;
     window.googletag.pubads().enableSingleRequest();
-    // Collapse empty divs
-    window.googletag.pubads().collapseEmptyDivs();
-    // Enable services
+    window.googletag.pubads().collapseEmptyDivs(true);
+    window.googletag.pubads().setCentering(true);
     window.googletag.enableServices();
+    servicesEnabled = true;
   });
 };
-
-// Hook to initialize GPT on mount
-export const useGPT = () => {
-  useEffect(() => {
-    initializeGPT();
-  }, []);
-};
+export const useGPT = () => useEffect(initializeGPT, []);
