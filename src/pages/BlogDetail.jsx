@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import BlogSidebar from '../components/BlogSidebar';
 import AdUnit from '../components/AdUnit';
+import BlogInterstitialGate, { BLOG_INTERSTITIAL_TARGET_ID } from '../components/BlogInterstitialGate';
 import { getBlogPost, blogPosts } from '../data/blogData';
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from '../tracking';
 import './BlogDetail.css';
@@ -68,7 +69,8 @@ const BlogDetail = () => {
           <figure className="blog-detail-image"><img src={post.image} alt={post.title} width="1200" height="675" fetchPriority="high"/><figcaption>{post.title}</figcaption></figure>
           <AdUnit slot="TOP" />
 
-          <div className="blog-detail-body">
+          <BlogInterstitialGate />
+          <div id={BLOG_INTERSTITIAL_TARGET_ID} className="blog-detail-body">
             {post.content.sections.map((section,index) => <section key={section.heading} className="blog-section">
               <h2>{section.heading}</h2>
               <div className="blog-text">{renderSectionText(section.text)}</div>

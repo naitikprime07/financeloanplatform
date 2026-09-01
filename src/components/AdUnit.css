@@ -69,6 +69,23 @@
     display: none !important;
 }
 
+.ad-fallback {
+    width: 100%;
+    max-width: 970px;
+    padding: 20px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f8f9fa;
+    border: 1px dashed #dee2e6;
+    border-radius: 8px;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.ad-unit-wrapper.is-empty:has(.ad-fallback) {
+    min-height: auto;
+}
+
 .ad-unit-wrapper.ad-sticky {
     position: fixed;
     right: 0;
