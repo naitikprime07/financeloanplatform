@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(timeout 3 npm run dev)",
+      "Bash(curl -s https://automatedsalesplatform.com/)",
+      "Bash(cat d:/finance_web/pages.json)",
+      "Bash(node crawler.mjs)",
+      "Bash(node fetch-blogs.mjs)",
+      "Bash(curl -s \"https://automatedsalesplatform.com/\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s \"https://automatedsalesplatform.com/assets/index-CNcRtOZ0.js\")",
+      "Bash(curl -s \"https://automatedsalesplatform.com/blog/affordable-crm-platforms-small-businesses\" -H \"User-Agent: Mozilla/5.0\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

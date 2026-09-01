@@ -1,0 +1,8 @@
+# Authorized Digital Sellers for Finvexa
+#
+# No publisher ID is stored in this repository yet. Before production,
+# uncomment the line below and replace the example value with the numeric
+# publisher ID from VITE_ADSENSE_PUBLISHER_ID (ca-pub-XXXXXXXXXXXXXXXX).
+# Remove the "ca-" prefix in ads.txt so the value starts with "pub-".
+#
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

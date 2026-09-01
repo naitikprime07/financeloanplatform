@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Add a Sitemap directive here after sitemap.xml is published.
+# Sitemap: https://finvexa.com/sitemap.xml
