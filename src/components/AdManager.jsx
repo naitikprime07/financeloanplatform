@@ -1,17 +1,17 @@
-import { useEffect } from "react";
-export const GPT_SCRIPT_URL =
-  "https://securepubads.g.doubleclick.net/tag/js/gpt.js";
-let servicesEnabled = false;
+export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
+let configurationQueued = false;
+
 export const initializeGPT = () => {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return;
   window.googletag = window.googletag || { cmd: [] };
+  if (configurationQueued) return;
+  configurationQueued = true;
   window.googletag.cmd.push(() => {
-    if (servicesEnabled) return;
-    window.googletag.pubads().enableSingleRequest();
-    window.googletag.pubads().collapseEmptyDivs(true);
-    window.googletag.pubads().setCentering(true);
+    window.googletag.setConfig({
+      singleRequest: true,
+      collapseDiv: 'BEFORE_FETCH',
+      centering: true,
+    });
     window.googletag.enableServices();
-    servicesEnabled = true;
   });
 };
-export const useGPT = () => useEffect(initializeGPT, []);

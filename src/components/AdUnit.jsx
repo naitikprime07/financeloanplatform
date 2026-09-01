@@ -1,16 +1,28 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./AdUnit.css";
+
+const NETWORK = String(import.meta.env.VITE_GAM_NETWORK_CODE || "")
+  .trim()
+  .replace(/^\/+|\/+$/g, "");
+const normalizePath = (value) => {
+  const path = String(value || "").trim();
+  if (!path) return "";
+  if (path.startsWith("/")) return path;
+  return NETWORK ? `/${NETWORK}/${path.replace(/^\/+/, "")}` : "";
+};
 const PATHS = {
-  TOP: import.meta.env.VITE_GAM_AD_UNIT_CONTENT_TOP,
-  MIDDLE_1: import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_1,
-  MIDDLE_2: import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_2,
-  MIDDLE_3: import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_3,
-  BOTTOM: import.meta.env.VITE_GAM_AD_UNIT_CONTENT_BOTTOM,
-  ANCHOR: import.meta.env.VITE_GAM_AD_UNIT_MOBILE_ANCHOR,
-  NATIVE: import.meta.env.VITE_GAM_AD_UNIT_NATIVE_IN_CONTENT,
-  SIDE_LEFT: import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_LEFT,
-  SIDE_RIGHT: import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_RIGHT,
-  BLOG_SIDEBAR: import.meta.env.VITE_GAM_AD_UNIT_BLOG_SIDEBAR,
+  TOP: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_TOP),
+  MIDDLE_1: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_1),
+  MIDDLE_2: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_2),
+  MIDDLE_3: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_3),
+  BOTTOM: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_BOTTOM),
+  ANCHOR: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_MOBILE_ANCHOR),
+  NATIVE: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_NATIVE_IN_CONTENT),
+  SIDE_LEFT: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_LEFT),
+  SIDE_RIGHT: normalizePath(
+    import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_RIGHT,
+  ),
+  BLOG_SIDEBAR: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_BLOG_SIDEBAR),
 };
 const SIZES = {
   TOP: [
@@ -53,19 +65,24 @@ const SIZES = {
     [160, 600],
     [120, 600],
   ],
+  BLOG_SIDEBAR: [
+    [300, 250],
+    [320, 100],
+  ],
 };
-const mapping = (gt, slot) => {
-  if (slot === "BLOG_SIDEBAR")
+
+const buildMapping = (gt, key) => {
+  if (key === "BLOG_SIDEBAR")
     return gt.sizeMapping().addSize([0, 0], SIZES.BLOG_SIDEBAR).build();
-  if (slot === "ANCHOR")
+  if (key === "ANCHOR")
     return gt.sizeMapping().addSize([0, 0], SIZES.ANCHOR).build();
-  if (slot.startsWith("SIDE_"))
+  if (key.startsWith("SIDE_"))
     return gt
       .sizeMapping()
-      .addSize([1536, 0], SIZES[slot])
+      .addSize([1536, 0], SIZES[key])
       .addSize([0, 0], [])
       .build();
-  if (slot === "TOP" || slot === "BOTTOM")
+  if (key === "TOP" || key === "BOTTOM")
     return gt
       .sizeMapping()
       .addSize(
@@ -90,6 +107,12 @@ const mapping = (gt, slot) => {
         ],
       )
       .build();
+  if (key === "NATIVE" || key === "MIDDLE_3")
+    return gt
+      .sizeMapping()
+      .addSize([768, 0], [[728, 90], [336, 280], [300, 250], "fluid"])
+      .addSize([0, 0], [[336, 280], [300, 250], "fluid"])
+      .build();
   return gt
     .sizeMapping()
     .addSize(
@@ -110,6 +133,7 @@ const mapping = (gt, slot) => {
     )
     .build();
 };
+
 const AdUnit = ({
   slot,
   size = "responsive",
@@ -124,20 +148,20 @@ const AdUnit = ({
   const [state, setState] = useState("loading");
   const key = size === "native" && PATHS.NATIVE ? "NATIVE" : slot;
   const path = PATHS[key] || "";
-  const sizes = useMemo(() => SIZES[key] || SIZES.MIDDLE_1, [key]);
+  const sizes = useMemo(() => SIZES[key], [key]);
+
   useEffect(() => {
-    if (!path) {
+    if (!path || !sizes) {
       setState("empty");
       return undefined;
     }
     window.googletag = window.googletag || { cmd: [] };
-    let active = true,
-      timer;
+    let active = true;
+    let timer;
     const rendered = (event) => {
-      if (active && event.slot === slotRef.current) {
-        clearTimeout(timer);
-        setState(event.isEmpty ? "empty" : "filled");
-      }
+      if (!active || event.slot !== slotRef.current) return;
+      clearTimeout(timer);
+      setState(event.isEmpty ? "empty" : "filled");
     };
     window.googletag.cmd.push(() => {
       if (!active) return;
@@ -147,7 +171,9 @@ const AdUnit = ({
         setState("empty");
         return;
       }
-      gamSlot.defineSizeMapping(mapping(gt, key)).addService(gt.pubads());
+      const responsiveMapping = buildMapping(gt, key);
+      if (responsiveMapping) gamSlot.defineSizeMapping(responsiveMapping);
+      gamSlot.addService(gt.pubads());
       slotRef.current = gamSlot;
       gt.pubads().addEventListener("slotRenderEnded", rendered);
       gt.display(id.current);
@@ -171,7 +197,7 @@ const AdUnit = ({
       aria-label="Advertisement"
     >
       {label && <div className="ad-label">ADVERTISEMENT</div>}
-      {path && <div className="ad-unit" id={id.current} />}
+      {path && sizes && <div className="ad-unit" id={id.current} />}
     </aside>
   );
 };
