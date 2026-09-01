@@ -10,6 +10,7 @@ const PATHS = {
   NATIVE: import.meta.env.VITE_GAM_AD_UNIT_NATIVE_IN_CONTENT,
   SIDE_LEFT: import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_LEFT,
   SIDE_RIGHT: import.meta.env.VITE_GAM_AD_UNIT_DESKTOP_SIDE_RIGHT,
+  BLOG_SIDEBAR: import.meta.env.VITE_GAM_AD_UNIT_BLOG_SIDEBAR,
 };
 const SIZES = {
   TOP: [
@@ -54,6 +55,8 @@ const SIZES = {
   ],
 };
 const mapping = (gt, slot) => {
+  if (slot === "BLOG_SIDEBAR")
+    return gt.sizeMapping().addSize([0, 0], SIZES.BLOG_SIDEBAR).build();
   if (slot === "ANCHOR")
     return gt.sizeMapping().addSize([0, 0], SIZES.ANCHOR).build();
   if (slot.startsWith("SIDE_"))

@@ -1,6 +1,11 @@
 .sidebar {
   position: sticky;
   top: 90px;
+  align-self: start;
+  height: max-content;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .sidebar-section {
@@ -53,6 +58,9 @@
 @media (max-width: 1024px) {
   .sidebar {
     position: static;
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .sidebar-section {
