@@ -1,3 +1,9 @@
+const blogImages = import.meta.glob('../assets/images/*.webp', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+
 export const categories = [
   {
     id: "customer-management",
@@ -13,7 +19,7 @@ export const categories = [
   { id: "crm-solutions", name: "CRM Solutions", slug: "crm-solutions" },
 ];
 
-export const blogPosts = [
+const rawBlogPosts = [
   {
     id: "airtel-free-recharge-plan-claim-your-unlimited-data-today",
     title: "Free Rewards Program: Earn Mobile Recharge via Offers",
@@ -22,7 +28,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Learn how free digital rewards and mobile recharge offers work.",
-    image: "/src/assets/images/00011.webp",
+    imageFile: "00011.webp",
     content: {
       sections: [
         {
@@ -57,7 +63,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Learn how customer management platforms help businesses improve organization, communication, and customer satisfaction.",
-    image: "/src/assets/images/00012.webp",
+    imageFile: "00012.webp",
     content: {
       sections: [
         {
@@ -88,7 +94,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Explore customer tracking tools that help companies improve engagement and retention.",
-    image: "/src/assets/images/00005.webp",
+    imageFile: "00005.webp",
     content: {
       sections: [
         {
@@ -118,7 +124,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Discover how CRM software enhances customer engagement.",
-    image: "/src/assets/images/00008.webp",
+    imageFile: "00008.webp",
     content: {
       sections: [
         {
@@ -149,7 +155,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Learn how sales automation helps businesses improve lead conversion and productivity.",
-    image: "/src/assets/images/00006.webp",
+    imageFile: "00006.webp",
     content: {
       sections: [
         {
@@ -180,7 +186,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Explore modern automation features that improve sales team performance.",
-    image: "/src/assets/images/00003.webp",
+    imageFile: "00003.webp",
     content: {
       sections: [
         {
@@ -211,7 +217,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "See how automated lead management strategies help businesses scale faster.",
-    image: "/src/assets/images/00007.webp",
+    imageFile: "00007.webp",
     content: {
       sections: [
         {
@@ -241,7 +247,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Learn how CRM platforms drive long-term business expansion.",
-    image: "/src/assets/images/00014.webp",
+    imageFile: "00014.webp",
     content: {
       sections: [
         {
@@ -271,7 +277,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Understand how CRM technology enables business expansion.",
-    image: "/src/assets/images/00002.webp",
+    imageFile: "00002.webp",
     content: {
       sections: [
         {
@@ -302,7 +308,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Discover how lead management systems boost revenue and profitability.",
-    image: "/src/assets/images/00004.webp",
+    imageFile: "00004.webp",
     content: {
       sections: [
         {
@@ -332,7 +338,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Compare top CRM solutions designed for business growth.",
-    image: "/src/assets/images/00009.webp",
+    imageFile: "00009.webp",
     content: {
       sections: [
         {
@@ -362,7 +368,7 @@ export const blogPosts = [
     date: "May 07, 2026",
     author: "Lead Management Center",
     excerpt: "Explore cloud-based CRM benefits for modern organizations.",
-    image: "/src/assets/images/00013.webp",
+    imageFile: "00013.webp",
     content: {
       sections: [
         {
@@ -393,7 +399,7 @@ export const blogPosts = [
     author: "Lead Management Center",
     excerpt:
       "Discover budget-friendly CRM solutions perfect for small businesses looking to improve customer relationships.",
-    image: "/src/assets/images/00010.webp",
+    imageFile: "00010.webp",
     content: {
       sections: [
         {
@@ -416,6 +422,11 @@ export const blogPosts = [
     },
   },
 ];
+
+export const blogPosts = rawBlogPosts.map(({ imageFile, ...post }) => ({
+  ...post,
+  image: blogImages['../assets/images/' + imageFile],
+}));
 
 export const getBlogPost = (slug) => {
   return blogPosts.find((post) => post.id === slug);
