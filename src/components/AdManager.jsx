@@ -1,11 +1,14 @@
 export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
-let configurationQueued = false;
 
 export const initializeGPT = () => {
   if (typeof window === 'undefined') return;
   window.googletag = window.googletag || { cmd: [] };
-  if (configurationQueued) return;
-  configurationQueued = true;
+
+  // Check if GPT services are already enabled (reliable cross-refresh check)
+  if (window.googletag.apiReady) {
+    return; // Already initialized
+  }
+
   window.googletag.cmd.push(() => {
     const pubads = window.googletag.pubads();
 
