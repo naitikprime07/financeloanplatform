@@ -1,4 +1,4 @@
-﻿export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
+export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
 
 export const initializeGPT = () => {
   if (typeof window === 'undefined') return;
@@ -10,13 +10,15 @@ export const initializeGPT = () => {
     const gt = window.googletag;
     const pubads = gt.pubads();
 
-    gt.setConfig({ singleRequest: true });
-    pubads.collapseEmptyDivs(true, true);
-    pubads.setCentering(true);
-    pubads.enableLazyLoad({
-      fetchMarginPercent: 200,
-      renderMarginPercent: 100,
-      mobileScaling: 2.0,
+    gt.setConfig({
+      singleRequest: true,
+      collapseDiv: 'BEFORE_FETCH',
+      centering: true,
+      lazyLoad: {
+        fetchMarginPercent: 200,
+        renderMarginPercent: 100,
+        mobileScaling: 2.0,
+      },
     });
     pubads.setPrivacySettings({
       restrictDataProcessing: false,
