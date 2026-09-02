@@ -1,4 +1,4 @@
-﻿.blog-rewarded-card {
+.blog-rewarded-card {
   width: 100%;
   max-width: 720px;
   margin: 34px auto 46px;
@@ -6,6 +6,10 @@
   background: transparent;
 }
 
+.blog-rewarded-copy { max-width: 610px; margin: 0 auto 18px; text-align: center; }
+.blog-rewarded-copy > span { color: var(--primary-color); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.blog-rewarded-copy h3 { margin: 6px 0 8px; color: var(--text-dark); font-size: clamp(20px, 3vw, 27px); line-height: 1.25; }
+.blog-rewarded-copy p { margin: 0; color: var(--text-light); font-size: 14px; line-height: 1.65; }
 .blog-rewarded-poster {
   width: min(100%, 580px);
   margin: 0 auto;
@@ -87,7 +91,11 @@
 
 @media (max-width: 560px) {
   .blog-rewarded-card { margin: 26px auto 36px; }
-  .blog-rewarded-poster { width: 100%; padding: 5px; }
+  .blog-rewarded-copy { max-width: 610px; margin: 0 auto 18px; text-align: center; }
+.blog-rewarded-copy > span { color: var(--primary-color); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.blog-rewarded-copy h3 { margin: 6px 0 8px; color: var(--text-dark); font-size: clamp(20px, 3vw, 27px); line-height: 1.25; }
+.blog-rewarded-copy p { margin: 0; color: var(--text-light); font-size: 14px; line-height: 1.65; }
+.blog-rewarded-poster { width: 100%; padding: 5px; }
   .blog-rewarded-action { margin-top: 44px; }
   .blog-rewarded-action > button { min-height: 62px; border-radius: 13px; font-size: 20px; }
 }
@@ -105,7 +113,11 @@
 
 @media (max-width: 360px) {
   .blog-rewarded-card { margin: 20px auto 28px; }
-  .blog-rewarded-poster { padding: 4px; }
+  .blog-rewarded-copy { max-width: 610px; margin: 0 auto 18px; text-align: center; }
+.blog-rewarded-copy > span { color: var(--primary-color); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.blog-rewarded-copy h3 { margin: 6px 0 8px; color: var(--text-dark); font-size: clamp(20px, 3vw, 27px); line-height: 1.25; }
+.blog-rewarded-copy p { margin: 0; color: var(--text-light); font-size: 14px; line-height: 1.65; }
+.blog-rewarded-poster { padding: 4px; }
   .blog-rewarded-action { margin-top: 32px; }
   .blog-rewarded-action > button {
     min-height: 54px;

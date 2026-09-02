@@ -767,3 +767,6 @@
         padding: 24px 12px
     }
 }
+
+.blog-top-ad { margin: 0 0 24px; }
+.blog-top-ad.is-empty { margin-bottom: 12px; }

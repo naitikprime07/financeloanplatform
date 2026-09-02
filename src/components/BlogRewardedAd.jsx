@@ -138,19 +138,24 @@ const BlogRewardedAd = ({ post }) => {
 
   return (
     <aside className={`blog-rewarded-card is-${status}`} aria-label="Rewarded advertisement">
+      <div className="blog-rewarded-copy">
+        <span>Sponsored content</span>
+        <h3>Continue with a short sponsored break</h3>
+        <p>View the available advertisement, then return to this exact point and continue reading.</p>
+      </div>
       <figure className="blog-rewarded-poster">
         <img src={post.image} alt={`${post.title} offer`} loading="lazy" />
       </figure>
       <div className="blog-rewarded-action">
         <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
-          {status === 'idle' && 'View Ad & Continue'}
-          {status === 'loading' && 'Preparing AdvertisementÃ¢â‚¬Â¦'}
-          {status === 'ready' && 'View Ad & Continue'}
-          {(status === 'opened' || status === 'showing') && 'Advertisement ShowingÃ¢â‚¬Â¦'}
+          {status === 'idle' && 'Continue Reading →'}
+          {status === 'loading' && 'Preparing AdvertisementÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦'}
+          {status === 'ready' && 'Continue Reading →'}
+          {(status === 'opened' || status === 'showing') && 'Advertisement ShowingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦'}
           {status === 'closable' && 'Complete Ad to Continue'}
           {status === 'closed' && 'Advertisement Completed'}
         </button>
-        <div className="blog-rewarded-caption"><span>VIEW AD & CONTINUE</span></div>
+        <div className="blog-rewarded-caption"><span>SPONSORED BREAK</span></div>
       </div>
     </aside>
   );

@@ -122,6 +122,7 @@ const BlogDetail = () => {
 
       <div className="blog-detail-page">
         <div className="container">
+          <AdUnit key={`${post.id}-blog-top`} slot="MIDDLE_1" className="blog-top-ad" />
           <nav className="blog-breadcrumb" aria-label="Breadcrumb">
             <Link to="/">Home</Link>
             <span>/</span>
@@ -180,19 +181,18 @@ const BlogDetail = () => {
                 />
                 <figcaption>{post.title}</figcaption>
               </figure>
-              <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />
               <div className="blog-detail-body"
               >
                 {post.content.sections.map((section, index) => (
                   <section key={section.heading} className="blog-section">
                     <h2
                       className={
-                        section.heading.includes("Scroll करें")
+                        section.heading.includes("Scroll Ã Â¤â€¢Ã Â¤Â°Ã Â¥â€¡Ã Â¤â€š")
                           ? "scroll-heading"
                           : ""
                       }
                     >
-                      {section.heading.includes("Scroll करें")
+                      {section.heading.includes("Scroll Ã Â¤â€¢Ã Â¤Â°Ã Â¥â€¡Ã Â¤â€š")
                         ? renderHeadingWithAnimatedEmojis(section.heading)
                         : section.heading}
                     </h2>
@@ -228,7 +228,7 @@ const BlogDetail = () => {
                         ))}
                       </div>
                     )}
-                    {index === 1 && <AdUnit key={`${post.id}-middle-1`} slot="MIDDLE_1" />}
+                    {index === 1 && <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />}
                     {index === 3 && <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />}
                     {index === 5 && <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />}
                   </section>
