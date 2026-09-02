@@ -47,14 +47,16 @@ const SIZES = {
     [336, 280],
     [300, 250],
     [320, 100],
+    [320, 50],
   ],
   MIDDLE_2: [
     [728, 90],
     [336, 280],
     [300, 250],
     [320, 100],
+    [320, 50],
   ],
-  MIDDLE_3: [[728, 90], [336, 280], [300, 250], "fluid"],
+  MIDDLE_3: [[728, 90], [336, 280], [300, 250], [320, 100], [320, 50], "fluid"],
   NATIVE: ["fluid", [336, 280], [300, 250]],
   ANCHOR: [
     [320, 100],
@@ -120,7 +122,7 @@ const buildMapping = (gt, key) => {
     return gt
       .sizeMapping()
       .addSize([768, 0], [[728, 90], [336, 280], [300, 250], "fluid"])
-      .addSize([0, 0], [[336, 280], [300, 250], "fluid"])
+      .addSize([0, 0], [[336, 280], [300, 250], [320, 100], [320, 50], "fluid"])
       .build();
   return gt
     .sizeMapping()
@@ -138,6 +140,7 @@ const buildMapping = (gt, key) => {
         [336, 280],
         [300, 250],
         [320, 100],
+        [320, 50],
       ],
     )
     .build();
@@ -179,8 +182,7 @@ const AdUnit = ({
     }
     window.googletag = window.googletag || { cmd: [] };
     let active = true,
-      timer,
-      initDelayTimer;
+      timer;
     const owns = (event) => event.slot === slotRef.current;
     const handlers = {
       slotRequested: (event) => {
@@ -243,11 +245,6 @@ const AdUnit = ({
       id: id.current,
       viewport: `${window.innerWidth}x${window.innerHeight}`,
     });
-
-    // CRITICAL FIX: Add small delay to ensure previous slot cleanup completes
-    // This prevents race condition during Blog 1 → Blog 2 navigation where
-    // destroySlots() from unmounted component conflicts with defineSlot() from new component
-    const initSlot = () => {
       window.googletag.cmd.push(() => {
         if (!active) return;
         const gt = window.googletag;
@@ -294,14 +291,9 @@ const AdUnit = ({
           });
         }
       });
-    };
-
-    // Delay slot initialization to allow GPT command queue to process any pending destroySlots
-    initDelayTimer = window.setTimeout(initSlot, 50);
     return () => {
       active = false;
       clearTimeout(timer);
-      clearTimeout(initDelayTimer);
       if (refreshTimerRef.current) {
         clearInterval(refreshTimerRef.current);
         refreshTimerRef.current = null;

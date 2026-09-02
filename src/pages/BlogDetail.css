@@ -1094,3 +1094,31 @@
         font-size: 12px;
     }
 }
+
+/* Let 320px mobile creatives use the article width outside its inner padding. */
+@media (max-width: 768px) {
+    .blog-detail-body .ad-unit-wrapper {
+        width: calc(100% + 36px);
+        max-width: calc(100% + 36px);
+        margin-right: -18px;
+        margin-left: -18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-detail-body .ad-unit-wrapper {
+        width: calc(100% + 32px);
+        max-width: calc(100% + 32px);
+        margin-right: -16px;
+        margin-left: -16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .blog-detail-body .ad-unit-wrapper {
+        width: calc(100% + 28px);
+        max-width: calc(100% + 28px);
+        margin-right: -14px;
+        margin-left: -14px;
+    }
+}
