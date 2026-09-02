@@ -1,7 +1,7 @@
-const blogImages = import.meta.glob('../assets/images/*.webp', {
+const blogImages = import.meta.glob("../assets/images/*.{webp,png}", {
   eager: true,
-  query: '?url',
-  import: 'default',
+  query: "?url",
+  import: "default",
 });
 
 export const categories = [
@@ -21,39 +21,108 @@ export const categories = [
 
 const rawBlogPosts = [
   {
-    id: "airtel-free-recharge-plan-claim-your-unlimited-data-today",
-    title: "Free Rewards Program: Earn Mobile Recharge via Offers",
+    id: "personal-loan-online-eligibility-check-apply",
+    title: "पर्सनल लोन ऑनलाइन: पात्रता जांचें और आवेदन करें",
     category: "",
-    categoryName: "Customer Management",
-    date: "May 07, 2026",
-    author: "Lead Management Center",
-    excerpt: "Learn how free digital rewards and mobile recharge offers work.",
-    imageFile: "00011.webp",
+    categoryName: "पर्सनल लोन",
+    date: "January 15, 2026",
+    author: "फाइनेंस सपोर्ट टीम",
+    excerpt:
+      "क्या आप अपने व्यक्तिगत खर्चों के लिए वित्तीय सहायता की तलाश कर रहे हैं? पात्र उपयोगकर्ताओं के लिए पर्सनल लोन के विकल्प उपलब्ध हो सकते हैं।",
+    imageFile: "f7a6e02f955c0cd3233399c4aee632adcf319c83.png",
     content: {
       sections: [
         {
-          heading: "Airtel Special Offers 2026",
-          text: "Discover the latest Airtel promotional offers and rewards programs available in 2026.",
+          heading: "पर्सनल लोन ऑफर 2026",
+          text: "क्या आप अपने व्यक्तिगत खर्चों के लिए वित्तीय सहायता की तलाश कर रहे हैं? पात्र उपयोगकर्ताओं के लिए पर्सनल लोन के विकल्प उपलब्ध हो सकते हैं। पात्रता आय, क्रेडिट प्रोफाइल, रोजगार की स्थिति, ऋणदाता के नियमों और लोन चुकाने की क्षमता जैसे कारकों पर निर्भर करती है।\n\nउपयोगकर्ता ऑनलाइन उपलब्ध लोन ऑफर देख सकते हैं, महत्वपूर्ण जानकारी की तुलना कर सकते हैं और संबंधित ऋणदाता या वित्तीय सेवा प्रदाता के माध्यम से आवेदन की प्रक्रिया आगे बढ़ा सकते हैं।",
         },
         {
-          heading: "Free Recharge",
-          text: "Learn about legitimate free recharge programs through partner offers and promotional campaigns.",
+          heading: "पर्सनल लोन के लिए Scroll करें 💰👇",
+          text: "पर्सनल लोन क्यों चुनें?\n\nऑनलाइन आवेदन: आसान डिजिटल प्रक्रिया के माध्यम से आवेदन करें।\n\nलोन राशि के विकल्प: उपलब्ध लोन राशि ऋणदाता की पात्रता शर्तों पर निर्भर करती है।\n\nलचीला पुनर्भुगतान: उपलब्ध विकल्पों में से उपयुक्त लोन अवधि चुनें।\n\nत्वरित पात्रता जांच: देखें कि आप उपलब्ध लोन ऑफर के लिए पात्र हो सकते हैं या नहीं।\n\nकम दस्तावेज़ी प्रक्रिया: आवश्यक दस्तावेज़ ऋणदाता के अनुसार अलग-अलग हो सकते हैं।",
         },
         {
-          heading: "Top Ways to Get Rewards",
-          text: "Explore various methods to earn rewards through surveys, offers, and promotional activities.",
+          heading: "अपनी पर्सनल लोन पात्रता जांचें",
+          text: "अपनी प्रोफाइल और पात्रता के आधार पर उपलब्ध पर्सनल लोन विकल्प देखें।\n\nलोन की राशि, ब्याज दर, अवधि, प्रोसेसिंग फीस, मंजूरी और राशि का वितरण ऋणदाता की शर्तों, क्रेडिट मूल्यांकन और पात्रता मानदंडों पर निर्भर करता है।\n\nउपलब्ध ऑफर चुनें और आगे की जानकारी देखें।",
         },
         {
-          heading: "Digital Safety & Best Practices",
-          text: "Stay safe online while participating in reward programs and promotional offers.",
+          heading: "आवेदन कैसे करें",
+          text: "Continue बटन पर क्लिक करें।\n\nउपलब्ध लोन या वित्तीय ऑफर देखें।\n\nअपनी आवश्यकता के अनुसार उपयुक्त ऑफर चुनें।\n\nब्याज दर, फीस, अवधि और पुनर्भुगतान की शर्तें ध्यान से पढ़ें।\n\nऋणदाता की आवेदन और सत्यापन प्रक्रिया पूरी करें।\n\nमंजूरी ऋणदाता की पात्रता और क्रेडिट जांच के अधीन है।\n\nनोट: लोन की मंजूरी और राशि का वितरण सुनिश्चित नहीं है। ब्याज दर, लोन राशि, प्रोसेसिंग फीस और पुनर्भुगतान की शर्तें ऋणदाता तथा आवेदक की प्रोफाइल के अनुसार अलग-अलग हो सकती हैं।",
         },
         {
-          heading: "Value for Money",
-          text: "Understand how reward programs can provide value when used responsibly.",
+          heading: "लोन लेने से पहले इन बातों की जांच करें",
+          text: "पर्सनल लोन के लिए आवेदन करने से पहले वार्षिक ब्याज दर, प्रोसेसिंग शुल्क, लोन अवधि, मासिक EMI, लेट पेमेंट शुल्क और अन्य लागू नियमों को ध्यान से समझें।\n\nकेवल उतनी ही राशि उधार लें, जिसे आप आसानी से चुका सकें।",
+        },
+        {
+          heading: "डिजिटल सुरक्षा",
+          text: "हमेशा विश्वसनीय ऋणदाता और सुरक्षित वेबसाइट के माध्यम से ही आवेदन करें। अपना OTP, UPI PIN, कार्ड PIN या बैंकिंग पासवर्ड किसी अनजान व्यक्ति के साथ साझा न करें।\n\nऑफर स्वीकार करने से पहले ऋणदाता की पहचान सत्यापित करें और लोन एग्रीमेंट को ध्यान से पढ़ें।",
+        },
+        {
+          heading: "जिम्मेदारी से लोन लें",
+          text: "पर्सनल लोन योजनाबद्ध या अचानक आने वाले खर्चों को संभालने में मदद कर सकता है, लेकिन इसकी EMI आपके मासिक बजट के अनुसार होनी चाहिए।\n\nनिर्णय लेने से पहले अलग-अलग ऑफर की तुलना करें और कुल चुकाई जाने वाली राशि को अच्छी तरह समझें।",
+        },
+        {
+          heading: "अक्सर पूछे जाने वाले सवाल",
+          text: "",
+          faqs: [
+            {
+              question: "क्या मैं पर्सनल लोन के लिए ऑनलाइन आवेदन कर सकता हूं?",
+              answer: "हां। कई ऋणदाता ऑनलाइन पर्सनल लोन आवेदन की सुविधा देते हैं। पात्रता और उपलब्धता संबंधित ऋणदाता की शर्तों पर निर्भर करती है।"
+            },
+            {
+              question: "मुझे कितना लोन मिल सकता है?",
+              answer: "पात्र लोन राशि आपकी आय, क्रेडिट हिस्ट्री, मौजूदा वित्तीय दायित्वों और ऋणदाता की नीतियों पर निर्भर करती है।"
+            },
+            {
+              question: "क्या लोन की मंजूरी निश्चित है?",
+              answer: "नहीं। प्रत्येक आवेदन पात्रता जांच, दस्तावेज़ सत्यापन और ऋणदाता की मंजूरी के अधीन होता है।"
+            },
+            {
+              question: "किन दस्तावेज़ों की आवश्यकता हो सकती है?",
+              answer: "ऋणदाता पहचान प्रमाण, पता प्रमाण, आय से संबंधित दस्तावेज़, बैंक स्टेटमेंट या अन्य सत्यापन दस्तावेज़ मांग सकता है।"
+            }
+          ]
+        },
+        {
+          heading: "अस्वीकरण",
+          text: "इस वेबसाइट पर दी गई जानकारी केवल सामान्य जानकारी के उद्देश्य से है। इसे वित्तीय सलाह या लोन मिलने की गारंटी नहीं माना जाना चाहिए।\n\nलोन की मंजूरी, लोन राशि, ब्याज दर, प्रोसेसिंग शुल्क, अवधि और राशि का वितरण पूरी तरह संबंधित ऋणदाता द्वारा पात्रता और क्रेडिट मूल्यांकन के आधार पर निर्धारित किया जाता है।\n\nकिसी भी वित्तीय उत्पाद को स्वीकार करने से पहले उपयोगकर्ताओं को सभी नियम और शर्तें ध्यान से पढ़नी चाहिए।\n\nविज्ञापन संबंधी खुलासा: यह वेबसाइट थर्ड-पार्टी वित्तीय सेवा प्रदाताओं के प्रायोजित विज्ञापन या प्रमोशनल ऑफर दिखा सकती है। उपयोगकर्ताओं द्वारा कुछ विज्ञापनों या ऑफर के साथ इंटरैक्ट करने पर हमें मुआवजा या कमीशन प्राप्त हो सकता है।",
         },
       ],
     },
   },
+  // {
+  //   id: "airtel-free-recharge-plan-claim-your-unlimited-data-today",
+  //   title: "Free Rewards Program: Earn Mobile Recharge via Offers",
+  //   category: "",
+  //   categoryName: "Customer Management",
+  //   date: "May 07, 2026",
+  //   author: "Lead Management Center",
+  //   excerpt: "Learn how free digital rewards and mobile recharge offers work.",
+  //   imageFile: "00011.webp",
+  //   content: {
+  //     sections: [
+  //       {
+  //         heading: "Airtel Special Offers 2026",
+  //         text: "Discover the latest Airtel promotional offers and rewards programs available in 2026.",
+  //       },
+  //       {
+  //         heading: "Free Recharge",
+  //         text: "Learn about legitimate free recharge programs through partner offers and promotional campaigns.",
+  //       },
+  //       {
+  //         heading: "Top Ways to Get Rewards",
+  //         text: "Explore various methods to earn rewards through surveys, offers, and promotional activities.",
+  //       },
+  //       {
+  //         heading: "Digital Safety & Best Practices",
+  //         text: "Stay safe online while participating in reward programs and promotional offers.",
+  //       },
+  //       {
+  //         heading: "Value for Money",
+  //         text: "Understand how reward programs can provide value when used responsibly.",
+  //       },
+  //     ],
+  //   },
+  // },
   {
     id: "customer-management-software-modern-teams",
     title: "Customer Management Software for Modern Teams",
@@ -425,7 +494,7 @@ const rawBlogPosts = [
 
 export const blogPosts = rawBlogPosts.map(({ imageFile, ...post }) => ({
   ...post,
-  image: blogImages['../assets/images/' + imageFile],
+  image: blogImages["../assets/images/" + imageFile],
 }));
 
 export const getBlogPost = (slug) => {

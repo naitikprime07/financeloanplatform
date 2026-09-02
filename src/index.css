@@ -32,7 +32,7 @@ body {
 }
 
 .main-content { min-width: 0; }
-.top-ad-rail, .bottom-ad-rail { width: 100%; overflow: hidden; background: #f7f8fa; }
+.top-ad-rail, .bottom-ad-rail { width: 100%; overflow: visible; background: #f7f8fa; }
 .top-ad-inner { width: min(100%, 1010px); margin: 0 auto; padding: 0 20px; }
 .top-ad-rail .ad-unit-wrapper { margin: 8px 0 0; }
 .bottom-ad-rail .ad-unit-wrapper { margin: 16px 0 24px; }
@@ -139,6 +139,4 @@ ul {
   .top-ad-inner { padding: 0 8px; }
   .top-ad-rail .ad-unit-wrapper { margin-top: 4px; }
 }
-
-
 

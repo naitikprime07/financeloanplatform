@@ -27,6 +27,8 @@ const PATHS = {
 };
 const SIZES = {
   TOP: [
+    [970, 250],
+    [900, 250],
     [970, 90],
     [728, 90],
     [468, 60],
@@ -82,7 +84,14 @@ const buildMapping = (gt, key) => {
       .addSize([1536, 0], SIZES[key])
       .addSize([0, 0], [])
       .build();
-  if (key === "TOP" || key === "BOTTOM")
+  if (key === "TOP")
+    return gt
+      .sizeMapping()
+      .addSize([1024, 0], [[970, 250], [900, 250], [970, 90], [728, 90]])
+      .addSize([768, 0], [[728, 90], [468, 60]])
+      .addSize([0, 0], [[320, 100], [320, 50]])
+      .build();
+  if (key === "BOTTOM")
     return gt
       .sizeMapping()
       .addSize(
@@ -149,6 +158,7 @@ const AdUnit = ({
   );
   const slotRef = useRef(null);
   const [state, setState] = useState("loading");
+  const [renderedSize, setRenderedSize] = useState(null);
   const retryCountRef = useRef(0);
   const refreshTimerRef = useRef(null);
   const key = size === "native" && PATHS.NATIVE ? "NATIVE" : slot;
@@ -181,6 +191,7 @@ const AdUnit = ({
         clearTimeout(timer);
 
         if (event.isEmpty) {
+          setRenderedSize(null);
           // Retry logic for no-fill scenarios
           if (retryCountRef.current < 2) {
             const nextRetry = retryCountRef.current + 1;
@@ -210,6 +221,7 @@ const AdUnit = ({
           }
         } else {
           setState("filled");
+          setRenderedSize(Array.isArray(event.size) ? event.size : null);
           retryCountRef.current = 0;
           gamLog("slot-rendered", {
             slot,
@@ -319,6 +331,10 @@ const AdUnit = ({
     <aside
       className={`ad-unit-wrapper is-${state} ${sticky ? "ad-sticky" : ""} ${className}`}
       aria-label="Advertisement"
+      style={renderedSize ? {
+        "--ad-rendered-width": `${renderedSize[0]}px`,
+        "--ad-rendered-height": `${renderedSize[1]}px`,
+      } : undefined}
     >
       {label && <div className="ad-label">ADVERTISEMENT</div>}
       {path && sizes && <div className="ad-unit" id={id.current} />}
@@ -329,4 +345,5 @@ const AdUnit = ({
   );
 };
 export default AdUnit;
+
 

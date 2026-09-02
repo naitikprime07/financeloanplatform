@@ -7,7 +7,7 @@
     min-height: 18px;
     margin: 24px 0;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -49,7 +49,19 @@
     max-width: 100%;
     min-height: 0;
     margin: 0;
-    overflow: hidden;
+    overflow: visible;
+}
+
+.ad-unit-wrapper.is-filled .ad-unit {
+    min-height: var(--ad-rendered-height, 0);
+}
+
+.ad-unit-wrapper.is-filled .ad-unit>div,
+.ad-unit-wrapper.is-filled .ad-unit iframe {
+    width: var(--ad-rendered-width, auto) !important;
+    height: var(--ad-rendered-height, auto) !important;
+    max-width: 100% !important;
+    overflow: visible !important;
 }
 
 .ad-unit>div,
@@ -128,3 +140,4 @@
         max-width: 44px;
     }
 }
+
