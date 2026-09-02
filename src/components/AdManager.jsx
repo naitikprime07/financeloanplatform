@@ -10,8 +10,10 @@ export const initializeGPT = () => {
     const gt = window.googletag;
     const pubads = gt.pubads();
 
+    // Note: singleRequest is NOT compatible with SPA client-side navigation
+    // where ad slots are dynamically added/removed between route changes.
+    // Each new page's slots need their own ad request.
     gt.setConfig({
-      singleRequest: true,
       collapseDiv: 'BEFORE_FETCH',
       centering: true,
       lazyLoad: {
