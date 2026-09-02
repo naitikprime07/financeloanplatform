@@ -106,10 +106,16 @@ ul {
 
 .desktop-side-ad {
   position: fixed;
-  top: clamp(150px, 30vh, 285px);
+  top: var(--side-ad-top, 96px);
   z-index: 40;
   width: 160px;
   min-height: 18px;
+}
+
+.desktop-side-ad.is-footer-blocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .desktop-side-ad .ad-unit-wrapper {
@@ -133,5 +139,6 @@ ul {
   .top-ad-inner { padding: 0 8px; }
   .top-ad-rail .ad-unit-wrapper { margin-top: 4px; }
 }
+
 
 
