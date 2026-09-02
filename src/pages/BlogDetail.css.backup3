@@ -126,60 +126,17 @@
 }
 
 .blog-detail-image {
-    position: relative;
-    margin: 0 0 40px;
-    border-radius: 16px;
+    margin: 0 0 30px;
+    border-radius: 12px;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8f9fc 0%, #e8ecf4 100%);
-    box-shadow:
-        0 4px 6px rgba(0, 0, 0, 0.07),
-        0 10px 20px rgba(0, 102, 204, 0.08),
-        0 20px 40px rgba(0, 102, 204, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    transform: translateZ(0);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.blog-detail-image::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg,
-        rgba(0, 102, 204, 0.15) 0%,
-        rgba(26, 115, 232, 0.1) 50%,
-        rgba(0, 102, 204, 0.05) 100%);
-    border-radius: 17px;
-    z-index: -1;
-    opacity: 0.6;
-    transition: opacity 0.4s ease;
-}
-
-.blog-detail-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 0%,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 70%);
-    pointer-events: none;
-    z-index: 2;
+    background: var(--bg-light)
 }
 
 .blog-detail-image img {
-    position: relative;
     display: block;
     width: 100%;
     aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: 14px;
-    z-index: 1;
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    object-fit: cover
 }
 
 .blog-detail-image figcaption {
@@ -188,25 +145,6 @@
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0)
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .blog-detail-image:hover {
-        transform: translateY(-4px) translateZ(0);
-        box-shadow:
-            0 6px 12px rgba(0, 0, 0, 0.08),
-            0 16px 32px rgba(0, 102, 204, 0.12),
-            0 28px 56px rgba(0, 102, 204, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    }
-
-    .blog-detail-image:hover::before {
-        opacity: 1;
-    }
-
-    .blog-detail-image:hover img {
-        transform: scale(1.02);
-    }
 }
 
 .blog-detail-body {
@@ -324,103 +262,17 @@
 }
 
 .faq-section {
-    position: relative;
-    margin: 40px 0 48px;
-    padding: 32px;
-    background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 50%, #f0f4f9 100%);
-    border-radius: 20px;
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.04),
-        0 12px 24px rgba(0, 102, 204, 0.08),
-        0 24px 48px rgba(0, 102, 204, 0.06),
-        inset 0 1px 2px rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 102, 204, 0.08);
-}
-
-.faq-section::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg,
-        rgba(0, 102, 204, 0.12) 0%,
-        rgba(26, 115, 232, 0.08) 50%,
-        rgba(0, 102, 204, 0.04) 100%);
-    border-radius: 21px;
-    z-index: -1;
-    opacity: 0.7;
-}
-
-.faq-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: radial-gradient(ellipse at 50% 0%,
-        rgba(0, 102, 204, 0.06) 0%,
-        transparent 70%);
-    border-radius: 20px 20px 0 0;
-    pointer-events: none;
+    margin: 25px 0;
+    padding: 0
 }
 
 .faq-item {
-    position: relative;
-    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
-    border: 1.5px solid rgba(0, 102, 204, 0.12);
-    border-radius: 14px;
-    margin-bottom: 16px;
-    overflow: visible;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.03),
-        0 4px 8px rgba(0, 102, 204, 0.04),
-        0 8px 16px rgba(0, 102, 204, 0.02);
-}
-
-.faq-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg,
-        var(--primary-color) 0%,
-        var(--secondary-color) 100%);
-    border-radius: 14px 0 0 14px;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-}
-
-.faq-item:hover {
-    transform: translateX(4px) translateY(-2px);
-    border-color: rgba(0, 102, 204, 0.25);
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.06),
-        0 8px 16px rgba(0, 102, 204, 0.1),
-        0 16px 32px rgba(0, 102, 204, 0.08);
-}
-
-.faq-item:hover::before {
-    opacity: 1;
-}
-
-.faq-item[open] {
-    border-color: rgba(0, 102, 204, 0.3);
-    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.05),
-        0 8px 16px rgba(0, 102, 204, 0.12),
-        0 16px 32px rgba(0, 102, 204, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.faq-item[open]::before {
-    opacity: 1;
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all .2s ease
 }
 
 .faq-item:last-child {
@@ -428,20 +280,13 @@
 }
 
 .faq-item summary {
-    padding: 20px 56px 20px 24px;
+    padding: 16px 20px;
     cursor: pointer;
     list-style: none;
     user-select: none;
     position: relative;
     font-size: 15px;
-    font-weight: 600;
-    color: var(--text-dark);
-    transition: all 0.3s ease;
-    background: transparent;
-}
-
-.faq-item summary:hover {
-    color: var(--primary-color);
+    color: var(--text-dark)
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -452,81 +297,29 @@
     content: '+';
     position: absolute;
     right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: 8px;
-    box-shadow:
-        0 2px 4px rgba(0, 102, 204, 0.2),
-        0 4px 8px rgba(0, 102, 204, 0.15);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.faq-item summary::after {
-    content: '?';
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--primary-color);
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.08) 0%, rgba(26, 115, 232, 0.12) 100%);
-    border-radius: 50%;
-    margin-right: 12px;
+    transition: transform .2s ease
 }
 
 .faq-item[open] summary::before {
-    transform: translateY(-50%) rotate(45deg);
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    box-shadow:
-        0 3px 6px rgba(16, 185, 129, 0.3),
-        0 6px 12px rgba(16, 185, 129, 0.2);
-}
-
-.faq-item[open] summary::after {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.15) 100%);
-    color: #10b981;
+    transform: rotate(45deg)
 }
 
 .faq-item summary strong {
     display: block;
-    font-weight: 600;
-    padding-left: 40px;
+    font-weight: 700
 }
 
 .faq-item p {
     margin: 0;
-    padding: 0 24px 20px 68px;
+    padding: 0 20px 16px;
     color: var(--text-light);
     font-size: 14px;
-    line-height: 1.7;
-    animation: fadeInDown 0.4s ease;
+    line-height: 1.6
 }
 
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 .blog-text p {
     margin: 0 0 18px
 }
@@ -839,9 +632,7 @@
     .blog-detail-image {
         margin-left: -18px;
         margin-right: -18px;
-        border-radius: 0;
-        margin-bottom: 32px;
-        box-shadow:            0 3px 5px rgba(0, 0, 0, 0.06),            0 8px 16px rgba(0, 102, 204, 0.07),            0 16px 32px rgba(0, 102, 204, 0.04)
+        border-radius: 0
     }
 
     .blog-detail-body {
@@ -979,118 +770,3 @@
 
 .blog-top-ad { margin: 0 0 24px; }
 .blog-top-ad.is-empty { margin-bottom: 12px; }
-
-@media(max-width:1024px) {
-    .blog-detail-image {
-        margin-bottom: 36px;
-        border-radius: 14px;
-        box-shadow:
-            0 4px 6px rgba(0, 0, 0, 0.07),
-            0 12px 24px rgba(0, 102, 204, 0.09),
-            0 24px 48px rgba(0, 102, 204, 0.06);
-    }
-
-    .blog-detail-image img {
-        border-radius: 12px;
-    }
-}
-
-@media(max-width:768px) {
-    .faq-section {
-        margin: 32px 0 40px;
-        padding: 24px 20px;
-        border-radius: 16px;
-    }
-
-    .faq-section::before {
-        border-radius: 17px;
-    }
-
-    .faq-section::after {
-        height: 80px;
-    }
-
-    .faq-item {
-        margin-bottom: 14px;
-        border-radius: 12px;
-    }
-
-    .faq-item summary {
-        padding: 16px 52px 16px 20px;
-        font-size: 14px;
-    }
-
-    .faq-item summary::before {
-        width: 28px;
-        height: 28px;
-        font-size: 20px;
-        right: 16px;
-    }
-
-    .faq-item summary::after {
-        width: 24px;
-        height: 24px;
-        font-size: 14px;
-        left: 20px;
-    }
-
-    .faq-item summary strong {
-        padding-left: 34px;
-    }
-
-    .faq-item p {
-        padding: 0 20px 16px 58px;
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-    .faq-item:hover {
-        transform: translateX(2px) translateY(-1px);
-    }
-}
-
-@media(max-width:480px) {
-    .faq-section {
-        margin: 28px 0 36px;
-        padding: 20px 16px;
-        border-radius: 14px;
-        box-shadow:
-            0 3px 6px rgba(0, 0, 0, 0.04),
-            0 8px 16px rgba(0, 102, 204, 0.06),
-            0 16px 32px rgba(0, 102, 204, 0.04);
-    }
-
-    .faq-item {
-        margin-bottom: 12px;
-        border-radius: 10px;
-    }
-
-    .faq-item summary {
-        padding: 14px 48px 14px 18px;
-        font-size: 13px;
-    }
-
-    .faq-item summary::before {
-        width: 26px;
-        height: 26px;
-        font-size: 18px;
-        right: 14px;
-        border-radius: 6px;
-    }
-
-    .faq-item summary::after {
-        width: 22px;
-        height: 22px;
-        font-size: 13px;
-        left: 18px;
-    }
-
-    .faq-item summary strong {
-        padding-left: 30px;
-    }
-
-    .faq-item p {
-        padding: 0 18px 14px 52px;
-        font-size: 12px;
-    }
-}
