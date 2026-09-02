@@ -133,14 +133,10 @@ const BlogRewardedAd = ({ post }) => {
     }
   };
 
-  // Only show fallback for failed or idle/loading states
-  // Do NOT show the sponsored break UI until ad is actually ready
-  if (status === 'failed' || status === 'idle' || status === 'loading') {
+  if (status === 'failed') {
     return <aside className="blog-rewarded-fallback" aria-label="Advertisement">ADVERTISEMENT</aside>;
   }
 
-  // Only render the full sponsored break UI if ad is actually ready or beyond
-  // States that reach here: ready, opened, showing, closable, closed
   return (
     <aside className={`blog-rewarded-card is-${status}`} aria-label="Rewarded advertisement">
       <div className="blog-rewarded-copy">
@@ -153,8 +149,10 @@ const BlogRewardedAd = ({ post }) => {
       </figure>
       <div className="blog-rewarded-action">
         <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
+          {status === 'idle' && 'Continue Reading →'}
+          {status === 'loading' && 'Preparing AdvertisementÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦'}
           {status === 'ready' && 'Continue Reading →'}
-          {(status === 'opened' || status === 'showing') && 'Advertisement Showing…'}
+          {(status === 'opened' || status === 'showing') && 'Advertisement ShowingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦'}
           {status === 'closable' && 'Complete Ad to Continue'}
           {status === 'closed' && 'Advertisement Completed'}
         </button>
@@ -165,3 +163,4 @@ const BlogRewardedAd = ({ post }) => {
 };
 
 export default BlogRewardedAd;
+

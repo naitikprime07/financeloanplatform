@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogSidebar from "../components/BlogSidebar";
 import AdUnit from "../components/AdUnit";
 import BlogRewardedAd from "../components/BlogRewardedAd";
+import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
 import "./BlogDetail.css";
@@ -58,16 +59,6 @@ const BlogDetail = () => {
     articleIndex >= 0 && articleIndex < blogPosts.length - 1
       ? blogPosts[articleIndex + 1]
       : null;
-  const relatedPosts = useMemo(() => {
-    if (!post) return [];
-    const sameCategory = blogPosts.filter(
-      (item) => item.id !== post.id && item.category === post.category,
-    );
-    const remaining = blogPosts.filter(
-      (item) => item.id !== post.id && !sameCategory.includes(item),
-    );
-    return [...sameCategory, ...remaining].slice(0, 3);
-  }, [post]);
 
   if (!post)
     return (
@@ -187,12 +178,12 @@ const BlogDetail = () => {
                   <section key={section.heading} className="blog-section">
                     <h2
                       className={
-                        section.heading.includes("Scroll Ã Â¤â€¢Ã Â¤Â°Ã Â¥â€¡Ã Â¤â€š")
+                        section.heading.includes("Scroll ÃƒÂ Ã‚Â¤Ã¢â‚¬Â¢ÃƒÂ Ã‚Â¤Ã‚Â°ÃƒÂ Ã‚Â¥Ã¢â‚¬Â¡ÃƒÂ Ã‚Â¤Ã¢â‚¬Å¡")
                           ? "scroll-heading"
                           : ""
                       }
                     >
-                      {section.heading.includes("Scroll Ã Â¤â€¢Ã Â¤Â°Ã Â¥â€¡Ã Â¤â€š")
+                      {section.heading.includes("Scroll ÃƒÂ Ã‚Â¤Ã¢â‚¬Â¢ÃƒÂ Ã‚Â¤Ã‚Â°ÃƒÂ Ã‚Â¥Ã¢â‚¬Â¡ÃƒÂ Ã‚Â¤Ã¢â‚¬Å¡")
                         ? renderHeadingWithAnimatedEmojis(section.heading)
                         : section.heading}
                     </h2>
@@ -228,7 +219,12 @@ const BlogDetail = () => {
                         ))}
                       </div>
                     )}
-                    {index === 1 && <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />}
+                    {index === 1 && (
+                      <>
+                        <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />
+                        <NonCategoryBlogLinks currentPostId={post.id} />
+                      </>
+                    )}
                     {index === 3 && <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />}
                     {index === 5 && <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />}
                   </section>
@@ -273,32 +269,6 @@ const BlogDetail = () => {
                   <span />
                 )}
               </nav>
-
-              <section className="related-section">
-                <div className="section-heading">
-                  <div>
-                    <span>Keep reading</span>
-                    <h2>Recommended for you</h2>
-                  </div>
-                  <Link to="/">View all articles</Link>
-                </div>
-                <div className="related-grid">
-                  {relatedPosts.map((item) => (
-                    <Link
-                      key={item.id}
-                      to={`/blog/${item.id}`}
-                      className="related-card"
-                    >
-                      <img src={item.image} alt="" loading="lazy" />
-                      <div>
-                        <span>{item.categoryName}</span>
-                        <h3>{item.title}</h3>
-                        <small>{item.date}</small>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
 
               <aside className="article-disclosures">
                 <h2>Editorial information</h2>
