@@ -162,7 +162,7 @@ const BlogRewardedAd = ({ post }) => {
       </figure>
       <div className="blog-rewarded-action">
         <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
-          {status === 'ready' && 'Continue Reading →'}
+          {status === 'ready' && 'Get Reward'}
           {(status === 'opened' || status === 'showing') && 'Advertisement Showing…'}
           {status === 'closable' && 'Complete Ad to Continue'}
           {status === 'closed' && 'Advertisement Completed'}
