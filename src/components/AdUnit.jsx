@@ -181,9 +181,18 @@ const AdUnit = ({
       timer;
     const owns = (event) => event.slot === slotRef.current;
     const handlers = {
-      slotRequested: (event) =>
-        owns(event) &&
-        gamLog("slot-requested", { slot, key, path, id: id.current }),
+      slotRequested: (event) => {
+        if (!active || !owns(event)) return;
+        clearTimeout(timer);
+        setState("loading");
+        gamLog("slot-requested", { slot, key, path, id: id.current });
+        timer = window.setTimeout(() => {
+          if (active && slotRef.current) {
+            setState("empty");
+            gamWarn("slot-timeout", { slot, key, path, timeoutMs: 15000 });
+          }
+        }, 15000);
+      },
       slotResponseReceived: (event) =>
         owns(event) && gamLog("slot-response-received", { slot, key, path }),
       slotRenderEnded: (event) => {
@@ -294,12 +303,6 @@ const AdUnit = ({
           pubadsReady: Boolean(gt.pubadsReady),
         });
         gt.display(id.current);
-        timer = setTimeout(() => {
-          if (active) {
-            setState("empty");
-            gamWarn("slot-timeout", { slot, key, path, timeoutMs: 15000 });
-          }
-        }, 15000);
       } catch (error) {
         setState("empty");
         gamWarn("slot-exception", {

@@ -91,3 +91,25 @@
   .blog-rewarded-action { margin-top: 44px; }
   .blog-rewarded-action > button { min-height: 62px; border-radius: 13px; font-size: 20px; }
 }
+
+@media (max-width: 480px) {
+  .blog-rewarded-card { margin: 22px auto 30px; }
+  .blog-rewarded-action { margin-top: 36px; }
+  .blog-rewarded-action > button {
+    min-height: 58px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 360px) {
+  .blog-rewarded-card { margin: 20px auto 28px; }
+  .blog-rewarded-poster { padding: 4px; }
+  .blog-rewarded-action { margin-top: 32px; }
+  .blog-rewarded-action > button {
+    min-height: 54px;
+    padding: 14px 18px;
+    font-size: 18px;
+  }
+}

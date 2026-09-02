@@ -35,7 +35,24 @@ const BlogRewardedAd = ({ post }) => {
     let timeoutId;
     const owns = (event) => event.slot === slotRef.current;
 
+    const startRequestTimeout = () => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        if (!active || !slotRef.current) return;
+        showRewardedRef.current = null;
+        setStatus('failed');
+        window.googletag?.destroySlots?.([slotRef.current]);
+        slotRef.current = null;
+        gamWarn('blog-rewarded-timeout', { path: REWARDED_PATH, timeoutMs: 30000 });
+      }, 30000);
+    };
+
     const handlers = {
+      slotRequested: (event) => {
+        if (!active || !owns(event)) return;
+        startRequestTimeout();
+        gamLog('blog-rewarded-requested', { path: REWARDED_PATH });
+      },
       slotRenderEnded: (event) => {
         if (!active || !owns(event)) return;
         if (event.isEmpty) {
@@ -83,13 +100,6 @@ const BlogRewardedAd = ({ post }) => {
         slotRef.current = rewardedSlot;
         Object.entries(handlers).forEach(([eventName, handler]) => gt.pubads().addEventListener(eventName, handler));
         gt.display(rewardedSlot);
-        timeoutId = window.setTimeout(() => {
-          if (active) {
-            showRewardedRef.current = null;
-            setStatus('failed');
-            gamWarn('blog-rewarded-timeout', { path: REWARDED_PATH });
-          }
-        }, 15000);
       } catch (error) {
         setStatus('failed');
         gamWarn('blog-rewarded-exception', { message: error instanceof Error ? error.message : String(error) });
@@ -134,9 +144,9 @@ const BlogRewardedAd = ({ post }) => {
       <div className="blog-rewarded-action">
         <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
           {status === 'idle' && 'View Ad & Continue'}
-          {status === 'loading' && 'Preparing Advertisement…'}
+          {status === 'loading' && 'Preparing Advertisementâ€¦'}
           {status === 'ready' && 'View Ad & Continue'}
-          {(status === 'opened' || status === 'showing') && 'Advertisement Showing…'}
+          {(status === 'opened' || status === 'showing') && 'Advertisement Showingâ€¦'}
           {status === 'closable' && 'Complete Ad to Continue'}
           {status === 'closed' && 'Advertisement Completed'}
         </button>

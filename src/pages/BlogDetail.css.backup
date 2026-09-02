@@ -31,8 +31,6 @@
 }
 
 .blog-detail-content {
-    width: 100%;
-    overflow-x: hidden;
     min-width: 0;
     background: var(--bg-white);
     border-radius: 14px;
@@ -149,8 +147,6 @@
 
 .blog-detail-body {
     max-width: 780px;
-    width: 100%;
-    overflow-x: hidden;
     margin: 0 auto;
     font-size: 17px;
     line-height: 1.85;
@@ -465,7 +461,7 @@
 
 .related-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px
 }
 
@@ -580,8 +576,7 @@
 
 @media(max-width:1024px) {
     .blog-detail-layout {
-        grid-template-columns: 1fr;
-        gap: 32px
+        grid-template-columns: 1fr
     }
 
     .blog-detail-content {
@@ -689,81 +684,5 @@
 
     .section-heading>a {
         white-space: nowrap
-    }
-}
-@media(max-width:480px) {
-    .blog-detail-page {
-        padding: 16px 0 32px
-    }
-
-    .blog-detail-content {
-        padding: 20px 16px;
-        border-radius: 8px
-    }
-
-    .blog-detail-title {
-        font-size: 26px
-    }
-
-    .blog-detail-lead {
-        font-size: 15px
-    }
-
-    .blog-detail-body {
-        font-size: 15px;
-        line-height: 1.75
-    }
-
-    .blog-section h2 {
-        font-size: 20px
-    }
-
-    .blog-section h2.scroll-heading {
-        font-size: clamp(1.5rem, 5vw, 2rem);
-        padding: 30px 16px;
-        margin: 20px 0
-    }
-
-    .related-card {
-        grid-template-columns: 100px 1fr
-    }
-
-    .article-tags {
-        font-size: 11px
-    }
-
-    .article-disclosures {
-        padding: 20px 16px
-    }
-
-    .article-navigation a {
-        padding: 14px 12px
-    }
-
-    .article-navigation strong {
-        font-size: 13px
-    }
-}
-
-@media(max-width:360px) {
-    .blog-detail-content {
-        padding: 18px 14px
-    }
-
-    .blog-detail-title {
-        font-size: 24px
-    }
-
-    .blog-detail-body {
-        font-size: 14px
-    }
-
-    .related-card {
-        grid-template-columns: 90px 1fr
-    }
-
-    .blog-section h2.scroll-heading {
-        font-size: 1.4rem;
-        padding: 24px 12px
     }
 }

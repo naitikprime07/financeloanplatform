@@ -130,3 +130,45 @@
     font-size: 13px;
   }
 }
+
+@media (max-width: 480px) {
+  .blog-card-content {
+    padding: 14px;
+  }
+
+  .blog-card-title {
+    font-size: 15px;
+  }
+
+  .blog-card-excerpt {
+    font-size: 12px;
+  }
+
+  .blog-card-meta {
+    font-size: 11px;
+    gap: 12px;
+  }
+
+  .blog-card-readmore {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .blog-card-content {
+    padding: 12px;
+  }
+
+  .blog-card-title {
+    font-size: 14px;
+  }
+
+  .blog-card-excerpt {
+    font-size: 11px;
+  }
+
+  .blog-card-category {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+}
