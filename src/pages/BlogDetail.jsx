@@ -3,9 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogSidebar from "../components/BlogSidebar";
 import AdUnit from "../components/AdUnit";
-import BlogInterstitialGate, {
-  BLOG_INTERSTITIAL_TARGET_ID,
-} from "../components/BlogInterstitialGate";
+import BlogRewardedAd from "../components/BlogRewardedAd";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
 import "./BlogDetail.css";
@@ -182,10 +180,8 @@ const BlogDetail = () => {
                 />
                 <figcaption>{post.title}</figcaption>
               </figure>
-              <BlogInterstitialGate />
-              <div
-                id={BLOG_INTERSTITIAL_TARGET_ID}
-                className="blog-detail-body"
+              <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />
+              <div className="blog-detail-body"
               >
                 {post.content.sections.map((section, index) => (
                   <section key={section.heading} className="blog-section">
@@ -232,9 +228,9 @@ const BlogDetail = () => {
                         ))}
                       </div>
                     )}
-                    {index === 1 && <AdUnit slot="MIDDLE_1" />}
-                    {index === 3 && <AdUnit slot="MIDDLE_2" />}
-                    {index === 5 && <AdUnit slot="MIDDLE_3" size="native" />}
+                    {index === 1 && <AdUnit key={`${post.id}-middle-1`} slot="MIDDLE_1" />}
+                    {index === 3 && <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />}
+                    {index === 5 && <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />}
                   </section>
                 ))}
               </div>
@@ -334,3 +330,4 @@ const BlogDetail = () => {
   );
 };
 export default BlogDetail;
+
