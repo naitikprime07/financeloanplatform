@@ -201,6 +201,11 @@ const BlogDetail = () => {
                 />
                 <figcaption>{post.title}</figcaption>
               </figure>
+              <AdUnit
+                key={`${post.id}-featured-image-ad`}
+                slot="MIDDLE_2"
+                className="blog-featured-image-ad"
+              />
               <div className="blog-detail-body">
                 {post.content.sections.map((section, index) => (
                   <section key={section.heading} className="blog-section">

@@ -1445,3 +1445,35 @@
         gap: 8px;
     }
 }
+
+/* Additional real GAM placement directly below the featured image. */
+.blog-detail-image {
+    margin-bottom: 10px;
+}
+
+.blog-featured-image-ad {
+    margin: 0 0 28px;
+}
+
+.blog-featured-image-ad.is-empty {
+    margin-bottom: 18px;
+}
+
+@media (max-width: 768px) {
+    .blog-featured-image-ad {
+        width: calc(100% + 36px);
+        max-width: calc(100% + 36px);
+        margin-right: -18px;
+        margin-bottom: 24px;
+        margin-left: -18px;
+    }
+}
+
+@media (max-width: 420px) {
+    .blog-featured-image-ad {
+        width: calc(100% + 28px);
+        max-width: calc(100% + 28px);
+        margin-right: -14px;
+        margin-left: -14px;
+    }
+}
