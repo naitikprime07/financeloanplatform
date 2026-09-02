@@ -34,6 +34,7 @@ const BlogRewardedAd = ({ post }) => {
     window.googletag = window.googletag || { cmd: [] };
     let active = true;
     let timeoutId;
+    let initDelayTimer;
     const owns = (event) => event.slot === slotRef.current;
 
     const startRequestTimeout = () => {
@@ -86,30 +87,36 @@ const BlogRewardedAd = ({ post }) => {
       },
     };
 
-    window.googletag.cmd.push(() => {
-      if (!active) return;
-      const gt = window.googletag;
-      try {
-        const rewardedSlot = gt.defineOutOfPageSlot(REWARDED_PATH, gt.enums.OutOfPageFormat.REWARDED);
-        if (!rewardedSlot) {
-          setStatus('failed');
-          gamWarn('blog-rewarded-unsupported', { path: REWARDED_PATH });
-          return;
-        }
+    // CRITICAL FIX: Delay rewarded ad initialization to prevent race condition
+    const initRewardedSlot = () => {
+      window.googletag.cmd.push(() => {
+        if (!active) return;
+        const gt = window.googletag;
+        try {
+          const rewardedSlot = gt.defineOutOfPageSlot(REWARDED_PATH, gt.enums.OutOfPageFormat.REWARDED);
+          if (!rewardedSlot) {
+            setStatus('failed');
+            gamWarn('blog-rewarded-unsupported', { path: REWARDED_PATH });
+            return;
+          }
 
-        rewardedSlot.addService(gt.pubads());
-        slotRef.current = rewardedSlot;
-        Object.entries(handlers).forEach(([eventName, handler]) => gt.pubads().addEventListener(eventName, handler));
-        gt.display(rewardedSlot);
-      } catch (error) {
-        setStatus('failed');
-        gamWarn('blog-rewarded-exception', { message: error instanceof Error ? error.message : String(error) });
-      }
-    });
+          rewardedSlot.addService(gt.pubads());
+          slotRef.current = rewardedSlot;
+          Object.entries(handlers).forEach(([eventName, handler]) => gt.pubads().addEventListener(eventName, handler));
+          gt.display(rewardedSlot);
+        } catch (error) {
+          setStatus('failed');
+          gamWarn('blog-rewarded-exception', { message: error instanceof Error ? error.message : String(error) });
+        }
+      });
+    };
+
+    initDelayTimer = window.setTimeout(initRewardedSlot, 50);
 
     return () => {
       active = false;
       window.clearTimeout(timeoutId);
+      window.clearTimeout(initDelayTimer);
       showRewardedRef.current = null;
       // Capture this blog's slot before queueing cleanup.
       const slotToDestroy = slotRef.current;

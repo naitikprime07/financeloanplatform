@@ -179,7 +179,8 @@ const AdUnit = ({
     }
     window.googletag = window.googletag || { cmd: [] };
     let active = true,
-      timer;
+      timer,
+      initDelayTimer;
     const owns = (event) => event.slot === slotRef.current;
     const handlers = {
       slotRequested: (event) => {
@@ -242,55 +243,65 @@ const AdUnit = ({
       id: id.current,
       viewport: `${window.innerWidth}x${window.innerHeight}`,
     });
-    window.googletag.cmd.push(() => {
-      if (!active) return;
-      const gt = window.googletag;
-      try {
-        const gamSlot = gt.defineSlot(path, sizes, id.current);
-        if (!gamSlot) {
-          setState("empty");
-          gamWarn("define-slot-returned-null", {
+
+    // CRITICAL FIX: Add small delay to ensure previous slot cleanup completes
+    // This prevents race condition during Blog 1 → Blog 2 navigation where
+    // destroySlots() from unmounted component conflicts with defineSlot() from new component
+    const initSlot = () => {
+      window.googletag.cmd.push(() => {
+        if (!active) return;
+        const gt = window.googletag;
+        try {
+          const gamSlot = gt.defineSlot(path, sizes, id.current);
+          if (!gamSlot) {
+            setState("empty");
+            gamWarn("define-slot-returned-null", {
+              slot,
+              key,
+              path,
+              id: id.current,
+            });
+            return;
+          }
+          const responsiveMapping = buildMapping(gt, key);
+          if (!responsiveMapping) {
+            setState("empty");
+            gamWarn("size-mapping-invalid", { slot, key, path, sizes });
+            return;
+          }
+          gamSlot.defineSizeMapping(responsiveMapping).addService(gt.pubads());
+          slotRef.current = gamSlot;
+          Object.entries(handlers).forEach(([eventName, handler]) =>
+            gt.pubads().addEventListener(eventName, handler),
+          );
+          gamLog("slot-defined", {
             slot,
             key,
             path,
+            sizes,
             id: id.current,
+            apiReady: Boolean(gt.apiReady),
+            pubadsReady: Boolean(gt.pubadsReady),
           });
-          return;
-        }
-        const responsiveMapping = buildMapping(gt, key);
-        if (!responsiveMapping) {
+          gt.display(id.current);
+        } catch (error) {
           setState("empty");
-          gamWarn("size-mapping-invalid", { slot, key, path, sizes });
-          return;
+          gamWarn("slot-exception", {
+            slot,
+            key,
+            path,
+            message: error instanceof Error ? error.message : String(error),
+          });
         }
-        gamSlot.defineSizeMapping(responsiveMapping).addService(gt.pubads());
-        slotRef.current = gamSlot;
-        Object.entries(handlers).forEach(([eventName, handler]) =>
-          gt.pubads().addEventListener(eventName, handler),
-        );
-        gamLog("slot-defined", {
-          slot,
-          key,
-          path,
-          sizes,
-          id: id.current,
-          apiReady: Boolean(gt.apiReady),
-          pubadsReady: Boolean(gt.pubadsReady),
-        });
-        gt.display(id.current);
-      } catch (error) {
-        setState("empty");
-        gamWarn("slot-exception", {
-          slot,
-          key,
-          path,
-          message: error instanceof Error ? error.message : String(error),
-        });
-      }
-    });
+      });
+    };
+
+    // Delay slot initialization to allow GPT command queue to process any pending destroySlots
+    initDelayTimer = window.setTimeout(initSlot, 50);
     return () => {
       active = false;
       clearTimeout(timer);
+      clearTimeout(initDelayTimer);
       if (refreshTimerRef.current) {
         clearInterval(refreshTimerRef.current);
         refreshTimerRef.current = null;
