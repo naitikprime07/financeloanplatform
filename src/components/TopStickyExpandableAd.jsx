@@ -33,8 +33,18 @@ const buildSizeMapping = (gt) => {
     .build();
 };
 
+const STORAGE_KEY = 'finvexa-top-ad-expanded';
+
 const TopStickyExpandableAd = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  // Load initial state from localStorage, default to true (expanded)
+  const [isExpanded, setIsExpanded] = useState(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored !== null ? stored === 'true' : true;
+    } catch {
+      return true;
+    }
+  });
   const [adState, setAdState] = useState("loading");
   const id = useRef(
     `gam-top-sticky-expandable-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`
@@ -42,9 +52,17 @@ const TopStickyExpandableAd = () => {
   const slotRef = useRef(null);
   const retryCountRef = useRef(0);
 
-  // Toggle expand/collapse
+  // Toggle expand/collapse and save to localStorage
   const toggleExpanded = () => {
-    setIsExpanded((prev) => !prev);
+    setIsExpanded((prev) => {
+      const newState = !prev;
+      try {
+        localStorage.setItem(STORAGE_KEY, String(newState));
+      } catch (error) {
+        gamWarn('localStorage-failed', { error: error instanceof Error ? error.message : String(error) });
+      }
+      return newState;
+    });
   };
 
   // Initialize ad
