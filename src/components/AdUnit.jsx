@@ -159,7 +159,6 @@ const AdUnit = ({
   const slotRef = useRef(null);
   const [state, setState] = useState("loading");
   const [renderedSize, setRenderedSize] = useState(null);
-  const retryCountRef = useRef(0);
   const refreshTimerRef = useRef(null);
   const key = size === "native" && PATHS.NATIVE ? "NATIVE" : slot;
   const path = PATHS[key] || "";
@@ -201,57 +200,31 @@ const AdUnit = ({
 
         if (event.isEmpty) {
           setRenderedSize(null);
-          // Retry logic for no-fill scenarios
-          if (retryCountRef.current < 2) {
-            const nextRetry = retryCountRef.current + 1;
-            retryCountRef.current = nextRetry;
-            gamWarn("slot-no-fill-retrying", {
-              slot,
-              key,
-              path,
-              retryCount: nextRetry,
-            });
-            setTimeout(() => {
-              if (active && slotRef.current) {
-                window.googletag?.cmd?.push(() => {
-                  window.googletag.pubads().refresh([slotRef.current]);
-                });
-              }
-            }, 2000 * nextRetry); // Progressive delay
-          } else {
-            setState("empty");
-            gamWarn("slot-no-fill", {
-              slot,
-              key,
-              path,
-              size: event.size,
-              retries: retryCountRef.current,
-            });
-          }
-        } else {
-          setState("filled");
-          setRenderedSize(Array.isArray(event.size) ? event.size : null);
-          retryCountRef.current = 0;
-          gamLog("slot-rendered", {
-            slot,
-            key,
-            path,
-            size: event.size,
-            creativeId: event.creativeId,
-            lineItemId: event.lineItemId,
-          });
+          setState("empty");
+          gamLog("slot-no-fill", { slot, key, path, size: event.size });
+          return;
+        }
 
-          // Setup auto-refresh for filled slots if enabled
-          if (enableRefresh && refreshInterval > 0) {
-            refreshTimerRef.current = setInterval(() => {
-              if (slotRef.current && document.visibilityState === 'visible') {
-                window.googletag?.cmd?.push(() => {
-                  gamLog("slot-refresh", { slot, key, path });
-                  window.googletag.pubads().refresh([slotRef.current]);
-                });
-              }
-            }, refreshInterval);
-          }
+        setState("filled");
+        setRenderedSize(Array.isArray(event.size) ? event.size : null);
+        gamLog("slot-rendered", {
+          slot,
+          key,
+          path,
+          size: event.size,
+          creativeId: event.creativeId,
+          lineItemId: event.lineItemId,
+        });
+
+        if (enableRefresh && refreshInterval > 0) {
+          refreshTimerRef.current = setInterval(() => {
+            if (slotRef.current && document.visibilityState === "visible") {
+              window.googletag?.cmd?.push(() => {
+                gamLog("slot-refresh", { slot, key, path });
+                window.googletag.pubads().refresh([slotRef.current]);
+              });
+            }
+          }, refreshInterval);
         }
       },
       slotOnload: (event) =>

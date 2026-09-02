@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gamLog, gamWarn } from './gamDebug';
 import './TopFloatingExpandableAd.css';
 
@@ -15,7 +15,6 @@ const buildSizeMapping = (gt) => gt.sizeMapping()
 const TopFloatingExpandableAd = () => {
   const id = useRef(`gam-top-floating-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`);
   const slotRef = useRef(null);
-  const retryCountRef = useRef(0);
   const [status, setStatus] = useState('loading');
   const [creativeSize, setCreativeSize] = useState(null);
   const [transitionDirection, setTransitionDirection] = useState('collapsing');
@@ -30,19 +29,13 @@ const TopFloatingExpandableAd = () => {
       window.clearTimeout(timeoutId);
       if (event.isEmpty) {
         setCreativeSize(null);
-        if (retryCountRef.current < 2) {
-          retryCountRef.current += 1;
-          window.setTimeout(() => active && slotRef.current && window.googletag.cmd.push(() => window.googletag.pubads().refresh([slotRef.current])), retryCountRef.current * 2000);
-          return;
-        }
         setStatus('unavailable');
-        gamWarn('top-floating-no-fill', { path: AD_PATH });
+        gamLog('top-floating-no-fill', { path: AD_PATH });
         return;
       }
       const size = Array.isArray(event.size) ? event.size : null;
       setCreativeSize(size);
       setStatus('expanded');
-      retryCountRef.current = 0;
       gamLog('top-floating-rendered', { path: AD_PATH, size });
     };
     window.googletag.cmd.push(() => {

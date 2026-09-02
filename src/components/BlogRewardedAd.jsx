@@ -61,7 +61,7 @@ const BlogRewardedAd = ({ post }) => {
           showRewardedRef.current = null;
           window.googletag?.destroySlots?.([slotRef.current]);
           slotRef.current = null;
-          gamWarn('blog-rewarded-no-fill', { path: REWARDED_PATH });
+          gamLog('blog-rewarded-no-fill', { path: REWARDED_PATH });
         }
       },
       rewardedSlotReady: (event) => {
@@ -144,9 +144,9 @@ const BlogRewardedAd = ({ post }) => {
       <div className="blog-rewarded-action">
         <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
           {status === 'idle' && 'View Ad & Continue'}
-          {status === 'loading' && 'Preparing Advertisementâ€¦'}
+          {status === 'loading' && 'Preparing AdvertisementÃ¢â‚¬Â¦'}
           {status === 'ready' && 'View Ad & Continue'}
-          {(status === 'opened' || status === 'showing') && 'Advertisement Showingâ€¦'}
+          {(status === 'opened' || status === 'showing') && 'Advertisement ShowingÃ¢â‚¬Â¦'}
           {status === 'closable' && 'Complete Ad to Continue'}
           {status === 'closed' && 'Advertisement Completed'}
         </button>

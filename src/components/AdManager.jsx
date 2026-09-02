@@ -1,37 +1,28 @@
-export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
+﻿export const GPT_SCRIPT_URL = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js';
 
 export const initializeGPT = () => {
   if (typeof window === 'undefined') return;
   window.googletag = window.googletag || { cmd: [] };
-
-  // Check if GPT services are already enabled (reliable cross-refresh check)
-  if (window.googletag.apiReady) {
-    return; // Already initialized
-  }
+  if (window.__finvexaGptConfigured) return;
+  window.__finvexaGptConfigured = true;
 
   window.googletag.cmd.push(() => {
-    const pubads = window.googletag.pubads();
+    const gt = window.googletag;
+    const pubads = gt.pubads();
 
-    // Core configuration
-    pubads.enableSingleRequest();
-    pubads.collapseEmptyDivs(true, true); // Collapse before and after ad fetch
+    gt.setConfig({ singleRequest: true });
+    pubads.collapseEmptyDivs(true, true);
     pubads.setCentering(true);
-
-    // Performance optimizations
     pubads.enableLazyLoad({
-      fetchMarginPercent: 200,  // Fetch ads 200% before viewport
-      renderMarginPercent: 100, // Render ads 100% before viewport
-      mobileScaling: 2.0        // Double margins on mobile
+      fetchMarginPercent: 200,
+      renderMarginPercent: 100,
+      mobileScaling: 2.0,
     });
-
-    // Privacy and targeting settings
     pubads.setPrivacySettings({
       restrictDataProcessing: false,
       childDirectedTreatment: false,
-      underAgeOfConsent: false
+      underAgeOfConsent: false,
     });
-
-    // Enable services
-    window.googletag.enableServices();
+    gt.enableServices();
   });
 };
