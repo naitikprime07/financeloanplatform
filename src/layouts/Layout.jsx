@@ -7,6 +7,7 @@ import MobileAnchorAd from "../components/MobileAnchorAd";
 import DesktopSideAds from "../components/DesktopSideAds";
 import AdScriptLoader from "../components/AdScriptLoader";
 import AdUnit from "../components/AdUnit";
+import TopStickyExpandableAd from "../components/TopStickyExpandableAd";
 
 const Layout = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const Layout = () => {
   return (
     <>
       <AdScriptLoader />
+      <TopStickyExpandableAd />
       <section className="top-ad-rail" aria-label="Top advertisement">
         <div className="top-ad-inner"><AdUnit slot="TOP" /></div>
       </section>
