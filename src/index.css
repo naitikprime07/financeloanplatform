@@ -28,7 +28,14 @@ body {
   color: var(--text-dark);
   background-color: var(--bg-light);
   line-height: 1.6;
+  overflow-x: hidden;
 }
+
+.main-content { min-width: 0; }
+.top-ad-rail, .bottom-ad-rail { width: 100%; overflow: hidden; background: #f7f8fa; }
+.top-ad-inner { width: min(100%, 1010px); margin: 0 auto; padding: 0 20px; }
+.top-ad-rail .ad-unit-wrapper { margin: 8px 0 0; }
+.bottom-ad-rail .ad-unit-wrapper { margin: 16px 0 24px; }
 
 a {
   text-decoration: none;
@@ -99,7 +106,7 @@ ul {
 
 .desktop-side-ad {
   position: fixed;
-  top: 96px;
+  top: clamp(150px, 30vh, 285px);
   z-index: 40;
   width: 160px;
   min-height: 18px;
@@ -110,11 +117,11 @@ ul {
 }
 
 .desktop-side-ad-left {
-  left: 16px;
+  left: max(16px, calc((100vw - 1520px) / 2));
 }
 
 .desktop-side-ad-right {
-  right: 16px;
+  right: max(16px, calc((100vw - 1520px) / 2));
 }
 
 @media (max-width: 1535px) {
@@ -122,3 +129,9 @@ ul {
     display: none;
   }
 }
+@media (max-width: 768px) {
+  .top-ad-inner { padding: 0 8px; }
+  .top-ad-rail .ad-unit-wrapper { margin-top: 4px; }
+}
+
+

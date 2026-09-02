@@ -149,7 +149,7 @@ const AdUnit = ({
   );
   const slotRef = useRef(null);
   const [state, setState] = useState("loading");
-  const [retryCount, setRetryCount] = useState(0);
+  const retryCountRef = useRef(0);
   const refreshTimerRef = useRef(null);
   const key = size === "native" && PATHS.NATIVE ? "NATIVE" : slot;
   const path = PATHS[key] || "";
@@ -182,21 +182,22 @@ const AdUnit = ({
 
         if (event.isEmpty) {
           // Retry logic for no-fill scenarios
-          if (retryCount < 2) {
+          if (retryCountRef.current < 2) {
+            const nextRetry = retryCountRef.current + 1;
+            retryCountRef.current = nextRetry;
             gamWarn("slot-no-fill-retrying", {
               slot,
               key,
               path,
-              retryCount: retryCount + 1,
+              retryCount: nextRetry,
             });
             setTimeout(() => {
               if (active && slotRef.current) {
                 window.googletag?.cmd?.push(() => {
                   window.googletag.pubads().refresh([slotRef.current]);
-                  setRetryCount(prev => prev + 1);
                 });
               }
-            }, 2000 * (retryCount + 1)); // Progressive delay
+            }, 2000 * nextRetry); // Progressive delay
           } else {
             setState("empty");
             gamWarn("slot-no-fill", {
@@ -204,12 +205,12 @@ const AdUnit = ({
               key,
               path,
               size: event.size,
-              retries: retryCount,
+              retries: retryCountRef.current,
             });
           }
         } else {
           setState("filled");
-          setRetryCount(0); // Reset retry count on success
+          retryCountRef.current = 0;
           gamLog("slot-rendered", {
             slot,
             key,
@@ -313,13 +314,13 @@ const AdUnit = ({
         slotRef.current = null;
       });
     };
-  }, [key, path, sizes, slot, retryCount, enableRefresh, refreshInterval]);
+  }, [key, path, sizes, slot, enableRefresh, refreshInterval]);
   return (
     <aside
       className={`ad-unit-wrapper is-${state} ${sticky ? "ad-sticky" : ""} ${className}`}
       aria-label="Advertisement"
     >
-      {label && state !== "empty" && <div className="ad-label">ADVERTISEMENT</div>}
+      {label && <div className="ad-label">ADVERTISEMENT</div>}
       {path && sizes && <div className="ad-unit" id={id.current} />}
       {state === "empty" && fallbackContent && (
         <div className="ad-fallback">{fallbackContent}</div>
@@ -328,3 +329,4 @@ const AdUnit = ({
   );
 };
 export default AdUnit;
+

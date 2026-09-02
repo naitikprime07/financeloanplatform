@@ -33,8 +33,6 @@ const Home = () => {
 
       <div className="home-page">
         <div className="container">
-          <AdUnit slot="TOP" />
-
           <div className="home-layout">
             <div className="main-content-area">
               <h1 className="page-title">Latest Stories</h1>
@@ -83,7 +81,6 @@ const Home = () => {
                 </div>
               )}
 
-              <AdUnit slot="BOTTOM" />
             </div>
 
             <Sidebar />
@@ -118,3 +115,4 @@ const Home = () => {
 };
 
 export default Home;
+

@@ -33,8 +33,6 @@ const Category = () => {
 
       <div className="category-page">
         <div className="container">
-          <AdUnit slot="TOP" />
-
           <div className="category-layout">
             <div className="main-content-area">
               <h1 className="page-title">{category.name}</h1>
@@ -61,7 +59,6 @@ const Category = () => {
                 </div>
               )}
 
-              <AdUnit slot="BOTTOM" />
             </div>
 
             <Sidebar />
@@ -96,3 +93,4 @@ const Category = () => {
 };
 
 export default Category;
+

@@ -7,7 +7,7 @@
     min-height: 18px;
     margin: 24px 0;
     padding: 0;
-    overflow: visible;
+    overflow: hidden;
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -49,7 +49,7 @@
     max-width: 100%;
     min-height: 0;
     margin: 0;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .ad-unit>div,
@@ -64,6 +64,8 @@
 .ad-unit-wrapper.is-loading:not(.ad-sticky) {
     min-height: 18px;
 }
+
+.ad-unit-wrapper.is-empty { margin-top: 0; margin-bottom: 0; }
 
 .ad-unit-wrapper.is-empty .ad-unit {
     display: none !important;

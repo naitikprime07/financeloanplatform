@@ -67,8 +67,6 @@ const BlogDetail = () => {
           </header>
 
           <figure className="blog-detail-image"><img src={post.image} alt={post.title} width="1200" height="675" fetchPriority="high"/><figcaption>{post.title}</figcaption></figure>
-          <AdUnit slot="TOP" />
-
           <BlogInterstitialGate />
           <div id={BLOG_INTERSTITIAL_TARGET_ID} className="blog-detail-body">
             {post.content.sections.map((section,index) => <section key={section.heading} className="blog-section">
@@ -82,8 +80,6 @@ const BlogDetail = () => {
 
           <div className="article-tags"><span>Topics</span><Link to={post.category ? `/category/${post.category}` : '/'}>{post.categoryName}</Link><span>Business insights</span><span>Finvexa guides</span></div>
           <div className="article-share"><div><strong>Was this article helpful?</strong><p>Share it with someone who may find it useful.</p></div><button type="button" onClick={shareArticle}>{copied ? 'Copied!' : 'Share'}</button></div>
-          <AdUnit slot="BOTTOM" />
-
           <nav className="article-navigation" aria-label="Article navigation">
             {previousPost ? <Link to={`/blog/${previousPost.id}`}><small>Previous article</small><strong>{previousPost.title}</strong></Link> : <span/>}
             {nextPost ? <Link className="next" to={`/blog/${nextPost.id}`}><small>Next article</small><strong>{nextPost.title}</strong></Link> : <span/>}
@@ -99,3 +95,4 @@ const BlogDetail = () => {
   </>;
 };
 export default BlogDetail;
+
