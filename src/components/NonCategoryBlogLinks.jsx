@@ -8,10 +8,7 @@ const NonCategoryBlogLinks = ({ currentPostId }) => {
 
   return (
     <nav className="non-category-blog-nav" aria-labelledby="non-category-blog-title">
-      <div className="non-category-blog-heading">
-        <span>Explore more</span>
-        <h3 id="non-category-blog-title">More loan guides</h3>
-      </div>
+      <h3 id="non-category-blog-title" className="non-category-blog-heading">More loan guides</h3>
       <div className="non-category-blog-grid">
         {posts.map((post) => (
           <Link key={post.id} to={`/blog/${post.id}`} className="non-category-blog-card">

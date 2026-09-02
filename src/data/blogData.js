@@ -97,7 +97,7 @@ const rawBlogPosts = [
     id: "aadhaarpe-loan-online-eligibility-check-apply",
     title: "AadhaarPe Loan Online: पात्रता जांचें और आवेदन करें",
     category: "",
-    categoryName: "AadhaarPe Loan",
+    categoryName: "आधारपे लोन",
     date: "January 14, 2026",
     author: "फाइनेंस सपोर्ट टीम",
     excerpt:
