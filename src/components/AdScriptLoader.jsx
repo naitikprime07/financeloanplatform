@@ -6,8 +6,9 @@ const AdScriptLoader = () => {
   useEffect(() => {
     window.googletag = window.googletag || { cmd: [] };
     initializeGPT();
-    const existing = document.querySelector('script[data-finvexa-gpt="true"]');
+    const existing = document.querySelector(`script[data-finvexa-gpt="true"], script[src="${GPT_SCRIPT_URL}"]`);
     if (existing) {
+      existing.dataset.finvexaGpt = 'true';
       gamLog('script-already-present', { apiReady: Boolean(window.googletag.apiReady) });
       return undefined;
     }
@@ -27,3 +28,4 @@ const AdScriptLoader = () => {
   return null;
 };
 export default AdScriptLoader;
+

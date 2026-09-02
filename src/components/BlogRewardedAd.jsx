@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gamLog, gamWarn } from './gamDebug';
 import './BlogRewardedAd.css';
 
@@ -15,12 +15,13 @@ const REWARDED_PATH = normalizePath(
 );
 
 const BlogRewardedAd = ({ post }) => {
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState('idle');
   const slotRef = useRef(null);
   const showRewardedRef = useRef(null);
   const scrollPositionRef = useRef(0);
 
   useEffect(() => {
+    setStatus('loading');
     if (!REWARDED_PATH) {
       setStatus('failed');
       gamWarn('blog-rewarded-not-configured', {
@@ -40,6 +41,9 @@ const BlogRewardedAd = ({ post }) => {
         if (event.isEmpty) {
           window.clearTimeout(timeoutId);
           setStatus('failed');
+          showRewardedRef.current = null;
+          window.googletag?.destroySlots?.([slotRef.current]);
+          slotRef.current = null;
           gamWarn('blog-rewarded-no-fill', { path: REWARDED_PATH });
         }
       },
@@ -80,7 +84,7 @@ const BlogRewardedAd = ({ post }) => {
         Object.entries(handlers).forEach(([eventName, handler]) => gt.pubads().addEventListener(eventName, handler));
         gt.display(rewardedSlot);
         timeoutId = window.setTimeout(() => {
-          if (active && status === 'loading') {
+          if (active) {
             showRewardedRef.current = null;
             setStatus('failed');
             gamWarn('blog-rewarded-timeout', { path: REWARDED_PATH });
@@ -141,3 +145,4 @@ const BlogRewardedAd = ({ post }) => {
 };
 
 export default BlogRewardedAd;
+
