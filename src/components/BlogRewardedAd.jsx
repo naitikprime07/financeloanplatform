@@ -111,9 +111,7 @@ const BlogRewardedAd = ({ post }) => {
       });
     };
 
-    // Use shorter delay on mobile for faster ad availability
-    const isMobile = window.innerWidth < 768;
-    initDelayTimer = window.setTimeout(initRewardedSlot, isMobile ? 20 : 50);
+    initDelayTimer = window.setTimeout(initRewardedSlot, 50);
 
     return () => {
       active = false;
