@@ -128,18 +128,20 @@ const BlogRewardedAd = ({ post }) => {
 
   return (
     <aside className={`blog-rewarded-card is-${status}`} aria-label="Rewarded advertisement">
-      <div className="blog-rewarded-poster">
-        <img src={post.image} alt="" loading="lazy" />
-        <div><span>Sponsored break</span><strong>Continue with a short advertisement</strong></div>
+      <figure className="blog-rewarded-poster">
+        <img src={post.image} alt={`${post.title} offer`} loading="lazy" />
+      </figure>
+      <div className="blog-rewarded-action">
+        <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
+          {status === 'idle' && 'View Ad & Continue'}
+          {status === 'loading' && 'Preparing Advertisement…'}
+          {status === 'ready' && 'View Ad & Continue'}
+          {(status === 'opened' || status === 'showing') && 'Advertisement Showing…'}
+          {status === 'closable' && 'Complete Ad to Continue'}
+          {status === 'closed' && 'Advertisement Completed'}
+        </button>
+        <div className="blog-rewarded-caption"><span>VIEW AD & CONTINUE</span></div>
       </div>
-      <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
-        {status === 'loading' && 'Preparing advertisement…'}
-        {status === 'ready' && 'Watch advertisement'}
-        {(status === 'opened' || status === 'showing') && 'Advertisement showing…'}
-        {status === 'closable' && 'You may close the advertisement'}
-        {status === 'closed' && 'Advertisement completed'}
-      </button>
-      <small>The ad provider enables its close control after the required viewing period.</small>
     </aside>
   );
 };
