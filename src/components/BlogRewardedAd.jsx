@@ -111,10 +111,12 @@ const BlogRewardedAd = ({ post }) => {
       active = false;
       window.clearTimeout(timeoutId);
       showRewardedRef.current = null;
+      // Capture this blog's slot before queueing cleanup.
+      const slotToDestroy = slotRef.current;
+      slotRef.current = null;
       window.googletag?.cmd?.push(() => {
         Object.entries(handlers).forEach(([eventName, handler]) => window.googletag.pubads().removeEventListener(eventName, handler));
-        if (slotRef.current) window.googletag.destroySlots([slotRef.current]);
-        slotRef.current = null;
+        if (slotToDestroy) window.googletag.destroySlots([slotToDestroy]);
       });
     };
   }, [post.id]);

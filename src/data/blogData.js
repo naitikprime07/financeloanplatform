@@ -134,7 +134,8 @@ const rawBlogPosts = [
           text: "",
           faqs: [
             {
-              question: "क्या AadhaarPe से ऑनलाइन लोन के लिए आवेदन किया जा सकता है?",
+              question:
+                "क्या AadhaarPe से ऑनलाइन लोन के लिए आवेदन किया जा सकता है?",
               answer:
                 "यदि प्लेटफॉर्म पर किसी ऋणदाता या वित्तीय सेवा प्रदाता का पात्र ऑफर उपलब्ध है, तो उपयोगकर्ता उसकी आवेदन प्रक्रिया आगे बढ़ा सकता है।",
             },
@@ -166,7 +167,7 @@ const rawBlogPosts = [
     id: "car-loan-check-offers-apply-online",
     title: "Car Loan: अपनी पसंद की कार के लिए लोन विकल्प देखें",
     category: "",
-    categoryName: "Car Loan",
+    categoryName: "कार लोन",
     date: "January 13, 2026",
     author: "फाइनेंस सहायता टीम",
     excerpt:
@@ -230,7 +231,7 @@ const rawBlogPosts = [
     id: "gold-loan-check-offers-apply-online",
     title: "गोल्ड लोन: अपने सोने पर उपलब्ध लोन विकल्प देखें",
     category: "",
-    categoryName: "Gold Loan",
+    categoryName: "गोल्ड लोन",
     date: "January 12, 2026",
     author: "फाइनेंस सहायता टीम",
     excerpt:
@@ -303,7 +304,7 @@ const rawBlogPosts = [
     id: "student-loan-education-finance-options",
     title: "Student Loan: शिक्षा के लिए उपलब्ध लोन विकल्प देखें",
     category: "",
-    categoryName: "Student Loan",
+    categoryName: "स्टूडेंट लोन",
     date: "January 11, 2026",
     author: "एजुकेशन फाइनेंस सहायता टीम",
     excerpt:
@@ -376,7 +377,7 @@ const rawBlogPosts = [
     id: "home-loan-housing-finance-options",
     title: "होम लोन: अपने घर के लिए फाइनेंस विकल्प देखें",
     category: "",
-    categoryName: "Home Loan",
+    categoryName: "होम लोन",
     date: "January 10, 2026",
     author: "होम फाइनेंस सहायता टीम",
     excerpt:

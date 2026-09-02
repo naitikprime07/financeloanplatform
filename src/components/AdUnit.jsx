@@ -164,6 +164,8 @@ const AdUnit = ({
   const path = PATHS[key] || "";
   const sizes = useMemo(() => SIZES[key], [key]);
   useEffect(() => {
+    setState("loading");
+    setRenderedSize(null);
     if (!path || !sizes) {
       setState("empty");
       gamWarn("slot-not-configured", {
@@ -293,13 +295,17 @@ const AdUnit = ({
         clearInterval(refreshTimerRef.current);
         refreshTimerRef.current = null;
       }
+      // Detach this effect's slot synchronously. A queued GPT cleanup must not
+      // read the mutable ref after a route change and destroy the next blog's
+      // newly-created slot.
+      const slotToDestroy = slotRef.current;
+      slotRef.current = null;
       window.googletag?.cmd?.push(() => {
         Object.entries(handlers).forEach(([eventName, handler]) =>
           window.googletag.pubads().removeEventListener(eventName, handler),
         );
-        if (slotRef.current) window.googletag.destroySlots([slotRef.current]);
-        gamLog("slot-destroyed", { slot, key, path });
-        slotRef.current = null;
+        if (slotToDestroy) window.googletag.destroySlots([slotToDestroy]);
+        gamLog("slot-destroyed", { slot, key, path, hadSlot: Boolean(slotToDestroy) });
       });
     };
   }, [key, path, sizes, slot, enableRefresh, refreshInterval]);
