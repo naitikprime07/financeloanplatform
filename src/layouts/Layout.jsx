@@ -6,6 +6,7 @@ import CookieConsent from "../components/CookieConsent";
 import MobileAnchorAd from "../components/MobileAnchorAd";
 import DesktopSideAds from "../components/DesktopSideAds";
 import AdScriptLoader from "../components/AdScriptLoader";
+import TopFloatingExpandableAd from "../components/TopFloatingExpandableAd";
 import AdUnit from "../components/AdUnit";
 
 const Layout = () => {
@@ -16,9 +17,7 @@ const Layout = () => {
   return (
     <>
       <AdScriptLoader />
-      <section className="top-ad-rail" aria-label="Top advertisement">
-        <div className="top-ad-inner"><AdUnit slot="TOP" /></div>
-      </section>
+      <TopFloatingExpandableAd />
       <Header />
       <main className="main-content">
         <Outlet />
