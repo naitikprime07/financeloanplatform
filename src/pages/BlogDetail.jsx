@@ -23,26 +23,51 @@ const renderSectionText = (text) =>
     return <p key={index}>{block}</p>;
   });
 
-const renderHeadingWithAnimatedEmojis = (heading) => {
-  const emojiRegex = /([\p{Emoji_Presentation}\p{Emoji}\uFE0F]+)/gu;
-  const parts = heading.split(emojiRegex);
-  return parts.map((part, i) => {
-    if (emojiRegex.test(part)) {
-      return (
-        <span
-          key={i}
-          style={{
-            display: "inline-block",
-            animation: "bounceEmoji 1s ease-in-out infinite",
-            animationDelay: `${i * 0.1}s`,
-          }}
-        >
-          {part}
-        </span>
-      );
-    }
-    return part;
-  });
+const cleanPromptText = (value = "") =>
+  value.replace(/[\p{Extended_Pictographic}\uFE0F]/gu, "").trim();
+
+const BlogScrollPrompt = ({ section }) => {
+  const headingHasScroll = section.heading.includes("Scroll");
+  const source = headingHasScroll
+    ? section.heading
+    : section.text || section.heading;
+  const [beforeScroll, afterScroll = ""] = source.split("Scroll");
+  const cleanedLead = cleanPromptText(
+    headingHasScroll ? beforeScroll : section.heading,
+  );
+  const hindiFor = "\u0915\u0947 \u0932\u093f\u090f";
+  const markerIndex = cleanedLead.lastIndexOf(hindiFor);
+  const leadWords = cleanedLead.split(/\s+/);
+  const fallbackSplit = Math.max(1, Math.ceil(leadWords.length / 2));
+  const primary = headingHasScroll
+    ? markerIndex > 0
+      ? cleanedLead.slice(0, markerIndex).trim()
+      : leadWords.slice(0, fallbackSplit).join(" ")
+    : cleanedLead;
+  const context = headingHasScroll
+    ? markerIndex > 0
+      ? cleanedLead.slice(markerIndex).trim()
+      : leadWords.slice(fallbackSplit).join(" ") ||
+        "\u0915\u0947 \u0932\u093f\u090f"
+    : cleanPromptText(beforeScroll);
+  const actionSuffix = cleanPromptText(afterScroll);
+  const accessibleText = [primary, context, "Scroll", actionSuffix]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <h2 className="scroll-heading" aria-label={accessibleText}>
+      <span className="scroll-heading-primary">{primary}</span>
+      {context && <span className="scroll-heading-hindi">{context}</span>}
+      <span className="scroll-heading-action">
+        Scroll {actionSuffix && <b>{actionSuffix}</b>}
+      </span>
+      <span className="scroll-heading-icons" aria-hidden="true">
+        <span>&#128241;</span>
+        <span>&#128071;</span>
+      </span>
+    </h2>
+  );
 };
 
 const BlogDetail = () => {
@@ -113,7 +138,11 @@ const BlogDetail = () => {
 
       <div className="blog-detail-page">
         <div className="container">
-          <AdUnit key={`${post.id}-blog-top`} slot="MIDDLE_1" className="blog-top-ad" />
+          <AdUnit
+            key={`${post.id}-blog-top`}
+            slot="MIDDLE_1"
+            className="blog-top-ad"
+          />
           <nav className="blog-breadcrumb" aria-label="Breadcrumb">
             <Link to="/">Home</Link>
             <span>/</span>
@@ -172,26 +201,24 @@ const BlogDetail = () => {
                 />
                 <figcaption>{post.title}</figcaption>
               </figure>
-              <div className="blog-detail-body"
-              >
+              <div className="blog-detail-body">
                 {post.content.sections.map((section, index) => (
                   <section key={section.heading} className="blog-section">
-                    <h2
-                      className={
-                        section.heading.includes("Scroll ÃƒÂ Ã‚Â¤Ã¢â‚¬Â¢ÃƒÂ Ã‚Â¤Ã‚Â°ÃƒÂ Ã‚Â¥Ã¢â‚¬Â¡ÃƒÂ Ã‚Â¤Ã¢â‚¬Å¡")
-                          ? "scroll-heading"
-                          : ""
-                      }
-                    >
-                      {section.heading.includes("Scroll ÃƒÂ Ã‚Â¤Ã¢â‚¬Â¢ÃƒÂ Ã‚Â¤Ã‚Â°ÃƒÂ Ã‚Â¥Ã¢â‚¬Â¡ÃƒÂ Ã‚Â¤Ã¢â‚¬Å¡")
-                        ? renderHeadingWithAnimatedEmojis(section.heading)
-                        : section.heading}
-                    </h2>
-                    {section.text && (
-                      <div className="blog-text">
-                        {renderSectionText(section.text)}
-                      </div>
+                    {index === 1 ? (
+                      <BlogScrollPrompt section={section} />
+                    ) : (
+                      <h2>{section.heading}</h2>
                     )}
+                    {section.text &&
+                      !(
+                        index === 1 &&
+                        section.text.includes("Scroll") &&
+                        section.text.length < 100
+                      ) && (
+                        <div className="blog-text">
+                          {renderSectionText(section.text)}
+                        </div>
+                      )}
                     {section.details && (
                       <div className="rewards-details">
                         <h3 className="rewards-title">
@@ -221,12 +248,19 @@ const BlogDetail = () => {
                     )}
                     {index === 1 && (
                       <>
-                        <BlogRewardedAd key={`rewarded-${post.id}`} post={post} />
+                        <BlogRewardedAd
+                          key={`rewarded-${post.id}`}
+                          post={post}
+                        />
                         <NonCategoryBlogLinks currentPostId={post.id} />
                       </>
                     )}
-                    {index === 3 && <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />}
-                    {index === 5 && <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />}
+                    {index === 3 && (
+                      <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />
+                    )}
+                    {index === 5 && (
+                      <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />
+                    )}
                   </section>
                 ))}
               </div>
@@ -300,4 +334,3 @@ const BlogDetail = () => {
   );
 };
 export default BlogDetail;
-
