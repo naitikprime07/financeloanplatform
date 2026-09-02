@@ -58,8 +58,8 @@
 
 .ad-unit-wrapper.is-filled .ad-unit>div,
 .ad-unit-wrapper.is-filled .ad-unit iframe {
-    width: var(--ad-rendered-width, auto) !important;
-    height: var(--ad-rendered-height, auto) !important;
+    width: var(--ad-rendered-width, 100%) !important;
+    height: var(--ad-rendered-height, 100%) !important;
     max-width: 100% !important;
     overflow: visible !important;
 }

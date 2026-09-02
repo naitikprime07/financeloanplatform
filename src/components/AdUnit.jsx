@@ -297,7 +297,9 @@ const AdUnit = ({
     };
 
     // Delay slot initialization to allow GPT command queue to process any pending destroySlots
-    initDelayTimer = window.setTimeout(initSlot, 50);
+    // Use 20ms on mobile, 50ms on desktop for optimal balance between speed and race prevention
+    const isMobile = window.innerWidth < 768;
+    initDelayTimer = window.setTimeout(initSlot, isMobile ? 20 : 50);
     return () => {
       active = false;
       clearTimeout(timer);
