@@ -2,6 +2,22 @@
 import { blogPosts } from '../data/blogData';
 import './NonCategoryBlogLinks.css';
 
+import personalLoanBtn from '../assets/buttons/personalLoan.png';
+import aadhaarLoanBtn from '../assets/buttons/adshaarPeLoan.png';
+import carLoanBtn from '../assets/buttons/carLoan.png';
+import goldLoanBtn from '../assets/buttons/goldLoan.png';
+import studentLoanBtn from '../assets/buttons/studentLoan.png';
+import homeLoanBtn from '../assets/buttons/homeLoan.png';
+
+const buttonMap = {
+  'personal-loan-online-eligibility-check-apply': personalLoanBtn,
+  'aadhaarpe-loan-online-eligibility-check-apply': aadhaarLoanBtn,
+  'car-loan-check-offers-apply-online': carLoanBtn,
+  'gold-loan-check-offers-apply-online': goldLoanBtn,
+  'student-loan-education-finance-options': studentLoanBtn,
+  'home-loan-housing-finance-options': homeLoanBtn,
+};
+
 const NonCategoryBlogLinks = ({ currentPostId }) => {
   const posts = blogPosts.filter((post) => !post.category && post.id !== currentPostId);
   if (!posts.length) return null;
@@ -12,10 +28,7 @@ const NonCategoryBlogLinks = ({ currentPostId }) => {
       <div className="non-category-blog-grid">
         {posts.map((post) => (
           <Link key={post.id} to={`/blog/${post.id}`} className="non-category-blog-card">
-            <img src={post.image} alt="" loading="lazy" />
-            <span>{post.categoryName}</span>
-            <strong>{post.title}</strong>
-            <small>Read full guide <span aria-hidden="true">→</span></small>
+            <img src={buttonMap[post.id]} alt={post.categoryName} loading="lazy" />
           </Link>
         ))}
       </div>

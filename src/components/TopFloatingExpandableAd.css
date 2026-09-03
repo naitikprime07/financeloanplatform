@@ -264,3 +264,33 @@
         height: 30px
     }
 }
+
+/* Reference-style lower-left mobile collapse control. */
+@media (max-width: 767px) {
+    .top-floating-toggle {
+        right: auto;
+        bottom: -30px;
+        left: 0;
+        width: 58px;
+        min-width: 58px;
+        height: 30px;
+        padding: 0;
+        transform: none;
+        border: 1px solid #d9dde3;
+        border-top: 0;
+        border-radius: 0 0 10px 0;
+        background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+        color: #697078;
+        box-shadow: 0 3px 5px rgba(20, 28, 38, .18);
+    }
+    .top-floating-toggle svg { width: 14px; height: 14px; stroke-width: 2.1; }
+    .top-floating-ad.is-collapsed { width: min(calc(100vw - 8px), var(--top-ad-width, 320px)); }
+    .top-floating-ad.is-collapsed .top-floating-toggle {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: 0;
+        width: 58px;
+        min-width: 58px;
+    }
+}

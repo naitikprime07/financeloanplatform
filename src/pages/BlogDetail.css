@@ -1477,3 +1477,37 @@
         margin-left: -14px;
     }
 }
+
+/* Keep Categories and Trending together in the blog sidebar. */
+.blog-side-column { position: sticky; top: 96px; align-self: start; display: flex; min-width: 0; flex-direction: column; gap: 22px; }
+.blog-side-column > .sidebar, .blog-side-column > .blog-sidebar { position: static; top: auto; width: 100%; max-height: none; margin: 0; overflow: visible; }
+.blog-side-column .blog-sidebar-card { margin-top: 0; }
+@media (max-width: 1024px) { .blog-side-column { position: static; top: auto; } }
+
+/* Preserve sticky Categories navigation in the stacked blog sidebar on mobile. */
+@media (max-width: 768px) {
+  .blog-side-column {
+    position: relative;
+    align-self: stretch;
+  }
+
+  .blog-side-column > .sidebar {
+    position: sticky;
+    top: 70px;
+    z-index: 10;
+  }
+}
+
+/* Keep the Categories box sticky in the stacked tablet blog layout. */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .blog-side-column {
+    position: relative;
+    align-self: stretch;
+  }
+
+  .blog-side-column > .sidebar {
+    position: sticky;
+    top: 96px;
+    z-index: 10;
+  }
+}

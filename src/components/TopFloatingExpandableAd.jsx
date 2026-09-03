@@ -76,7 +76,13 @@ const TopFloatingExpandableAd = () => {
   } : undefined;
 
   const toggleAd = () => {
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
     setStatus((current) => {
+      if (isMobile) {
+        if (current === 'collapsed') { setTransitionDirection('expanding'); return 'expanded'; }
+        if (current === 'expanded' || current === 'compact') { setTransitionDirection('collapsing'); return 'collapsed'; }
+        return current;
+      }
       if (current === 'expanded') { setTransitionDirection('collapsing'); return 'compact'; }
       if (current === 'compact') return transitionDirection === 'collapsing' ? 'collapsed' : 'expanded';
       if (current === 'collapsed') { setTransitionDirection('expanding'); return 'compact'; }

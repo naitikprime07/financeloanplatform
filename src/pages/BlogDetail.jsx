@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogSidebar from "../components/BlogSidebar";
+import Sidebar from "../components/Sidebar";
 import AdUnit from "../components/AdUnit";
 import BlogRewardedAd from "../components/BlogRewardedAd";
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
@@ -166,7 +167,6 @@ const BlogDetail = () => {
                   {post.categoryName}
                 </Link>
                 <h1 className="blog-detail-title">{post.title}</h1>
-                <p className="blog-detail-lead">{post.excerpt}</p>
                 <div className="blog-detail-meta">
                   <span className="blog-meta-avatar" aria-hidden="true">
                     {post.author.charAt(0)}
@@ -206,6 +206,7 @@ const BlogDetail = () => {
                 slot="MIDDLE_2"
                 className="blog-featured-image-ad"
               />
+              <p className="blog-detail-lead">{post.excerpt}</p>
               <div className="blog-detail-body">
                 {post.content.sections.map((section, index) => (
                   <section key={section.heading} className="blog-section">
@@ -331,7 +332,10 @@ const BlogDetail = () => {
                 </div>
               </aside>
             </article>
-            <BlogSidebar currentPostId={post.id} />
+            <div className="blog-side-column">
+              <Sidebar />
+              <BlogSidebar currentPostId={post.id} />
+            </div>
           </div>
         </div>
       </div>

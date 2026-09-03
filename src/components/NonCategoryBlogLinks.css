@@ -1,143 +1,162 @@
-/* Clean "More Loan Guides" Section - Sharp & Engaging Design */
+/* Premium "More Loan Guides" Section - 3D Glass Morphism Design */
 
 .non-category-blog-nav {
   margin: 40px 0 48px;
-  padding: 0;
+  padding: 32px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.95) 100%),
+    radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(0, 102, 204, 0.03) 0%, transparent 50%);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: visible;
 }
 
-/* Clean Heading - No background box */
+.non-category-blog-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 102, 204, 0.02) 0px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(0deg, rgba(0, 102, 204, 0.02) 0px, transparent 1px, transparent 40px);
+  border-radius: 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.non-category-blog-nav > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Premium 3D Heading with Gradient */
 .non-category-blog-heading {
-  margin: 0 0 24px;
-  font-size: 26px;
-  font-weight: 700;
+  margin: 0 0 28px;
+  font-size: 28px;
+  font-weight: 800;
   line-height: 1.2;
-  color: var(--text-dark);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0066cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: left;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-/* Premium Card Grid */
+/* Premium 3D Card Grid */
 .non-category-blog-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
+  gap: 24px;
+  padding: 12px;
+  perspective: 1500px;
+  transform-style: preserve-3d;
 }
 
-/* Individual Blog Card - Sharp Premium Design */
+/* Individual Blog Card - 3D Enhanced Design */
 .non-category-blog-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  overflow: hidden;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
-/* Hover state - sharp lift effect */
+.non-category-blog-card::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0), rgba(0, 102, 204, 0.15));
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: -1;
+  filter: blur(12px);
+}
+
+/* Hover state - 3D lift effect with depth */
 @media (hover: hover) and (pointer: fine) {
   .non-category-blog-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--primary-color);
+    transform: translateY(-12px) translateZ(20px);
     box-shadow:
-      0 4px 12px rgba(0, 102, 204, 0.12),
-      0 8px 24px rgba(0, 102, 204, 0.08);
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 10px 20px rgba(0, 102, 204, 0.1);
+  }
+
+  .non-category-blog-card:hover::before {
+    opacity: 1;
   }
 
   .non-category-blog-card:hover img {
-    transform: scale(1.05);
-  }
-
-  .non-category-blog-card:hover small {
-    transform: translateX(3px);
-    color: var(--secondary-color);
-  }
-
-  .non-category-blog-card:hover small span {
-    animation: arrowBounce 0.6s ease-in-out infinite;
+    transform: scale(1.05) rotateX(2deg);
+    filter: brightness(1.05) contrast(1.05);
   }
 }
 
-@keyframes arrowBounce {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(4px);
-  }
-}
-
-/* Card active state */
+/* Card active state - press down effect */
 .non-category-blog-card:active {
-  transform: translateY(-2px);
+  transform: translateY(-6px) translateZ(10px) scale(0.98);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Image - crisp and clean */
+/* Image - crisp and clean - 3D optimized button images */
 .non-category-blog-card img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #f3f4f6;
+  aspect-ratio: auto;
+  object-fit: contain;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: transparent;
+  border-radius: 16px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  will-change: transform, filter;
 }
 
-/* Category badge */
-.non-category-blog-card > span {
-  margin: 12px 12px 4px;
-  overflow: hidden;
-  color: var(--primary-color);
-  font-size: 10px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-  letter-spacing: 0.5px;
-}
-
-/* Title */
-.non-category-blog-card strong {
-  display: -webkit-box;
-  margin: 0 12px;
-  overflow: hidden;
-  color: var(--text-dark);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.5;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  transition: color 0.3s ease;
-  min-height: 38px;
-}
-
-/* Read more CTA */
+/* Hide text elements - only showing button images */
+.non-category-blog-card > span,
+.non-category-blog-card strong,
 .non-category-blog-card small {
-  margin: auto 12px 12px;
-  padding-top: 12px;
-  color: var(--primary-color);
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.3s ease;
-  border-top: 1px solid #f3f4f6;
-}
-
-.non-category-blog-card small span {
-  display: inline-block;
-  transition: transform 0.3s ease;
-  font-size: 13px;
+  display: none;
 }
 
 /* Responsive Breakpoints */
 
 /* Tablets */
 @media (max-width: 1100px) {
+  .non-category-blog-nav {
+    padding: 28px;
+    border-radius: 20px;
+  }
+
+  .non-category-blog-heading {
+    font-size: 26px;
+    margin-bottom: 24px;
+  }
+
   .non-category-blog-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 20px;
   }
 }
 
@@ -145,16 +164,24 @@
 @media (max-width: 700px) {
   .non-category-blog-nav {
     margin: 32px 0 40px;
+    padding: 24px;
+    border-radius: 18px;
   }
 
   .non-category-blog-heading {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 20px;
   }
 
   .non-category-blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
+    padding: 8px;
+  }
+
+  /* Reduce 3D effect on mobile for better performance */
+  .non-category-blog-card:hover {
+    transform: translateY(-8px);
   }
 }
 
@@ -162,111 +189,68 @@
 @media (max-width: 420px) {
   .non-category-blog-nav {
     margin: 24px 0 32px;
+    padding: 20px;
+    border-radius: 16px;
   }
 
   .non-category-blog-heading {
-    font-size: 20px;
-    margin-bottom: 16px;
+    font-size: 22px;
+    margin-bottom: 18px;
   }
 
   .non-category-blog-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
+    padding: 4px;
   }
 
-  /* Horizontal card layout on mobile */
+  /* Simplified card layout on mobile */
   .non-category-blog-card {
-    display: grid;
-    grid-template-columns: 110px minmax(0, 1fr);
-    grid-template-rows: auto auto 1fr;
-    min-height: 100px;
-  }
-
-  .non-category-blog-card img {
-    grid-row: 1 / 4;
-    width: 110px;
-    height: 100%;
-    min-height: 100px;
-    aspect-ratio: auto;
-    border-radius: 10px 0 0 10px;
-  }
-
-  .non-category-blog-card > span,
-  .non-category-blog-card strong,
-  .non-category-blog-card small {
-    margin-left: 12px;
-  }
-
-  .non-category-blog-card > span {
-    margin-top: 10px;
-  }
-
-  .non-category-blog-card strong {
-    font-size: 12px;
+    display: flex;
+    flex-direction: column;
     min-height: auto;
   }
 
-  .non-category-blog-card small {
-    margin-bottom: 10px;
-    padding-top: 8px;
-    border-top: none;
+  .non-category-blog-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    border-radius: 14px;
+  }
+
+  /* Simplified hover for mobile */
+  .non-category-blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   }
 }
 
-/* Reference-style related guide panel */
-.non-category-blog-nav {
-  margin: 30px 0 40px;
-  padding: 20px;
-  border: 1px solid #dfe3e8;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(18, 32, 48, .07);
+/* Enhanced focus state for accessibility */
+.non-category-blog-card:focus-visible {
+  outline: 3px solid #0066cc;
+  outline-offset: 4px;
+  border-radius: 16px;
 }
 
-.non-category-blog-heading {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.non-category-blog-heading > span {
-  color: #0069d9;
-  font-size: 9px;
-  font-weight: 850;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.non-category-blog-heading h3 {
-  margin: 0;
-  font-size: 21px;
-  font-weight: 800;
-}
-
-.non-category-blog-grid {
-  gap: 12px;
+/* Smooth animation for loading */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .non-category-blog-card {
-  border-radius: 9px;
-  box-shadow: none;
+  animation: fadeInUp 0.6s ease-out backwards;
 }
 
-@media (max-width: 700px) {
-  .non-category-blog-nav {
-    margin: 26px 0 34px;
-    padding: 15px;
-    border-radius: 10px;
-  }
-
-  .non-category-blog-heading {
-    display: block;
-    margin-bottom: 13px;
-  }
-
-  .non-category-blog-heading h3 {
-    margin-top: 3px;
-    font-size: 19px;
-  }
-}
+.non-category-blog-card:nth-child(1) { animation-delay: 0.05s; }
+.non-category-blog-card:nth-child(2) { animation-delay: 0.1s; }
+.non-category-blog-card:nth-child(3) { animation-delay: 0.15s; }
+.non-category-blog-card:nth-child(4) { animation-delay: 0.2s; }
+.non-category-blog-card:nth-child(5) { animation-delay: 0.25s; }
+.non-category-blog-card:nth-child(6) { animation-delay: 0.3s; }
