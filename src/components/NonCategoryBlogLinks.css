@@ -1,70 +1,31 @@
-/* Premium "More Loan Guides" Section - 3D Glass Morphism Design */
+/* "More Loan Guides" Section - Clean Layout */
 
 .non-category-blog-nav {
   margin: 40px 0 48px;
-  padding: 32px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.95) 100%),
-    radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(0, 102, 204, 0.03) 0%, transparent 50%);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  position: relative;
-  overflow: visible;
+  padding: 0;
+  background: transparent;
 }
 
-.non-category-blog-nav::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    repeating-linear-gradient(90deg, rgba(0, 102, 204, 0.02) 0px, transparent 1px, transparent 40px),
-    repeating-linear-gradient(0deg, rgba(0, 102, 204, 0.02) 0px, transparent 1px, transparent 40px);
-  border-radius: 24px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.non-category-blog-nav > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Premium 3D Heading with Gradient */
+/* Heading */
 .non-category-blog-heading {
   margin: 0 0 28px;
   font-size: 28px;
   font-weight: 800;
   line-height: 1.2;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0066cc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #1a1a1a;
   text-align: left;
   letter-spacing: -0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
 }
 
-/* Premium 3D Card Grid */
+/* Card Grid */
 .non-category-blog-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 24px;
-  padding: 12px;
-  perspective: 1500px;
-  transform-style: preserve-3d;
+  padding: 0;
 }
 
-/* Individual Blog Card - 3D Enhanced Design */
+/* Individual Blog Card */
 .non-category-blog-card {
   display: flex;
   flex-direction: column;
@@ -72,65 +33,34 @@
   overflow: visible;
   background: transparent;
   border: none;
-  border-radius: 16px;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  transition: all 0.3s ease;
 }
 
-.non-category-blog-card::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  background: linear-gradient(135deg, rgba(0, 102, 204, 0), rgba(0, 102, 204, 0.15));
-  border-radius: 18px;
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: -1;
-  filter: blur(12px);
-}
-
-/* Hover state - 3D lift effect with depth */
+/* Hover state */
 @media (hover: hover) and (pointer: fine) {
   .non-category-blog-card:hover {
-    transform: translateY(-12px) translateZ(20px);
-    box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.15),
-      0 10px 20px rgba(0, 102, 204, 0.1);
-  }
-
-  .non-category-blog-card:hover::before {
-    opacity: 1;
+    transform: translateY(-4px);
   }
 
   .non-category-blog-card:hover img {
-    transform: scale(1.05) rotateX(2deg);
-    filter: brightness(1.05) contrast(1.05);
+    transform: scale(1.02);
+    filter: brightness(1.05);
   }
 }
 
-/* Card active state - press down effect */
+/* Card active state */
 .non-category-blog-card:active {
-  transform: translateY(-6px) translateZ(10px) scale(0.98);
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-2px) scale(0.98);
+  transition: all 0.1s ease;
 }
 
-/* Image - crisp and clean - 3D optimized button images */
+/* Image - button images */
 .non-category-blog-card img {
   width: 100%;
   aspect-ratio: auto;
   object-fit: contain;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
   background: transparent;
-  border-radius: 16px;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  will-change: transform, filter;
 }
 
 /* Hide text elements - only showing button images */
@@ -145,8 +75,7 @@
 /* Tablets */
 @media (max-width: 1100px) {
   .non-category-blog-nav {
-    padding: 28px;
-    border-radius: 20px;
+    padding: 0;
   }
 
   .non-category-blog-heading {
@@ -164,8 +93,7 @@
 @media (max-width: 700px) {
   .non-category-blog-nav {
     margin: 32px 0 40px;
-    padding: 24px;
-    border-radius: 18px;
+    padding: 0;
   }
 
   .non-category-blog-heading {
@@ -176,12 +104,11 @@
   .non-category-blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
-    padding: 8px;
+    padding: 0;
   }
 
-  /* Reduce 3D effect on mobile for better performance */
   .non-category-blog-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
   }
 }
 
@@ -189,8 +116,7 @@
 @media (max-width: 420px) {
   .non-category-blog-nav {
     margin: 24px 0 32px;
-    padding: 20px;
-    border-radius: 16px;
+    padding: 0;
   }
 
   .non-category-blog-heading {
@@ -201,10 +127,9 @@
   .non-category-blog-grid {
     grid-template-columns: 1fr;
     gap: 14px;
-    padding: 4px;
+    padding: 0;
   }
 
-  /* Simplified card layout on mobile */
   .non-category-blog-card {
     display: flex;
     flex-direction: column;
@@ -215,13 +140,10 @@
     width: 100%;
     height: auto;
     aspect-ratio: auto;
-    border-radius: 14px;
   }
 
-  /* Simplified hover for mobile */
   .non-category-blog-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
   }
 }
 
@@ -229,7 +151,6 @@
 .non-category-blog-card:focus-visible {
   outline: 3px solid #0066cc;
   outline-offset: 4px;
-  border-radius: 16px;
 }
 
 /* Smooth animation for loading */
@@ -245,7 +166,7 @@
 }
 
 .non-category-blog-card {
-  animation: fadeInUp 0.6s ease-out backwards;
+  animation: fadeInUp 0.5s ease-out backwards;
 }
 
 .non-category-blog-card:nth-child(1) { animation-delay: 0.05s; }
@@ -254,3 +175,18 @@
 .non-category-blog-card:nth-child(4) { animation-delay: 0.2s; }
 .non-category-blog-card:nth-child(5) { animation-delay: 0.25s; }
 .non-category-blog-card:nth-child(6) { animation-delay: 0.3s; }
+
+.non-category-blog-card.is-disabled {
+  opacity: .58;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.non-category-blog-card.is-active {
+  opacity: .72;
+  transform: translateY(-2px) scale(.98);
+}
+
+.non-category-blog-card[aria-busy="true"] img {
+  filter: saturate(.75);
+}

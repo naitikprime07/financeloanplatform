@@ -1047,31 +1047,31 @@
     }
 }
 
-/* Let 320px mobile creatives use the article width outside its inner padding. */
+/* Keep ads inside the blog container - no overflow */
 @media (max-width: 768px) {
     .blog-detail-body .ad-unit-wrapper {
-        width: calc(100% + 36px);
-        max-width: calc(100% + 36px);
-        margin-right: -18px;
-        margin-left: -18px;
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 }
 
 @media (max-width: 480px) {
     .blog-detail-body .ad-unit-wrapper {
-        width: calc(100% + 32px);
-        max-width: calc(100% + 32px);
-        margin-right: -16px;
-        margin-left: -16px;
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 }
 
 @media (max-width: 360px) {
     .blog-detail-body .ad-unit-wrapper {
-        width: calc(100% + 28px);
-        max-width: calc(100% + 28px);
-        margin-right: -14px;
-        margin-left: -14px;
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        margin-left: 0;
     }
 }
 
@@ -1467,11 +1467,13 @@
 }
 
 .blog-featured-image-ad {
-    margin: 0 0 28px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 12px;
 }
 
 .blog-featured-image-ad.is-empty {
-    margin-bottom: 18px;
+    margin-bottom: 8px;
 }
 
 @media (max-width: 768px) {
@@ -1891,4 +1893,34 @@
     cursor: default;
     opacity: .72;
     transform: none;
+}
+/* Reference-style mobile article card. */
+@media (max-width: 768px) {
+    .blog-detail-content {
+        padding: 24px 18px 30px;
+        border: 1px solid #e1e5ea;
+        border-radius: 22px;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(18, 32, 48, .08), 0 12px 30px rgba(18, 32, 48, .06);
+    }
+}
+
+@media (max-width: 420px) {
+    .blog-detail-content {
+        padding: 21px 14px 26px;
+        border-radius: 18px;
+    }
+}
+/* Vertical ad between blog title and blog image */
+.blog-top-ad-frame {
+    width: min(300px, 100%);
+    max-width: 100%;
+    margin: 24px auto;
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    .blog-top-ad-frame {
+        margin: 20px auto;
+    }
 }

@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { blogPosts } from "../data/blogData";
 import "./NonCategoryBlogLinks.css";
 
@@ -18,39 +18,46 @@ const buttonMap = {
   "home-loan-housing-finance-options": homeLoanBtn,
 };
 
-const NonCategoryBlogLinks = ({ currentPostId }) => {
-  // Only show "More loan guides" on Aadhaar Pe Loan blog
-  if (currentPostId !== "aadhaarpe-loan-online-eligibility-check-apply") {
-    return null;
-  }
+const NonCategoryBlogLinks = ({
+  currentPostId,
+  onGuideClick,
+  rewardStatus,
+  activeTargetSlug,
+}) => {
+  if (currentPostId !== "aadhaarpe-loan-online-eligibility-check-apply") return null;
 
-  const posts = blogPosts.filter(
-    (post) => !post.category && post.id !== currentPostId,
-  );
+  const posts = blogPosts.filter((post) => !post.category && post.id !== currentPostId);
   if (!posts.length) return null;
 
+  const unavailable = rewardStatus === "failed";
+  const disabled = Boolean(onGuideClick) && !unavailable && rewardStatus !== "ready";
+
+  const handleClick = (event, postId) => {
+    if (!onGuideClick) return;
+    event.preventDefault();
+    if (disabled) return;
+    onGuideClick(postId);
+  };
+
   return (
-    <nav
-      className="non-category-blog-nav"
-      aria-labelledby="non-category-blog-title"
-    >
-      <h3 id="non-category-blog-title" className="non-category-blog-heading">
-        More loan guides
-      </h3>
+    <nav className="non-category-blog-nav" aria-label="Loan guides">
       <div className="non-category-blog-grid">
-        {posts.map((post) => (
-          <Link
-            key={post.id}
-            to={`/blog/${post.id}`}
-            className="non-category-blog-card"
-          >
-            <img
-              src={buttonMap[post.id]}
-              alt={post.categoryName}
-              loading="lazy"
-            />
-          </Link>
-        ))}
+        {posts.map((post) => {
+          const isActive = activeTargetSlug === post.id;
+          return (
+            <Link
+              key={post.id}
+              to={`/blog/${post.id}`}
+              className={`non-category-blog-card${disabled ? " is-disabled" : ""}${isActive ? " is-active" : ""}`}
+              onClick={(event) => handleClick(event, post.id)}
+              aria-disabled={disabled}
+              aria-busy={isActive}
+              tabIndex={disabled ? -1 : undefined}
+            >
+              <img src={buttonMap[post.id]} alt={post.categoryName} loading="lazy" />
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

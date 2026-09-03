@@ -15,6 +15,7 @@ const PATHS = {
   TOP: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_TOP),
   MIDDLE_1: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_1),
   MIDDLE_2: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_2),
+  BLOG_FEATURED: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_2),
   MIDDLE_3: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_MIDDLE_3),
   BOTTOM: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_BOTTOM),
   ANCHOR: normalizePath(import.meta.env.VITE_GAM_AD_UNIT_MOBILE_ANCHOR),
@@ -43,14 +44,18 @@ const SIZES = {
     [320, 50],
   ],
   MIDDLE_1: [
-    [728, 90],
     [336, 280],
     [300, 250],
     [320, 100],
     [320, 50],
   ],
   MIDDLE_2: [
-    [728, 90],
+    [336, 280],
+    [300, 250],
+    [320, 100],
+    [320, 50],
+  ],
+  BLOG_FEATURED: [
     [336, 280],
     [300, 250],
     [320, 100],
@@ -75,7 +80,33 @@ const SIZES = {
     [320, 100],
   ],
 };
-const buildMapping = (gt, key) => {
+const BLOG_NORMAL_SIZES = [[300, 600], [300, 250]];
+const BLOG_HORIZONTAL_SIZES = [[728, 90], [468, 60], [320, 100], [320, 50]];
+
+const getBlogNormalSizes = (availableWidth) =>
+  availableWidth >= 300 ? BLOG_NORMAL_SIZES : [];
+
+const getBlogHorizontalSizes = (availableWidth) => {
+  if (availableWidth >= 728) return [[728, 90]];
+  if (availableWidth >= 468) return [[468, 60]];
+  if (availableWidth >= 320) return [[320, 100], [320, 50]];
+  return [];
+};
+
+const buildMapping = (gt, key, blogNormal = false, horizontal = false, availableWidth = 0) => {
+  if (horizontal)
+    return gt.sizeMapping().addSize([0, 0], getBlogHorizontalSizes(availableWidth)).build();
+  if (blogNormal) {
+    const eligibleSizes = getBlogNormalSizes(availableWidth);
+    return gt.sizeMapping().addSize([0, 0], eligibleSizes).build();
+  }
+  if (key === "BLOG_FEATURED")
+    return gt
+      .sizeMapping()
+      .addSize([1024, 0], [[336, 280], [300, 250]])
+      .addSize([768, 0], [[336, 280], [300, 250]])
+      .addSize([0, 0], [[320, 100], [320, 50]])
+      .build();
   if (key === "BLOG_SIDEBAR")
     return gt.sizeMapping().addSize([0, 0], SIZES.BLOG_SIDEBAR).build();
   if (key === "ANCHOR")
@@ -127,9 +158,15 @@ const buildMapping = (gt, key) => {
   return gt
     .sizeMapping()
     .addSize(
+      [1024, 0],
+      [
+        [336, 280],
+        [300, 250],
+      ],
+    )
+    .addSize(
       [768, 0],
       [
-        [728, 90],
         [336, 280],
         [300, 250],
       ],
@@ -137,13 +174,19 @@ const buildMapping = (gt, key) => {
     .addSize(
       [0, 0],
       [
-        [336, 280],
-        [300, 250],
         [320, 100],
         [320, 50],
       ],
     )
     .build();
+};
+
+const getBlogFeaturedViewportBand = () => {
+  if (typeof window === "undefined") return "desktop";
+  if (window.innerWidth >= 752) return "desktop";
+  if (window.innerWidth >= 352) return "mobile-large";
+  if (window.innerWidth >= 336) return "mobile-medium";
+  return "mobile-small";
 };
 
 const AdUnit = ({
@@ -162,10 +205,28 @@ const AdUnit = ({
   const slotRef = useRef(null);
   const [state, setState] = useState("loading");
   const [renderedSize, setRenderedSize] = useState(null);
+  const [viewportBand, setViewportBand] = useState(getBlogFeaturedViewportBand);
   const refreshTimerRef = useRef(null);
-  const key = size === "native" && PATHS.NATIVE ? "NATIVE" : slot;
+  const key =
+    size === "native" && PATHS.NATIVE
+      ? "NATIVE"
+      : size === "blog-featured"
+        ? "BLOG_FEATURED"
+        : slot;
   const path = PATHS[key] || "";
-  const sizes = useMemo(() => SIZES[key], [key]);
+  const blogNormal = size === "blog-normal";
+  const horizontal = size === "blog-horizontal";
+  const sizes = useMemo(
+    () => horizontal ? BLOG_HORIZONTAL_SIZES : blogNormal ? BLOG_NORMAL_SIZES : SIZES[key],
+    [blogNormal, horizontal, key],
+  );
+  useEffect(() => {
+    if (key !== "BLOG_FEATURED" && !blogNormal && !horizontal) return undefined;
+    const updateViewportBand = () =>
+      setViewportBand(getBlogFeaturedViewportBand());
+    window.addEventListener("resize", updateViewportBand);
+    return () => window.removeEventListener("resize", updateViewportBand);
+  }, [key, blogNormal, horizontal]);
   useEffect(() => {
     setState("loading");
     setRenderedSize(null);
@@ -260,7 +321,8 @@ const AdUnit = ({
             });
             return;
           }
-          const responsiveMapping = buildMapping(gt, key);
+          const availableWidth = document.getElementById(id.current)?.clientWidth || window.innerWidth;
+          const responsiveMapping = buildMapping(gt, key, blogNormal, horizontal, availableWidth);
           if (!responsiveMapping) {
             setState("empty");
             gamWarn("size-mapping-invalid", { slot, key, path, sizes });
@@ -311,7 +373,7 @@ const AdUnit = ({
         gamLog("slot-destroyed", { slot, key, path, hadSlot: Boolean(slotToDestroy) });
       });
     };
-  }, [key, path, sizes, slot, enableRefresh, refreshInterval]);
+  }, [key, path, sizes, slot, enableRefresh, refreshInterval, viewportBand, blogNormal, horizontal]);
   return (
     <aside
       className={`ad-unit-wrapper is-${state} ${sticky ? "ad-sticky" : ""} ${className}`}

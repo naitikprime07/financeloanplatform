@@ -10,7 +10,12 @@
       "Bash(curl -s \"https://automatedsalesplatform.com/\" -H \"User-Agent: Mozilla/5.0\")",
       "Bash(curl -s \"https://automatedsalesplatform.com/assets/index-CNcRtOZ0.js\")",
       "Bash(curl -s \"https://automatedsalesplatform.com/blog/affordable-crm-platforms-small-businesses\" -H \"User-Agent: Mozilla/5.0\")",
-      "Bash(npm run dev)"
+      "Bash(npm run dev)",
+      "Bash(node -e \"const fs = require(''fs''); const content = fs.readFileSync(''src/pages/BlogDetail.jsx'', ''utf8''); console.log(content.substring(400, 800));\")",
+      "Bash(node fix-hindi-text.js)",
+      "Bash(node fix-hindi-text.cjs)",
+      "Bash(cat src/pages/BlogDetail.jsx)",
+      "Bash(node -e \"const fs = require(''fs''); const content = fs.readFileSync(''src/pages/BlogDetail.jsx'', ''utf8''); const match = content.match(/const LOAN_CTA_TEXTS = \\[([\\s\\S]*?)\\];/); console.log(match ? match[0] : ''Not found'');\")"
     ],
     "deny": [],
     "ask": []

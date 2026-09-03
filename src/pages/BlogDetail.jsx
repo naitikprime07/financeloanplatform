@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogSidebar from "../components/BlogSidebar";
 import AdUnit from "../components/AdUnit";
+import BlogAd from "../components/BlogAd";
 import BlogRewardedAd from "../components/BlogRewardedAd";
+import BlogBottomImage from "../components/BlogBottomImage";
+
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
-import nullButton from "../assets/buttons/nullButton.svg";
 import "./BlogDetail.css";
 const LOAN_CTA_TEXTS = [
   "लोन अप्लाई",
@@ -20,6 +22,8 @@ const LOAN_CTA_TEXTS = [
   "लोन शुरू करें",
   "लोन चेक करें",
 ];
+
+const AADHAAR_LOAN_SLUG = "aadhaarpe-loan-online-eligibility-check-apply";
 
 const renderSectionText = (text) =>
   text.split("\n\n").map((block, index) => {
@@ -84,14 +88,12 @@ const BlogScrollPrompt = ({ section }) => {
 
 const BlogDetail = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const post = getBlogPost(slug);
-  const [copied, setCopied] = useState(false);
+  const middlePosterRef = useRef(null);
   const [loanCtaOffset] = useState(
     () => Math.floor(Math.random() * LOAN_CTA_TEXTS.length),
   );
   useBlogViewTracking(post);
-  const isDev = import.meta.env.DEV;
 
   const articleIndex = post
     ? blogPosts.findIndex((item) => item.id === post.id)
@@ -116,25 +118,6 @@ const BlogDetail = () => {
       </div>
     );
 
-  const articleUrl = `${window.location.origin}/blog/${post.id}`;
-  const shareArticle = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt,
-          url: articleUrl,
-        });
-      } catch {
-        /* User cancelled. */
-      }
-      return;
-    }
-    await navigator.clipboard?.writeText(articleUrl);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
-  };
-
   return (
     <>
       <Helmet>
@@ -157,11 +140,6 @@ const BlogDetail = () => {
 
       <div className="blog-detail-page">
         <div className="container">
-          <AdUnit
-            key={`${post.id}-blog-top`}
-            slot="MIDDLE_1"
-            className="blog-top-ad"
-          />
           <nav className="blog-breadcrumb" aria-label="Breadcrumb">
             <Link to="/">Home</Link>
             <span>/</span>
@@ -175,6 +153,14 @@ const BlogDetail = () => {
             )}
             <span>{post.title}</span>
           </nav>
+          <div className="blog-ad-frame blog-top-ad-frame">
+            <AdUnit
+              key={`${post.id}-blog-top`}
+              slot="MIDDLE_1"
+              size="blog-normal"
+              className="blog-normal-ad"
+            />
+          </div>
           <div className="blog-detail-layout">
             <article className="blog-detail-content">
               <header className="blog-detail-header">
@@ -198,14 +184,6 @@ const BlogDetail = () => {
                     <strong>{post.date}</strong>
                     <small>Published</small>
                   </span>
-                  <button
-                    type="button"
-                    className="share-button"
-                    onClick={shareArticle}
-                    aria-label="Share this article"
-                  >
-                    {copied ? "Link copied" : "Share article"}
-                  </button>
                 </div>
               </header>
 
@@ -219,10 +197,10 @@ const BlogDetail = () => {
                 />
                 <figcaption>{post.title}</figcaption>
               </figure>
-              <AdUnit
-                key={`${post.id}-featured-image-ad`}
+              <BlogAd
+                key={'featured-image-ad-' + post.id}
                 slot="MIDDLE_2"
-                className="blog-featured-image-ad"
+                placement="featured"
               />
               <p className="blog-detail-lead">{post.excerpt}</p>
               <div className="blog-detail-body">
@@ -272,32 +250,40 @@ const BlogDetail = () => {
                     )}
                     {index === 1 && (
                       <>
-                        {isDev ? (
-                          <div className="loan-inline-cta">
-                            <button
-                                type="button"
-                                className="svg-cta-button"
-                                onClick={() => navigate(`/apply/${post.id}`)}
-                              >
-                                <img src={nullButton} alt="" aria-hidden="true" />
-                                <span className="svg-cta-label">{loanCtaText} <b aria-hidden="true">→</b></span>
-                              </button>
-                          </div>
+                        <BlogBottomImage postId={post.id} imageRef={middlePosterRef} />
+                        <BlogAd
+                          key={'poster-ad-' + post.id}
+                          slot="MIDDLE_2"
+                          placement="poster"
+                        />
+                        {post.id === AADHAAR_LOAN_SLUG ? (
+                          <BlogRewardedAd
+                            key={'guide-rewarded-' + post.id}
+                            post={post}
+                            renderTrigger={({ status, activeTargetSlug, openRewardedAd }) => (
+                              <NonCategoryBlogLinks
+                                currentPostId={post.id}
+                                rewardStatus={status}
+                                activeTargetSlug={activeTargetSlug}
+                                onGuideClick={openRewardedAd}
+                              />
+                            )}
+                          />
                         ) : (
                           <BlogRewardedAd
-                            key={`rewarded-${post.id}`}
+                            key={'rewarded-' + post.id}
                             post={post}
+                            targetSlug={AADHAAR_LOAN_SLUG}
                             ctaText={loanCtaText}
                           />
                         )}
-                        <NonCategoryBlogLinks currentPostId={post.id} />
                       </>
                     )}
                     {index === 3 && (
-                      <AdUnit key={`${post.id}-middle-2`} slot="MIDDLE_2" />
+                      <BlogAd key={`${post.id}-middle-2`} slot="MIDDLE_2" placement="middle" />
                     )}
                     {index === 5 && (
-                      <AdUnit key={`${post.id}-middle-3`} slot="MIDDLE_3" />
+                      <BlogAd key={`${post.id}-middle-3`} slot="MIDDLE_3" placement="middle" />
                     )}
                   </section>
                 ))}
@@ -310,15 +296,6 @@ const BlogDetail = () => {
                 </Link>
                 <span>Business insights</span>
                 <span>Finvexa guides</span>
-              </div>
-              <div className="article-share">
-                <div>
-                  <strong>Was this article helpful?</strong>
-                  <p>Share it with someone who may find it useful.</p>
-                </div>
-                <button type="button" onClick={shareArticle}>
-                  {copied ? "Copied!" : "Share"}
-                </button>
               </div>
               <nav
                 className="article-navigation"

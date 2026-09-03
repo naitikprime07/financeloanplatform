@@ -59,6 +59,35 @@ body {
   margin: 16px 0 24px;
 }
 
+/* Make footer ad full width on mobile */
+@media (max-width: 768px) {
+  .bottom-ad-rail {
+    padding: 0;
+  }
+
+  .bottom-ad-rail .container {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .bottom-ad-rail .ad-unit-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 12px 0 20px;
+  }
+
+  .bottom-ad-rail .ad-unit {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-ad-rail .ad-unit-wrapper {
+    margin: 10px 0 16px;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;
