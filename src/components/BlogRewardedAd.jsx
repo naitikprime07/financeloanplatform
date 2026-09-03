@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gamLog, gamWarn } from './gamDebug';
+import nullButton from '../assets/buttons/nullButton.svg';
 import './BlogRewardedAd.css';
 
 const NETWORK = String(import.meta.env.VITE_GAM_NETWORK_CODE || '').trim().replace(/^\/+|\/+$/g, '');
@@ -153,11 +154,19 @@ const BlogRewardedAd = ({ post, ctaText = 'अभी आवेदन करे�
   return (
     <aside className={`blog-rewarded-card is-${status}`} aria-label="Rewarded advertisement">
       <div className="loan-inline-cta">
-        <button className="apply-now-btn" type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
-          {status === 'ready' && <>{ctaText} <span aria-hidden="true">→</span></>}
-          {(status === 'opened' || status === 'showing') && 'विज्ञापन जारी है…'}
-          {status === 'closable' && 'विज्ञापन पूरा करें'}
-          {status === 'closed' && 'विज्ञापन पूर्ण हुआ'}
+        <button
+          className="svg-cta-button"
+          type="button"
+          onClick={openRewardedAd}
+          disabled={status !== 'ready'}
+        >
+          <img src={nullButton} alt="" aria-hidden="true" />
+          <span className="svg-cta-label">
+            {status === 'ready' && <>{ctaText} <b aria-hidden="true">→</b></>}
+            {(status === 'opened' || status === 'showing') && 'विज्ञापन जारी है…'}
+            {status === 'closable' && 'विज्ञापन पूरा करें'}
+            {status === 'closed' && 'विज्ञापन पूर्ण हुआ'}
+          </span>
         </button>
       </div>
     </aside>

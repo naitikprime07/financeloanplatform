@@ -195,3 +195,46 @@
         transition: none;
     }
 }
+/* Supplied nullButton.svg surface for the real rewarded-ad CTA. */
+.loan-inline-cta .apply-now-btn.reward-ad-button {
+  width: min(190px, calc(100vw - 48px));
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 258 / 83;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 16px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  box-shadow: 0 8px 18px rgba(0, 52, 130, .28);
+}
+
+.loan-inline-cta .apply-now-btn.reward-ad-button::before { display: none; }
+
+.loan-inline-cta .apply-now-btn.reward-ad-button:hover {
+  background-color: transparent;
+  filter: brightness(1.08);
+  box-shadow: 0 11px 24px rgba(0, 52, 130, .34);
+}
+
+/* Exact compact pill proportions from the supplied CTA reference. */
+.loan-inline-cta .apply-now-btn,
+.loan-inline-cta .apply-now-btn.reward-ad-button {
+  width: min(190px, calc(100vw - 48px));
+  height: 58px;
+  min-height: 58px;
+  aspect-ratio: auto;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  line-height: 1;
+  box-shadow: 0 5px 0 #9d174d, 0 10px 23px rgba(190, 24, 118, .26);
+}
+
+.loan-inline-cta .apply-now-btn:active,
+.loan-inline-cta .apply-now-btn.reward-ad-button:active {
+  transform: translateY(3px) scale(.985);
+  box-shadow: 0 2px 0 #9d174d, 0 6px 13px rgba(190, 24, 118, .22);
+}

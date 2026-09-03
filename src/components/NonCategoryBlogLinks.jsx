@@ -19,6 +19,11 @@ const buttonMap = {
 };
 
 const NonCategoryBlogLinks = ({ currentPostId }) => {
+  // Only show "More loan guides" on Aadhaar Pe Loan blog
+  if (currentPostId !== "aadhaarpe-loan-online-eligibility-check-apply") {
+    return null;
+  }
+
   const posts = blogPosts.filter(
     (post) => !post.category && post.id !== currentPostId,
   );

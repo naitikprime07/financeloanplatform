@@ -10,7 +10,7 @@ import carLoanBtn from "../assets/buttons/carLoan.svg";
 import goldLoanBtn from "../assets/buttons/goldLoan.svg";
 import studentLoanBtn from "../assets/buttons/studentLoan.svg";
 import homeLoanBtn from "../assets/buttons/homeLoan.svg";
-import localImage from "../assets/buttons/localImage.png";
+import localImage from "../assets/buttons/localImage.svg";
 
 const buttonImageMap = {
   "personal-loan-online-eligibility-check-apply": personalLoanBtn,
@@ -126,14 +126,15 @@ const RelatedDetails = () => {
                         </div>
                       )}
                       {section.details && (
-                        <div className="details-section">
+                        <div className="rewards-details">
                           {section.details.map((item, i) => (
-                            <details key={i} className="detail-item">
-                              <summary>
-                                <strong>{item.title}</strong>
-                              </summary>
-                              <p>{item.description}</p>
-                            </details>
+                            <div key={i} className="reward-card">
+                              <div className="reward-icon">+</div>
+                              <div className="reward-content">
+                                <h4 className="reward-heading">{item.title}</h4>
+                                <p className="reward-description">{item.description}</p>
+                              </div>
+                            </div>
                           ))}
                         </div>
                       )}
@@ -155,20 +156,18 @@ const RelatedDetails = () => {
               <p>अपना मोबाइल नंबर दर्ज करें और आवेदन शुरू करें</p>
 
               <div className="form-group">
-                <label htmlFor="mobile">मोबाइल नंबर</label>
-                <div className="mobile-input-wrapper">
-                  <span className="country-code">+91</span>
-                  <input
-                    type="tel"
-                    id="mobile"
-                    value={mobile}
-                    onChange={handleMobileChange}
-                    placeholder="10 अंकों का मोबाइल नंबर दर्ज करें"
-                    required
-                    pattern="[0-9]{10}"
-                    maxLength="10"
-                  />
-                </div>
+                <label htmlFor="mobile">Mobile Numbers</label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  className="mobile-number-input"
+                  value={mobile}
+                  onChange={handleMobileChange}
+                  placeholder=""
+                  required
+                  pattern="[0-9]{10}"
+                  maxLength="10"
+                />
               </div>
 
               <button

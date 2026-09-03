@@ -317,3 +317,10 @@
     height: 46px;
   }
 }
+
+/* Mobile reference uses the real 320x250 slot without an extra wrapper border. */
+@media (max-width: 767px) {
+  .top-floating-ad,
+  .top-floating-ad.is-compact,
+  .top-floating-ad.is-collapsed { border: 0; }
+}

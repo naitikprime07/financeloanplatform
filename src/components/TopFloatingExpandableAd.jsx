@@ -5,11 +5,11 @@ import './TopFloatingExpandableAd.css';
 const NETWORK = String(import.meta.env.VITE_GAM_NETWORK_CODE || '').trim().replace(/^\/+|\/+$/g, '');
 const rawPath = String(import.meta.env.VITE_GAM_AD_UNIT_CONTENT_TOP || '').trim();
 const AD_PATH = rawPath.startsWith('/') ? rawPath : NETWORK && rawPath ? `/${NETWORK}/${rawPath.replace(/^\/+/, '')}` : '';
-const AD_SIZES = [[970, 250], [900, 250], [970, 90], [728, 90], [468, 60], [320, 100], [320, 50]];
+const AD_SIZES = [[970, 250], [900, 250], [970, 90], [728, 90], [468, 60], [320, 250], [320, 100], [320, 50]];
 const buildSizeMapping = (gt) => gt.sizeMapping()
   .addSize([1024, 0], [[970, 250], [900, 250], [970, 90], [728, 90]])
   .addSize([768, 0], [[728, 90], [468, 60]])
-  .addSize([0, 0], [[320, 100], [320, 50]])
+  .addSize([0, 0], [[320, 250]])
   .build();
 
 const TopFloatingExpandableAd = () => {

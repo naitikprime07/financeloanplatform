@@ -7,6 +7,7 @@ import BlogRewardedAd from "../components/BlogRewardedAd";
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
+import nullButton from "../assets/buttons/nullButton.svg";
 import "./BlogDetail.css";
 const LOAN_CTA_TEXTS = [
   "लोन अप्लाई",
@@ -86,8 +87,8 @@ const BlogDetail = () => {
   const navigate = useNavigate();
   const post = getBlogPost(slug);
   const [copied, setCopied] = useState(false);
-  const [loanCtaText] = useState(
-    () => LOAN_CTA_TEXTS[Math.floor(Math.random() * LOAN_CTA_TEXTS.length)],
+  const [loanCtaOffset] = useState(
+    () => Math.floor(Math.random() * LOAN_CTA_TEXTS.length),
   );
   useBlogViewTracking(post);
   const isDev = import.meta.env.DEV;
@@ -95,6 +96,8 @@ const BlogDetail = () => {
   const articleIndex = post
     ? blogPosts.findIndex((item) => item.id === post.id)
     : -1;
+  const loanCtaText =
+    LOAN_CTA_TEXTS[(Math.max(articleIndex, 0) + loanCtaOffset) % LOAN_CTA_TEXTS.length];
   const previousPost = articleIndex > 0 ? blogPosts[articleIndex - 1] : null;
   const nextPost =
     articleIndex >= 0 && articleIndex < blogPosts.length - 1
@@ -273,10 +276,11 @@ const BlogDetail = () => {
                           <div className="loan-inline-cta">
                             <button
                                 type="button"
-                                className="apply-now-btn"
+                                className="svg-cta-button"
                                 onClick={() => navigate(`/apply/${post.id}`)}
                               >
-                                {loanCtaText} <span aria-hidden="true">→</span>
+                                <img src={nullButton} alt="" aria-hidden="true" />
+                                <span className="svg-cta-label">{loanCtaText} <b aria-hidden="true">→</b></span>
                               </button>
                           </div>
                         ) : (
