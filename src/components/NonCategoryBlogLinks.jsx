@@ -2,12 +2,12 @@
 import { blogPosts } from "../data/blogData";
 import "./NonCategoryBlogLinks.css";
 
-import personalLoanBtn from "../assets/buttons/personalLoan.png";
-import aadhaarLoanBtn from "../assets/buttons/aadharPeLoan.png";
-import carLoanBtn from "../assets/buttons/carLoan.png";
-import goldLoanBtn from "../assets/buttons/goldLoan.png";
-import studentLoanBtn from "../assets/buttons/studentLoan.png";
-import homeLoanBtn from "../assets/buttons/homeLoan.png";
+import personalLoanBtn from "../assets/buttons/personalLoan.svg";
+import aadhaarLoanBtn from "../assets/buttons/aadharPeLoan.svg";
+import carLoanBtn from "../assets/buttons/carLoan.svg";
+import goldLoanBtn from "../assets/buttons/goldLoan.svg";
+import studentLoanBtn from "../assets/buttons/studentLoan.svg";
+import homeLoanBtn from "../assets/buttons/homeLoan.svg";
 
 const buttonMap = {
   "personal-loan-online-eligibility-check-apply": personalLoanBtn,
