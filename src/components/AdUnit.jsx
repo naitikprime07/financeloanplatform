@@ -321,7 +321,7 @@ const AdUnit = ({
         "--ad-rendered-height": `${renderedSize[1]}px`,
       } : undefined}
     >
-      {label && <div className="ad-label">ADVERTISEMENT</div>}
+      {label && state !== "filled" && <div className="ad-label">ADVERTISEMENT</div>}
       {path && sizes && <div className="ad-unit" id={id.current} />}
       {state === "empty" && fallbackContent && (
         <div className="ad-fallback">{fallbackContent}</div>

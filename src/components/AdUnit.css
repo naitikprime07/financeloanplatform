@@ -116,7 +116,7 @@
 }
 
 .ad-unit-wrapper.ad-sticky.is-filled {
-    padding-top: 18px;
+    padding-top: 0;
     pointer-events: auto;
 }
 

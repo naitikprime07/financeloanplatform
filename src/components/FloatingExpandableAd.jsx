@@ -284,7 +284,7 @@ const FloatingExpandableAd = ({
     >
       <div className="floating-ad-container">
         {/* Ad Label */}
-        <div className="floating-ad-label">ADVERTISEMENT</div>
+        {adState !== "filled" && <div className="floating-ad-label">ADVERTISEMENT</div>}
 
         {/* Ad Content */}
         <div className="floating-ad-content">

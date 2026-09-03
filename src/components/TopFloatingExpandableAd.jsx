@@ -93,7 +93,7 @@ const TopFloatingExpandableAd = () => {
   const expanding = status === 'collapsed' || transitionDirection === 'expanding';
   return <>
     <aside className={`top-floating-ad is-${status}`} style={style} aria-label="Advertisement">
-      <div className="top-floating-label">ADVERTISEMENT</div>
+      {!isFilled && <div className="top-floating-label">ADVERTISEMENT</div>}
       <div className="top-floating-creative" aria-hidden={!isFilled || status === 'collapsed'}>
         <div className="top-floating-slot" id={id.current} />
       </div>

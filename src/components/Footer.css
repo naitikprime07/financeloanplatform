@@ -158,3 +158,19 @@
     font-size: 12px;
   }
 }
+
+.footer-logo-image {
+  display: block;
+  width: clamp(190px, 20vw, 235px);
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .footer-logo-image { width: min(205px, 70vw); }
+}
+
+@media (max-width: 360px) {
+  .footer-logo-image { width: min(185px, 68vw); }
+}

@@ -266,14 +266,9 @@ const ExpandableAdSlot = ({
       data-placement={placement}
     >
       <div className="expandable-ad-container">
-        <div className="expandable-ad-label">ADVERTISEMENT</div>
+        {adState !== "filled" && <div className="expandable-ad-label">ADVERTISEMENT</div>}
         <div className="expandable-ad-content">
           {showContent && <div className="ad-unit" id={id.current} />}
-          {adState === "empty" && (
-            <div className="expandable-ad-fallback">
-              <span>ADVERTISEMENT</span>
-            </div>
-          )}
         </div>
         <button
           className="expandable-ad-toggle"

@@ -1,4 +1,4 @@
-﻿.top-floating-ad {
+.top-floating-ad {
     position: fixed;
     top: 8px;
     left: 50%;
@@ -103,12 +103,12 @@
 
 .top-floating-ad.is-compact {
     width: min(calc(100vw - 16px), var(--top-ad-compact-width, 728px));
-    height: calc(var(--top-ad-compact-height, 90px) + 18px)
+    height: var(--top-ad-compact-height, 90px)
 }
 
 .top-floating-ad.is-compact .top-floating-creative {
     position: absolute;
-    top: 18px;
+    top: 0;
     left: 50%;
     max-width: none;
     transform: translateX(-50%) scale(var(--top-ad-compact-scale, .45))
@@ -152,7 +152,7 @@
 }
 
 .top-floating-clearance {
-    height: calc(var(--top-ad-height, 0px) + 54px);
+    height: calc(var(--top-ad-height, 0px) + 36px);
     transition: height .34s ease;
     pointer-events: none
 }
@@ -163,7 +163,7 @@
 }
 
 .top-floating-clearance.is-compact {
-    height: calc(var(--top-ad-compact-height, 90px) + 54px)
+    height: calc(var(--top-ad-compact-height, 90px) + 36px)
 }
 
 .top-floating-clearance.is-collapsed {
@@ -189,11 +189,11 @@
     }
 
     .top-floating-clearance {
-        height: calc(var(--top-ad-height, 0px) + 48px)
+        height: calc(var(--top-ad-height, 0px) + 34px)
     }
 
     .top-floating-clearance.is-compact {
-        height: calc(var(--top-ad-compact-height, 72px) + 48px)
+        height: calc(var(--top-ad-compact-height, 72px) + 34px)
     }
 
     .top-floating-clearance.is-collapsed {
@@ -231,11 +231,11 @@
     }
 
     .top-floating-clearance {
-        height: calc(var(--top-ad-height, 0px) + 42px)
+        height: calc(var(--top-ad-height, 0px) + 32px)
     }
 
     .top-floating-clearance.is-compact {
-        height: calc(var(--top-ad-compact-height, 60px) + 42px)
+        height: calc(var(--top-ad-compact-height, 60px) + 32px)
     }
 
     .top-floating-clearance.is-collapsed {
@@ -293,4 +293,27 @@
         width: 58px;
         min-width: 58px;
     }
+}
+
+/* Mobile top-ad presentation aligned with the supplied 320px reference. */
+@media (max-width: 767px) {
+  .top-floating-ad,
+  .top-floating-ad.is-compact,
+  .top-floating-ad.is-collapsed {
+    top: 16px;
+    width: min(320px, calc(100vw - 16px));
+    border-radius: 0;
+  }
+
+  .top-floating-clearance {
+    height: calc(var(--top-ad-height, 0px) + 46px);
+  }
+
+  .top-floating-clearance.is-compact {
+    height: calc(var(--top-ad-compact-height, 72px) + 46px);
+  }
+
+  .top-floating-clearance.is-collapsed {
+    height: 46px;
+  }
 }

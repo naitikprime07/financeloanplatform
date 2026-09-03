@@ -65,3 +65,28 @@
     border-radius: 9px;
   }
 }
+
+/* Keep Trending Now visible while the blog page scrolls. */
+.main-content:has(.blog-detail-page),
+.blog-detail-page > .container {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.blog-detail-layout > .blog-sidebar {
+  position: sticky;
+  top: 96px;
+  z-index: 9;
+  align-self: start;
+  height: max-content;
+  max-height: calc(100vh - 112px);
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .blog-detail-layout > .blog-sidebar {
+    position: sticky;
+    top: 70px;
+    max-height: calc(100vh - 82px);
+  }
+}

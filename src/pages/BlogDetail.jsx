@@ -1,14 +1,24 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogSidebar from "../components/BlogSidebar";
-import Sidebar from "../components/Sidebar";
 import AdUnit from "../components/AdUnit";
 import BlogRewardedAd from "../components/BlogRewardedAd";
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
 import "./BlogDetail.css";
+const LOAN_CTA_TEXTS = [
+  "लोन अप्लाई",
+  "अभी लोन लें",
+  "लोन के लिए",
+  "अपना लोन लें",
+  "अभी आवेदन करें",
+  "लोन के लिए अप्लाई",
+  "लोन अभी पाएं",
+  "लोन शुरू करें",
+  "लोन चेक करें",
+];
 
 const renderSectionText = (text) =>
   text.split("\n\n").map((block, index) => {
@@ -73,9 +83,14 @@ const BlogScrollPrompt = ({ section }) => {
 
 const BlogDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const post = getBlogPost(slug);
   const [copied, setCopied] = useState(false);
+  const [loanCtaText] = useState(
+    () => LOAN_CTA_TEXTS[Math.floor(Math.random() * LOAN_CTA_TEXTS.length)],
+  );
   useBlogViewTracking(post);
+  const isDev = import.meta.env.DEV;
 
   const articleIndex = post
     ? blogPosts.findIndex((item) => item.id === post.id)
@@ -254,10 +269,23 @@ const BlogDetail = () => {
                     )}
                     {index === 1 && (
                       <>
-                        <BlogRewardedAd
-                          key={`rewarded-${post.id}`}
-                          post={post}
-                        />
+                        {isDev ? (
+                          <div className="loan-inline-cta">
+                            <button
+                                type="button"
+                                className="apply-now-btn"
+                                onClick={() => navigate(`/apply/${post.id}`)}
+                              >
+                                {loanCtaText} <span aria-hidden="true">→</span>
+                              </button>
+                          </div>
+                        ) : (
+                          <BlogRewardedAd
+                            key={`rewarded-${post.id}`}
+                            post={post}
+                            ctaText={loanCtaText}
+                          />
+                        )}
                         <NonCategoryBlogLinks currentPostId={post.id} />
                       </>
                     )}
@@ -332,10 +360,7 @@ const BlogDetail = () => {
                 </div>
               </aside>
             </article>
-            <div className="blog-side-column">
-              <Sidebar />
-              <BlogSidebar currentPostId={post.id} />
-            </div>
+            <BlogSidebar currentPostId={post.id} />
           </div>
         </div>
       </div>

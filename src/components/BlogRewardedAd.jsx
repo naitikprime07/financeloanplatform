@@ -14,7 +14,7 @@ const REWARDED_PATH = normalizePath(
   import.meta.env.VITE_GAM_AD_UNIT_REWARDED || import.meta.env.VITE_GAM_AD_UNIT_CONTENT_TOP,
 );
 
-const BlogRewardedAd = ({ post }) => {
+const BlogRewardedAd = ({ post, ctaText = 'अभी आवेदन करें' }) => {
   const [status, setStatus] = useState('idle');
   const slotRef = useRef(null);
   const showRewardedRef = useRef(null);
@@ -152,22 +152,13 @@ const BlogRewardedAd = ({ post }) => {
   // States that reach here: ready, opened, showing, closable, closed
   return (
     <aside className={`blog-rewarded-card is-${status}`} aria-label="Rewarded advertisement">
-      <div className="blog-rewarded-copy">
-        <span>Sponsored content</span>
-        <h3>Continue with a short sponsored break</h3>
-        <p>View the available advertisement, then return to this exact point and continue reading.</p>
-      </div>
-      <figure className="blog-rewarded-poster">
-        <img src={post.image} alt={`${post.title} offer`} loading="lazy" />
-      </figure>
-      <div className="blog-rewarded-action">
-        <button type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
-          {status === 'ready' && 'Get Reward'}
-          {(status === 'opened' || status === 'showing') && 'Advertisement Showing…'}
-          {status === 'closable' && 'Complete Ad to Continue'}
-          {status === 'closed' && 'Advertisement Completed'}
+      <div className="loan-inline-cta">
+        <button className="apply-now-btn" type="button" onClick={openRewardedAd} disabled={status !== 'ready'}>
+          {status === 'ready' && <>{ctaText} <span aria-hidden="true">→</span></>}
+          {(status === 'opened' || status === 'showing') && 'विज्ञापन जारी है…'}
+          {status === 'closable' && 'विज्ञापन पूरा करें'}
+          {status === 'closed' && 'विज्ञापन पूर्ण हुआ'}
         </button>
-        <div className="blog-rewarded-caption"><span>SPONSORED BREAK</span></div>
       </div>
     </aside>
   );

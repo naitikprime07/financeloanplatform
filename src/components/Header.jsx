@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import mainLogo from '../assets/logo/mainLogo.png';
 import './Header.css';
 
 const Header = () => {
@@ -18,14 +19,7 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
-            <div className="logo-icon">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <circle cx="20" cy="20" r="18" fill="#0066cc" opacity="0.2"/>
-                <path d="M20 8L28 14L28 26L20 32L12 26L12 14L20 8Z" fill="#0066cc"/>
-                <circle cx="20" cy="20" r="4" fill="#fff"/>
-              </svg>
-            </div>
-            <span className="logo-text">Finvexa</span>
+            <img className="logo-image" src={mainLogo} alt="Finvexa" />
           </Link>
 
           <nav className={`nav ${mobileMenuOpen ? 'active' : ''}`}>

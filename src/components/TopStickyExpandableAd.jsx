@@ -233,7 +233,7 @@ const TopStickyExpandableAd = () => {
       aria-label="Top expandable advertisement"
     >
       <div className="top-sticky-ad-container">
-        <div className="top-sticky-ad-label">ADVERTISEMENT</div>
+        {adState !== "filled" && <div className="top-sticky-ad-label">ADVERTISEMENT</div>}
         <div className="top-sticky-ad-content">
           {AD_PATH && AD_SIZES && <div className="ad-unit" id={id.current} />}
         </div>

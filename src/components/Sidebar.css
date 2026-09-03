@@ -322,3 +322,30 @@
     max-width: 100%;
   }
 }
+
+/* Preserve horizontal clipping without creating a sticky-breaking scroll container. */
+.main-content:has(.home-page),
+.main-content:has(.category-page),
+.home-page > .container,
+.category-page > .container {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.home-layout > .sidebar,
+.category-layout > .sidebar {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  height: max-content;
+  max-height: calc(100vh - 112px);
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .home-layout > .sidebar,
+  .category-layout > .sidebar {
+    top: 70px;
+    max-height: calc(100vh - 82px);
+  }
+}

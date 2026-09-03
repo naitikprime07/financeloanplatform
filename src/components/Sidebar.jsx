@@ -1,5 +1,5 @@
-import { NavLink, useParams } from 'react-router-dom';
-import { categories, getBlogPost } from '../data/blogData';
+import { NavLink } from 'react-router-dom';
+import { categories } from '../data/blogData';
 import './Sidebar.css';
 
 const CategoryArrow = () => (
@@ -8,44 +8,24 @@ const CategoryArrow = () => (
   </svg>
 );
 
-const Sidebar = () => {
-  const { slug: blogSlug } = useParams();
-  const currentBlog = blogSlug ? getBlogPost(blogSlug) : null;
-  const currentBlogCategory = currentBlog?.category || '';
-
-  return (
-    <aside className="sidebar" aria-label="Category navigation">
-      <div className="sidebar-section">
-        <h3 className="sidebar-title">Categories</h3>
-        <nav className="category-list">
+const Sidebar = () => (
+  <aside className="sidebar" aria-label="Category navigation">
+    <div className="sidebar-section">
+      <h3 className="sidebar-title">Categories</h3>
+      <nav className="category-list">
+        {categories.map((category) => (
           <NavLink
-            to="/"
-            end
+            key={category.id}
+            to={`/category/${category.slug}`}
             className={({ isActive }) => `category-item${isActive ? ' active' : ''}`}
           >
-            <span>Home</span>
+            <span>{category.name}</span>
             <CategoryArrow />
           </NavLink>
-          {categories.map((category) => {
-            const matchesBlogCategory = currentBlogCategory === category.slug;
-            return (
-              <NavLink
-                key={category.id}
-                to={`/category/${category.slug}`}
-                aria-current={matchesBlogCategory ? 'page' : undefined}
-                className={({ isActive }) =>
-                  `category-item${isActive || matchesBlogCategory ? ' active' : ''}`
-                }
-              >
-                <span>{category.name}</span>
-                <CategoryArrow />
-              </NavLink>
-            );
-          })}
-        </nav>
-      </div>
-    </aside>
-  );
-};
+        ))}
+      </nav>
+    </div>
+  </aside>
+);
 
 export default Sidebar;
