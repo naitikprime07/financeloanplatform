@@ -324,3 +324,42 @@
   .top-floating-ad.is-compact,
   .top-floating-ad.is-collapsed { border: 0; }
 }
+
+/* Preserve the provider iframe at its native size and fit the whole creative uniformly. */
+.top-floating-ad.is-expanded {
+  width: var(--top-ad-display-width, var(--top-ad-width, 970px));
+  height: var(--top-ad-display-height, var(--top-ad-height, 250px));
+}
+
+.top-floating-ad.is-expanded .top-floating-creative {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--top-ad-width, auto);
+  height: var(--top-ad-height, auto);
+  max-width: none;
+  transform: scale(var(--top-ad-scale, 1));
+  transform-origin: top left;
+}
+
+.top-floating-ad.is-expanded .top-floating-slot,
+.top-floating-ad.is-expanded .top-floating-slot > div,
+.top-floating-ad.is-expanded .top-floating-slot iframe {
+  width: var(--top-ad-width, auto) !important;
+  height: var(--top-ad-height, auto) !important;
+  max-width: none !important;
+}
+
+.top-floating-clearance.is-expanded {
+  height: calc(var(--top-ad-display-height, var(--top-ad-height, 0px)) + 36px);
+}
+
+@media (max-width: 767px) {
+  .top-floating-ad.is-expanded {
+    width: var(--top-ad-display-width, min(320px, calc(100vw - 16px)));
+  }
+
+  .top-floating-clearance.is-expanded {
+    height: calc(var(--top-ad-display-height, var(--top-ad-height, 0px)) + 46px);
+  }
+}

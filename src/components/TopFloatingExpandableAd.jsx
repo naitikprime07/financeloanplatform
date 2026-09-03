@@ -17,6 +17,7 @@ const TopFloatingExpandableAd = () => {
   const slotRef = useRef(null);
   const [status, setStatus] = useState('loading');
   const [creativeSize, setCreativeSize] = useState(null);
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
   const [transitionDirection, setTransitionDirection] = useState('collapsing');
 
   useEffect(() => {
@@ -65,8 +66,14 @@ const TopFloatingExpandableAd = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', updateViewportWidth, { passive: true });
+    return () => window.removeEventListener('resize', updateViewportWidth);
+  }, []);
   const isFilled = ['expanded', 'compact', 'collapsed'].includes(status);
-  const compactScale = creativeSize ? Math.min(1, 110 / creativeSize[1]) : 1;
+  const expandedScale = creativeSize ? Math.min(1, Math.max(0, viewportWidth - 16) / creativeSize[0]) : 1;
+  const compactScale = creativeSize ? Math.min(expandedScale, 110 / creativeSize[1]) : 1;
   const style = creativeSize ? {
     '--top-ad-width': `${creativeSize[0]}px`,
     '--top-ad-height': `${creativeSize[1]}px`,
