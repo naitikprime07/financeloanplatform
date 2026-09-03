@@ -6,6 +6,7 @@ import AdUnit from "../components/AdUnit";
 import BlogAd from "../components/BlogAd";
 import BlogRewardedAd from "../components/BlogRewardedAd";
 import BlogBottomImage from "../components/BlogBottomImage";
+import BlogPixel from "../components/BlogPixel";
 
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
@@ -164,6 +165,7 @@ const BlogDetail = () => {
           <div className="blog-detail-layout">
             <article className="blog-detail-content">
               <header className="blog-detail-header">
+                <BlogPixel blog={post} />
                 <Link
                   className="blog-category-badge"
                   to={post.category ? `/category/${post.category}` : "/"}

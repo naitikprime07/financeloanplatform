@@ -22,6 +22,7 @@ export const categories = [
 const rawBlogPosts = [
   {
     id: "personal-loan-online-eligibility-check-apply",
+    pixelKey: "personal-loan",
     title: "पर्सनल लोन ऑनलाइन: पात्रता जांचें और आवेदन करें",
     category: "",
     categoryName: "पर्सनल लोन",

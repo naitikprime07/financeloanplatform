@@ -45,8 +45,8 @@ export const trackCustomEvent = (eventName, params = {}, options = {}) => {
     window.dataLayer.push({ event: eventName, ...eventParams });
   }
 
-  if (typeof window.fbq === 'function') {
-    window.fbq('trackCustom', eventName, eventParams);
+  if (options.metaPixelId && typeof window.fbq === 'function') {
+    window.fbq('trackSingleCustom', options.metaPixelId, eventName, eventParams);
   }
 
   window.dispatchEvent(new CustomEvent(`finvexa:${eventName}`, { detail: eventParams }));

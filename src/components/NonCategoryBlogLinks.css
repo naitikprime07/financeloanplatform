@@ -147,6 +147,24 @@
   }
 }
 
+/* Keep the supplied loan-button artwork compact on mobile. */
+@media (max-width: 560px) {
+  .non-category-blog-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .non-category-blog-card {
+    width: min(76%, 238px);
+    margin-inline: auto;
+  }
+
+  .non-category-blog-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
 /* Enhanced focus state for accessibility */
 .non-category-blog-card:focus-visible {
   outline: 3px solid #0066cc;
