@@ -19,6 +19,7 @@ const TopFloatingExpandableAd = () => {
   const [creativeSize, setCreativeSize] = useState(null);
   const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
   const [transitionDirection, setTransitionDirection] = useState('collapsing');
+  const measureFrameRef = useRef(0);
 
   useEffect(() => {
     if (!AD_PATH) { setStatus('unavailable'); return undefined; }
@@ -34,10 +35,32 @@ const TopFloatingExpandableAd = () => {
         gamLog('top-floating-no-fill', { path: AD_PATH });
         return;
       }
-      const size = Array.isArray(event.size) ? event.size : null;
+      const size = Array.isArray(event.size) ? event.size.map(Number) : null;
       setCreativeSize(size);
       setStatus('expanded');
       gamLog('top-floating-rendered', { path: AD_PATH, size });
+
+      window.cancelAnimationFrame(measureFrameRef.current);
+      measureFrameRef.current = window.requestAnimationFrame(() => {
+        const root = document.getElementById(id.current);
+        const elements = root ? [root.firstElementChild, ...root.querySelectorAll('iframe')] : [];
+        const candidates = elements.flatMap((element) => {
+          if (!element) return [];
+          const width = Number.parseFloat(element.getAttribute?.('width')) || Number.parseFloat(element.style?.width);
+          const height = Number.parseFloat(element.getAttribute?.('height')) || Number.parseFloat(element.style?.height);
+          return Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0
+            ? [[width, height]]
+            : [];
+        });
+        const measured = candidates.reduce(
+          (largest, candidate) => candidate[0] * candidate[1] > largest[0] * largest[1] ? candidate : largest,
+          size || [0, 0],
+        );
+        if (active && measured[0] > 0 && measured[1] > 0) {
+          setCreativeSize(measured);
+          gamLog('top-floating-measured', { eventSize: size, measured });
+        }
+      });
     };
     window.googletag.cmd.push(() => {
       if (!active) return;
@@ -57,6 +80,7 @@ const TopFloatingExpandableAd = () => {
     });
     return () => {
       active = false;
+      window.cancelAnimationFrame(measureFrameRef.current);
       window.clearTimeout(timeoutId);
       window.googletag?.cmd?.push(() => {
         window.googletag.pubads().removeEventListener('slotRenderEnded', onRender);
