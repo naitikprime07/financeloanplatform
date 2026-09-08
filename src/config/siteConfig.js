@@ -1,7 +1,7 @@
 /**
  * Centralized multi-domain site configuration.
- * Domain entries select language and may optionally prioritize one existing
- * blog key. Environment entries override these defaults.
+ * Required production hosts are authoritative. VITE_DOMAIN_CONFIG may add
+ * future hosts, but cannot override the final mappings listed here.
  */
 
 const SUPPORTED_LANGUAGES = new Set(["hi", "en"]);
@@ -13,13 +13,13 @@ const normalizeHost = (value = "") => {
     const url = new URL(
       candidate.includes("://") ? candidate : "http://" + candidate,
     );
-    return url.host.toLowerCase();
+    return url.hostname.toLowerCase().replace(/\.$/, "");
   } catch {
     return "";
   }
 };
 
-const normalizeScope = (value) =>
+const normalizePriorityBlog = (value) =>
   String(value || "")
     .trim()
     .toLowerCase()
@@ -32,85 +32,100 @@ const addDomainConfig = (configs, domain, config = {}) => {
   const language = String(config.language || "").trim().toLowerCase();
   if (!host || !SUPPORTED_LANGUAGES.has(language)) return;
 
+  const priorityBlog = normalizePriorityBlog(
+    config.priorityBlog ?? config.blog,
+  );
+
   configs[host] = {
     language,
-    blog: normalizeScope(config.blog),
+    priorityBlog,
+    // Backward-compatible alias for existing callers and environment files.
+    blog: priorityBlog,
+    adsEnabled: config.adsEnabled !== false,
     primaryCategory:
       String(config.primaryCategory || "").trim().toLowerCase() || null,
   };
 };
 
-const createDefaultDomainConfigs = () => {
+const REQUIRED_SITE_CONFIG = Object.freeze({
+  "www.financeloanplatform.com": {
+    language: "hi",
+    priorityBlog: "personal-loan",
+    adsEnabled: true,
+  },
+  "carloan-hi.financeloanplatform.com": {
+    language: "hi",
+    priorityBlog: "car-loan",
+    adsEnabled: true,
+  },
+  "aadhaarpeloan-hi.financeloanplatform.com": {
+    language: "hi",
+    priorityBlog: "aadhaar-loan",
+    adsEnabled: true,
+  },
+  "personalloan-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "personal-loan",
+    adsEnabled: true,
+  },
+  "carloan-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "car-loan",
+    adsEnabled: true,
+  },
+  "aadhaarpeloan-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "aadhaar-loan",
+    adsEnabled: true,
+  },
+});
+
+const isAllowedEnvironmentHost = (domain) => {
+  const host = normalizeHost(domain);
+  return (
+    Object.prototype.hasOwnProperty.call(REQUIRED_SITE_CONFIG, host) ||
+    host === "localhost" ||
+    host === "127.0.0.1"
+  );
+};
+
+const parseDomainConfig = () => {
   const configs = {};
+  const configString = (import.meta.env.VITE_DOMAIN_CONFIG || "").trim();
 
-  const defaults = {
-    "financeloanplatform.com": { language: "hi", blog: null },
-    "www.financeloanplatform.com": { language: "hi", blog: null },
-    "hi.financeloanplatform.com": { language: "hi", blog: null },
-    "personalloan-en.financeloanplatform.com": {
-      language: "en",
-      blog: "personal-loan",
-    },
-    "personalloan-hi.financeloanplatform.com": {
-      language: "hi",
-      blog: "personal-loan",
-    },
-    "carloan-en.financeloanplatform.com": {
-      language: "en",
-      blog: "car-loan",
-    },
-    "carloan-hi.financeloanplatform.com": {
-      language: "hi",
-      blog: "car-loan",
-    },
-    "aadhaarpeloan-en.financeloanplatform.com": {
-      language: "en",
-      blog: "aadhaar-loan",
-    },
-    "aadhaarpeloan-hi.financeloanplatform.com": {
-      language: "hi",
-      blog: "aadhaar-loan",
-    },
-  };
+  if (configString) {
+    try {
+      const parsed = JSON.parse(configString);
+      Object.entries(parsed).forEach(([domain, config]) => {
+        if (isAllowedEnvironmentHost(domain)) {
+          addDomainConfig(configs, domain, config);
+        }
+      });
+    } catch {
+      // Keep existing pipe-delimited deployments working during migration.
+      configString.split("|").forEach((entry) => {
+        const match = entry.trim().match(/^(.*):(hi|en)(?::([^:]*))?$/i);
+        if (!match) return;
+        if (isAllowedEnvironmentHost(match[1])) {
+          addDomainConfig(configs, match[1], {
+            language: match[2],
+            primaryCategory: match[3],
+          });
+        }
+      });
+    }
+  }
 
-  Object.entries(defaults).forEach(([domain, config]) =>
+  // Final production requirements always win over stale server variables.
+  Object.entries(REQUIRED_SITE_CONFIG).forEach(([domain, config]) =>
     addDomainConfig(configs, domain, config),
   );
 
   return configs;
 };
 
-// Supports JSON (recommended) and the legacy pipe-delimited format.
-const parseDomainConfig = () => {
-  const configs = createDefaultDomainConfigs();
-  const configString = (import.meta.env.VITE_DOMAIN_CONFIG || "").trim();
-
-  if (!configString) return configs;
-
-  try {
-    const parsed = JSON.parse(configString);
-    Object.entries(parsed).forEach(([domain, config]) =>
-      addDomainConfig(configs, domain, config),
-    );
-    return configs;
-  } catch {
-    // Keep existing pipe-delimited deployments working during migration.
-  }
-
-  configString.split("|").forEach((entry) => {
-    const match = entry.trim().match(/^(.*):(hi|en)(?::([^:]*))?$/i);
-    if (!match) return;
-    addDomainConfig(configs, match[1], {
-      language: match[2],
-      primaryCategory: match[3],
-    });
-  });
-
-  return configs;
-};
-
 export const MAIN_DOMAIN =
-  import.meta.env.VITE_MAIN_DOMAIN || "https://financeloanplatform.com";
+  import.meta.env.VITE_MAIN_DOMAIN || "https://www.financeloanplatform.com";
 export const ENGLISH_DOMAIN =
   import.meta.env.VITE_ENGLISH_DOMAIN ||
   "https://personalloan-en.financeloanplatform.com";
@@ -119,19 +134,21 @@ export const HINDI_DOMAIN =
 export const DEFAULT_LANGUAGE =
   import.meta.env.VITE_DEFAULT_LANGUAGE || "hi";
 
-const DOMAIN_CONFIGS = parseDomainConfig();
+export const SITE_CONFIG = Object.freeze(parseDomainConfig());
 
 const FALLBACK_CONFIG = Object.freeze({
   language: SUPPORTED_LANGUAGES.has(DEFAULT_LANGUAGE)
     ? DEFAULT_LANGUAGE
-    : "en",
+    : "hi",
+  priorityBlog: null,
   blog: null,
+  adsEnabled: true,
   primaryCategory: null,
 });
 
 export const getCurrentHost = () => {
   if (typeof window === "undefined") return normalizeHost(MAIN_DOMAIN);
-  return window.location.host.toLowerCase();
+  return window.location.hostname.toLowerCase().replace(/\.$/, "");
 };
 
 export const getCurrentDomain = () => {
@@ -142,16 +159,16 @@ export const getCurrentDomain = () => {
 export const getSiteConfigForHost = (host) => {
   const hostname = normalizeHost(host);
 
-  if (DOMAIN_CONFIGS[hostname]) return DOMAIN_CONFIGS[hostname];
+  if (SITE_CONFIG[hostname]) return SITE_CONFIG[hostname];
 
   const englishHost = normalizeHost(ENGLISH_DOMAIN);
   if (hostname === englishHost) {
-    return { language: "en", blog: null, primaryCategory: null };
+    return { ...FALLBACK_CONFIG, language: "en" };
   }
 
   const hindiHost = normalizeHost(HINDI_DOMAIN);
   if (hostname === hindiHost) {
-    return { language: "hi", blog: null, primaryCategory: null };
+    return { ...FALLBACK_CONFIG, language: "hi" };
   }
 
   return FALLBACK_CONFIG;
@@ -165,8 +182,13 @@ export const getCurrentSiteLanguage = () =>
 
 export const getCurrentLanguage = getCurrentSiteLanguage;
 
-export const getCurrentBlog = () =>
-  getCurrentSiteConfig().blog;
+export const getPriorityBlog = () =>
+  getCurrentSiteConfig().priorityBlog;
+
+export const getCurrentBlog = getPriorityBlog;
+
+export const getAdsEnabled = () =>
+  getCurrentSiteConfig().adsEnabled;
 
 export const getPrimaryCategory = () =>
   getCurrentSiteConfig().primaryCategory;
@@ -182,10 +204,11 @@ const domainToOrigin = (host) =>
     ? "http://" + host
     : "https://" + host;
 
-const findConfiguredDomain = (language, blog) => {
-  const match = Object.entries(DOMAIN_CONFIGS).find(
+const findConfiguredDomain = (language, priorityBlog) => {
+  const match = Object.entries(SITE_CONFIG).find(
     ([, config]) =>
-      config.language === language && config.blog === (blog || null),
+      config.language === language &&
+      config.priorityBlog === (priorityBlog || null),
   );
   return match ? domainToOrigin(match[0]) : null;
 };
@@ -195,7 +218,7 @@ export const getLanguageSwitchDomain = () => {
   const targetLanguage = current.language === "hi" ? "en" : "hi";
   const configuredDomain = findConfiguredDomain(
     targetLanguage,
-    current.blog,
+    current.priorityBlog,
   );
 
   if (configuredDomain) return configuredDomain;
@@ -215,16 +238,20 @@ export const getCanonicalUrl = (path = "/") => {
 };
 
 export default {
+  SITE_CONFIG,
   MAIN_DOMAIN,
   ENGLISH_DOMAIN,
   HINDI_DOMAIN,
   DEFAULT_LANGUAGE,
   getCurrentHost,
   getCurrentDomain,
+  getSiteConfigForHost,
   getCurrentSiteConfig,
   getCurrentSiteLanguage,
   getCurrentLanguage,
+  getPriorityBlog,
   getCurrentBlog,
+  getAdsEnabled,
   getPrimaryCategory,
   getCurrentCategory,
   isHindiSite,

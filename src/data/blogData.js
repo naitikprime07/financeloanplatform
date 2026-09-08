@@ -60,13 +60,13 @@ export const orderBlogsByPriority = (blogs, priorityBlog) => {
 
 export const getBlogsForCurrentSite = (
   getCurrentSiteLanguage,
-  getCurrentBlog = () => null,
+  getPriorityBlog = () => null,
 ) => {
   const siteLanguage = getCurrentSiteLanguage();
   const siteBlogs = blogPosts.filter((blog) =>
     isBlogAvailableForLanguage(blog, siteLanguage),
   );
-  return orderBlogsByPriority(siteBlogs, getCurrentBlog());
+  return orderBlogsByPriority(siteBlogs, getPriorityBlog());
 };
 
 const rawBlogPosts = [
@@ -1413,12 +1413,12 @@ export const getCategoryBySlug = (slug) => {
  */
 export const getCategoriesForCurrentSite = (
   getCurrentSiteLanguage,
-  getCurrentBlog = () => null,
+  getPriorityBlog = () => null,
 ) => {
   // Categories are derived from every blog available for the current language.
   const siteBlogs = getBlogsForCurrentSite(
     getCurrentSiteLanguage,
-    getCurrentBlog,
+    getPriorityBlog,
   );
   const siteCategoryIds = new Set(
     siteBlogs.map((blog) => blog.category).filter(Boolean),
@@ -1436,11 +1436,11 @@ export const getCategoriesForCurrentSite = (
 export const getBlogsForCurrentSiteOrdered = (
   getCurrentSiteLanguage,
   getPrimaryCategory,
-  getCurrentBlog = () => null,
+  getPriorityBlog = () => null,
 ) => {
   const siteBlogs = getBlogsForCurrentSite(
     getCurrentSiteLanguage,
-    getCurrentBlog,
+    getPriorityBlog,
   );
   const primaryCat = getPrimaryCategory();
 
@@ -1460,6 +1460,6 @@ export const getBlogsForCurrentSiteOrdered = (
   // Preserve legacy category ordering, while domain priority always wins.
   return orderBlogsByPriority(
     [...primaryBlogs, ...otherBlogs],
-    getCurrentBlog(),
+    getPriorityBlog(),
   );
 };

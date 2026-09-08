@@ -12,7 +12,7 @@ import LanguageToggle from "../components/LanguageToggle";
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
 import { isBlogAvailableForLanguage, orderBlogsByPriority } from "../data/blogData";
-import { getCurrentSiteLanguage, getCurrentBlog, getCanonicalUrl } from "../config/siteConfig";
+import { getCurrentSiteLanguage, getPriorityBlog, getCanonicalUrl } from "../config/siteConfig";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
 import "./BlogDetail.css";
 const HINDI_LOAN_CTA_TEXTS = [
@@ -125,7 +125,7 @@ const BlogDetail = () => {
 
   const sitePosts = orderBlogsByPriority(
     blogPosts.filter((item) => isBlogAvailableForLanguage(item, siteLanguage)),
-    getCurrentBlog(),
+    getPriorityBlog(),
   );
   const articleIndex = post
     ? sitePosts.findIndex((item) => item.id === post.id)

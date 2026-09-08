@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { blogPosts, getBlogLanguage, orderBlogsByPriority } from "../data/blogData";
-import { getCurrentBlog } from "../config/siteConfig";
+import { getPriorityBlog } from "../config/siteConfig";
 import "./NonCategoryBlogLinks.css";
 
 import personalLoanBtn from "../assets/buttons/personalLoan.svg";
@@ -51,7 +51,7 @@ const NonCategoryBlogLinks = ({
       !post.category &&
       post.id !== currentPostId &&
       getBlogLanguage(post) === currentLanguage,
-  ), getCurrentBlog());
+  ), getPriorityBlog());
 
   if (!posts.length) return null;
 

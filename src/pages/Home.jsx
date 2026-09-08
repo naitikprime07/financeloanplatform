@@ -4,7 +4,7 @@ import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import AdUnit from '../components/AdUnit';
 import { getBlogsForCurrentSiteOrdered } from '../data/blogData';
-import { getCurrentSiteLanguage, getPrimaryCategory, getCurrentBlog, getCanonicalUrl } from '../config/siteConfig';
+import { getCurrentSiteLanguage, getPrimaryCategory, getPriorityBlog, getCanonicalUrl } from '../config/siteConfig';
 import './Home.css';
 
 const POSTS_PER_PAGE = 12;
@@ -13,7 +13,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Filter and order blogs based on current site language and primary category
-  const filteredBlogs = useMemo(() => getBlogsForCurrentSiteOrdered(getCurrentSiteLanguage, getPrimaryCategory, getCurrentBlog), []);
+  const filteredBlogs = useMemo(() => getBlogsForCurrentSiteOrdered(getCurrentSiteLanguage, getPrimaryCategory, getPriorityBlog), []);
 
   const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;

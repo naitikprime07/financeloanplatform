@@ -5,7 +5,7 @@ import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import AdUnit from '../components/AdUnit';
 import { getBlogsByCategory, getCategoryBySlug, isBlogAvailableForLanguage, orderBlogsByPriority } from '../data/blogData';
-import { getCurrentSiteLanguage, getCurrentBlog, getCanonicalUrl } from '../config/siteConfig';
+import { getCurrentSiteLanguage, getPriorityBlog, getCanonicalUrl } from '../config/siteConfig';
 import './Category.css';
 
 const Category = () => {
@@ -28,7 +28,7 @@ const Category = () => {
     const siteLanguage = getCurrentSiteLanguage();
     const categoryPosts = getBlogsByCategory(category.id);
     const languagePosts = categoryPosts.filter(post => isBlogAvailableForLanguage(post, siteLanguage));
-    return orderBlogsByPriority(languagePosts, getCurrentBlog());
+    return orderBlogsByPriority(languagePosts, getPriorityBlog());
   }, [category.id]);
 
   return (

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import AdUnit from './AdUnit';
 import { blogPosts, isBlogAvailableForLanguage, orderBlogsByPriority } from '../data/blogData';
-import { getCurrentSiteLanguage, getCurrentBlog } from '../config/siteConfig';
+import { getCurrentSiteLanguage, getPriorityBlog } from '../config/siteConfig';
 import './BlogSidebar.css';
 
 const BlogSidebar = ({ currentPostId }) => {
@@ -11,7 +11,7 @@ const BlogSidebar = ({ currentPostId }) => {
       post.id !== currentPostId &&
       isBlogAvailableForLanguage(post, siteLanguage),
     ),
-    getCurrentBlog(),
+    getPriorityBlog(),
   )
     .slice(0, 4);
   return <aside className="blog-sidebar" aria-label="Trending articles">
