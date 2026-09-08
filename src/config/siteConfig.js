@@ -31,7 +31,9 @@ const addDomainConfig = (configs, domain, config = {}) => {
   if (!config || typeof config !== "object") return;
 
   const host = normalizeHost(domain);
-  const language = String(config.language || "").trim().toLowerCase();
+  const language = String(config.language || "")
+    .trim()
+    .toLowerCase();
   if (!host || !SUPPORTED_LANGUAGES.has(language)) return;
 
   const priorityBlog = normalizePriorityBlog(
@@ -45,7 +47,9 @@ const addDomainConfig = (configs, domain, config = {}) => {
     blog: priorityBlog,
     adsEnabled: config.adsEnabled !== false,
     primaryCategory:
-      String(config.primaryCategory || "").trim().toLowerCase() || null,
+      String(config.primaryCategory || "")
+        .trim()
+        .toLowerCase() || null,
   };
 };
 
@@ -102,7 +106,7 @@ const REQUIRED_SITE_CONFIG = Object.freeze({
   },
   "studentloan1-en.financeloanplatform.com": {
     language: "en",
-    priorityBlog: "student-loan-explore-education-financing",
+    priorityBlog: "student-loan-online-education-finance-guide",
     adsEnabled: true,
   },
 });
@@ -112,9 +116,7 @@ const isValidEnvironmentHost = (domain) => {
   if (!host || host.includes("/") || host.includes("\\")) return false;
   if (/^localhost(?::\d+)?$/.test(host)) return true;
   if (/^127\.0\.0\.1(?::\d+)?$/.test(host)) return true;
-  return /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(
-    host,
-  );
+  return /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(host);
 };
 
 const parseDomainConfig = () => {
@@ -157,17 +159,13 @@ export const MAIN_DOMAIN =
 export const ENGLISH_DOMAIN =
   import.meta.env.VITE_ENGLISH_DOMAIN ||
   "https://personalloan-en.financeloanplatform.com";
-export const HINDI_DOMAIN =
-  import.meta.env.VITE_HINDI_DOMAIN || MAIN_DOMAIN;
-export const DEFAULT_LANGUAGE =
-  import.meta.env.VITE_DEFAULT_LANGUAGE || "hi";
+export const HINDI_DOMAIN = import.meta.env.VITE_HINDI_DOMAIN || MAIN_DOMAIN;
+export const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE || "hi";
 
 export const SITE_CONFIG = Object.freeze(parseDomainConfig());
 
 const FALLBACK_CONFIG = Object.freeze({
-  language: SUPPORTED_LANGUAGES.has(DEFAULT_LANGUAGE)
-    ? DEFAULT_LANGUAGE
-    : "hi",
+  language: SUPPORTED_LANGUAGES.has(DEFAULT_LANGUAGE) ? DEFAULT_LANGUAGE : "hi",
   priorityBlog: null,
   blog: null,
   adsEnabled: true,
@@ -207,21 +205,17 @@ export const getSiteConfigForHost = (host) => {
 export const getCurrentSiteConfig = () =>
   getSiteConfigForHost(getCurrentHost());
 
-export const getCurrentSiteLanguage = () =>
-  getCurrentSiteConfig().language;
+export const getCurrentSiteLanguage = () => getCurrentSiteConfig().language;
 
 export const getCurrentLanguage = getCurrentSiteLanguage;
 
-export const getPriorityBlog = () =>
-  getCurrentSiteConfig().priorityBlog;
+export const getPriorityBlog = () => getCurrentSiteConfig().priorityBlog;
 
 export const getCurrentBlog = getPriorityBlog;
 
-export const getAdsEnabled = () =>
-  getCurrentSiteConfig().adsEnabled;
+export const getAdsEnabled = () => getCurrentSiteConfig().adsEnabled;
 
-export const getPrimaryCategory = () =>
-  getCurrentSiteConfig().primaryCategory;
+export const getPrimaryCategory = () => getCurrentSiteConfig().primaryCategory;
 
 export const getCurrentCategory = getPrimaryCategory;
 
