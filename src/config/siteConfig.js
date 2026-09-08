@@ -44,8 +44,8 @@ const createDefaultDomainConfigs = () => {
   const configs = {};
 
   const defaults = {
-    "financeloanplatform.com": { language: "en", blog: null },
-    "www.financeloanplatform.com": { language: "en", blog: null },
+    "financeloanplatform.com": { language: "hi", blog: null },
+    "www.financeloanplatform.com": { language: "hi", blog: null },
     "hi.financeloanplatform.com": { language: "hi", blog: null },
     "personalloan-en.financeloanplatform.com": {
       language: "en",
@@ -112,11 +112,12 @@ const parseDomainConfig = () => {
 export const MAIN_DOMAIN =
   import.meta.env.VITE_MAIN_DOMAIN || "https://financeloanplatform.com";
 export const ENGLISH_DOMAIN =
-  import.meta.env.VITE_ENGLISH_DOMAIN || MAIN_DOMAIN;
+  import.meta.env.VITE_ENGLISH_DOMAIN ||
+  "https://personalloan-en.financeloanplatform.com";
 export const HINDI_DOMAIN =
-  import.meta.env.VITE_HINDI_DOMAIN || "https://hi.financeloanplatform.com";
+  import.meta.env.VITE_HINDI_DOMAIN || MAIN_DOMAIN;
 export const DEFAULT_LANGUAGE =
-  import.meta.env.VITE_DEFAULT_LANGUAGE || "en";
+  import.meta.env.VITE_DEFAULT_LANGUAGE || "hi";
 
 const DOMAIN_CONFIGS = parseDomainConfig();
 
