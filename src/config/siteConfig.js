@@ -80,6 +80,31 @@ const REQUIRED_SITE_CONFIG = Object.freeze({
     priorityBlog: "aadhaar-loan",
     adsEnabled: true,
   },
+  "personalloan1-hi.financeloanplatform.com": {
+    language: "hi",
+    priorityBlog: "personal-loan-online-apply-guide",
+    adsEnabled: true,
+  },
+  "personalloan1-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "personal-loan-online-application-guide",
+    adsEnabled: true,
+  },
+  "aadhaarpeloan1-hi.financeloanplatform.com": {
+    language: "hi",
+    priorityBlog: "aadhaarpe-loan-online-application-guide",
+    adsEnabled: true,
+  },
+  "aadhaarpeloan1-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "aadhaarpe-loan-online-application-process-guide",
+    adsEnabled: true,
+  },
+  "studentloan1-en.financeloanplatform.com": {
+    language: "en",
+    priorityBlog: "student-loan-explore-education-financing",
+    adsEnabled: true,
+  },
 });
 
 const isValidEnvironmentHost = (domain) => {
