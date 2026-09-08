@@ -104,8 +104,8 @@ const REQUIRED_SITE_CONFIG = Object.freeze({
     priorityBlog: "aadhaarpe-loan-online-application-process-guide",
     adsEnabled: true,
   },
-  "studentloan1-en.financeloanplatform.com": {
-    language: "en",
+  "studentloan1-hi.financeloanplatform.com": {
+    language: "hi",
     priorityBlog: "student-loan-online-education-finance-guide",
     adsEnabled: true,
   },
