@@ -21,6 +21,7 @@ const REWARDED_PATH = normalizePath(
 const BlogRewardedAd = ({
   post,
   targetSlug,
+  targetSlugs = [],
   ctaText = "\u0905\u092d\u0940 \u0906\u0935\u0947\u0926\u0928 \u0915\u0930\u0947\u0902",
   renderTrigger,
 }) => {
@@ -30,12 +31,38 @@ const BlogRewardedAd = ({
   const slotRef = useRef(null);
   const showRewardedRef = useRef(null);
   const pendingTargetRef = useRef(null);
+  const pendingTargetsRef = useRef([]);
+  const defaultTargetsRef = useRef([]);
   const defaultTargetRef = useRef(targetSlug);
   const scrollPositionRef = useRef(0);
   const openingRef = useRef(false);
   const rewardGrantedRef = useRef(false);
   const redirectedRef = useRef(false);
+  const queuedOpenRef = useRef(false);
   defaultTargetRef.current = targetSlug;
+  defaultTargetsRef.current = Array.from(
+    new Set(
+      targetSlugs.filter(
+        (slug) => typeof slug === "string" && slug && slug !== post.id,
+      ),
+    ),
+  );
+  const pickRandomTarget = (targets = []) => {
+    if (!targets.length) return defaultTargetRef.current;
+    return targets[Math.floor(Math.random() * targets.length)];
+  };
+
+  const navigateOnce = (destination) => {
+    if (
+      !destination ||
+      destination === post.id ||
+      redirectedRef.current
+    )
+      return false;
+    redirectedRef.current = true;
+    navigate("/blog/" + destination);
+    return true;
+  };
 
   useEffect(() => {
     if (!REWARDED_PATH) {
@@ -54,7 +81,9 @@ const BlogRewardedAd = ({
     openingRef.current = false;
     rewardGrantedRef.current = false;
     redirectedRef.current = false;
+    queuedOpenRef.current = false;
     pendingTargetRef.current = null;
+    pendingTargetsRef.current = [];
     window.googletag = window.googletag || { cmd: [] };
 
     let active = true;
@@ -63,6 +92,11 @@ const BlogRewardedAd = ({
     const owns = (event) => event.slot === slotRef.current;
 
     const failSlot = (eventName, details = {}) => {
+      const shouldContinue = queuedOpenRef.current;
+      const destination =
+        pendingTargetRef.current ||
+        pickRandomTarget(pendingTargetsRef.current);
+      queuedOpenRef.current = false;
       window.clearTimeout(timeoutId);
       showRewardedRef.current = null;
       openingRef.current = false;
@@ -72,6 +106,9 @@ const BlogRewardedAd = ({
         slotRef.current = null;
       }
       gamWarn(eventName, { path: REWARDED_PATH, ...details });
+      if (shouldContinue) {
+        window.requestAnimationFrame(() => navigateOnce(destination));
+      }
     };
 
     const startRequestTimeout = () => {
@@ -97,9 +134,24 @@ const BlogRewardedAd = ({
       rewardedSlotReady: (event) => {
         if (!active || !owns(event)) return;
         window.clearTimeout(timeoutId);
-        showRewardedRef.current = event.makeRewardedVisible;
-        setStatus("ready");
+        const makeRewardedVisible = event.makeRewardedVisible;
+        showRewardedRef.current = makeRewardedVisible;
         gamLog("blog-rewarded-ready", { path: REWARDED_PATH });
+        if (!queuedOpenRef.current) {
+          setStatus("ready");
+          return;
+        }
+
+        queuedOpenRef.current = false;
+        rewardGrantedRef.current = false;
+        try {
+          makeRewardedVisible();
+          setStatus("showing");
+        } catch (error) {
+          failSlot("blog-rewarded-open-failed", {
+            message: error instanceof Error ? error.message : String(error),
+          });
+        }
       },
       rewardedSlotGranted: (event) => {
         if (!active || !owns(event)) return;
@@ -117,7 +169,8 @@ const BlogRewardedAd = ({
         setStatus("closed");
 
         const destination =
-          pendingTargetRef.current || defaultTargetRef.current;
+          pendingTargetRef.current ||
+          pickRandomTarget(pendingTargetsRef.current);
         window.requestAnimationFrame(() => {
           if (
             rewardGrantedRef.current &&
@@ -130,6 +183,7 @@ const BlogRewardedAd = ({
             return;
           }
           pendingTargetRef.current = null;
+          pendingTargetsRef.current = [];
           setActiveTargetSlug(null);
           window.scrollTo({
             top: scrollPositionRef.current,
@@ -150,8 +204,7 @@ const BlogRewardedAd = ({
             gt.enums.OutOfPageFormat.REWARDED,
           );
           if (!rewardedSlot) {
-            setStatus("failed");
-            gamWarn("blog-rewarded-unsupported", { path: REWARDED_PATH });
+            failSlot("blog-rewarded-unsupported");
             return;
           }
           rewardedSlot.addService(gt.pubads());
@@ -161,8 +214,7 @@ const BlogRewardedAd = ({
           );
           gt.display(rewardedSlot);
         } catch (error) {
-          setStatus("failed");
-          gamWarn("blog-rewarded-exception", {
+          failSlot("blog-rewarded-exception", {
             message: error instanceof Error ? error.message : String(error),
           });
         }
@@ -185,32 +237,56 @@ const BlogRewardedAd = ({
     };
   }, [post.id, navigate]);
 
-  const openRewardedAd = (requestedTargetSlug) => {
+  const openRewardedAd = (requestedTarget) => {
+    const requestedTargets = Array.isArray(requestedTarget)
+      ? Array.from(
+          new Set(
+            requestedTarget.filter(
+              (slug) =>
+                typeof slug === "string" && slug && slug !== post.id,
+            ),
+          ),
+        )
+      : typeof requestedTarget === "string"
+        ? []
+        : defaultTargetsRef.current;
+    const requestedDestination =
+      typeof requestedTarget === "string" ? requestedTarget : "";
     const destination =
-      typeof requestedTargetSlug === "string"
-        ? requestedTargetSlug
-        : defaultTargetRef.current;
+      requestedDestination ||
+      (requestedTargets.length ? "" : defaultTargetRef.current);
     if (
-      !destination ||
+      (!destination && !requestedTargets.length) ||
       destination === post.id ||
       openingRef.current ||
       redirectedRef.current
     )
       return;
 
-    pendingTargetRef.current = destination;
-    setActiveTargetSlug(destination);
+    pendingTargetRef.current = destination || null;
+    pendingTargetsRef.current = requestedTargets;
+    setActiveTargetSlug(destination || requestedTargets[0] || null);
 
     if (status === "failed") {
-      redirectedRef.current = true;
-      navigate("/blog/" + destination);
+      navigateOnce(destination || pickRandomTarget(requestedTargets));
       return;
     }
-    if (status !== "ready" || !showRewardedRef.current) return;
 
-    openingRef.current = true;
-    rewardGrantedRef.current = false;
     scrollPositionRef.current = window.scrollY;
+    rewardGrantedRef.current = false;
+    openingRef.current = true;
+
+    if (status === "idle" || status === "loading") {
+      queuedOpenRef.current = true;
+      setStatus("waiting");
+      return;
+    }
+
+    if (status !== "ready" || !showRewardedRef.current) {
+      openingRef.current = false;
+      return;
+    }
+
     setStatus("opened");
     try {
       showRewardedRef.current();
@@ -219,26 +295,23 @@ const BlogRewardedAd = ({
       showRewardedRef.current = null;
       openingRef.current = false;
       setStatus("failed");
-      redirectedRef.current = true;
       gamWarn("blog-rewarded-open-failed", {
         message: error instanceof Error ? error.message : String(error),
       });
-      navigate("/blog/" + destination);
+      navigateOnce(destination || pickRandomTarget(requestedTargets));
     }
   };
 
-  const isBusy = [
-    "idle",
-    "loading",
-    "opened",
-    "showing",
-    "closable",
-    "closed",
-  ].includes(status);
+  const buttonDisabled =
+    openingRef.current ||
+    ["waiting", "opened", "showing", "closable", "closed"].includes(status);
+  const isBusy = buttonDisabled;
   if (renderTrigger) {
     return (
       <>
-        {(status === "idle" || status === "loading" || status === "failed") && (
+        {(status === "idle" ||
+          status === "loading" ||
+          status === "failed") && (
           <aside className="blog-rewarded-fallback" aria-label="Advertisement">
             ADVERTISEMENT
           </aside>
@@ -253,37 +326,39 @@ const BlogRewardedAd = ({
     );
   }
 
-  if (status === "failed" || status === "idle" || status === "loading") {
-    return (
-      <aside className="blog-rewarded-fallback" aria-label="Advertisement">
-        ADVERTISEMENT
-      </aside>
-    );
-  }
-
   return (
-    <aside
-      className={`blog-rewarded-card is-${status}`}
-      aria-label="Rewarded advertisement"
-    >
-      <div className="loan-inline-cta">
-        <button
-          className="svg-cta-button"
-          type="button"
-          onClick={() => openRewardedAd()}
-          disabled={status !== "ready"}
-        >
-          <img src={nullButton} alt="" aria-hidden="true" />
-          <span className="svg-cta-label">
-            {status === "ready" && ctaText}
-            {(status === "opened" || status === "showing") &&
-              "विज्ञापन जारी है…"}
-            {status === "closable" && "विज्ञापन पूरा करें"}
-            {status === "closed" && "विज्ञापन पूर्ण हुआ"}
-          </span>
-        </button>
-      </div>
-    </aside>
+    <>
+      {(status === "idle" ||
+        status === "loading" ||
+        status === "failed") && (
+        <aside className="blog-rewarded-fallback" aria-label="Advertisement">
+          ADVERTISEMENT
+        </aside>
+      )}
+      <aside
+        className={`blog-rewarded-card is-${status}`}
+        aria-label="Rewarded advertisement"
+      >
+        <div className="loan-inline-cta">
+          <button
+            className="svg-cta-button"
+            type="button"
+            onClick={() => openRewardedAd()}
+            disabled={buttonDisabled}
+          >
+            <img src={nullButton} alt="" aria-hidden="true" />
+            <span className="svg-cta-label">
+              {["idle", "loading", "ready", "failed"].includes(status) &&
+                ctaText}
+              {(["waiting", "opened", "showing"].includes(status)) &&
+                "विज्ञापन जारी है…"}
+              {status === "closable" && "विज्ञापन पूरा करें"}
+              {status === "closed" && "विज्ञापन पूर्ण हुआ"}
+            </span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 

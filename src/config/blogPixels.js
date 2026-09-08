@@ -7,9 +7,29 @@ const BLOG_PIXELS = {
     enabled: true,
     events: ["PageView"],
   },
+  "personal-loan-variant-2": {
+    pixelId: (
+      import.meta.env.VITE_PIXEL_PERSONAL_LOAN_VARIANT_2_ID || ""
+    ).trim(),
+    blogId: "personal-loan-online-apply-guide",
+    language: "hi",
+    category: "",
+    enabled: true,
+    events: ["PageView"],
+  },
   "aadhaar-loan": {
     pixelId: (import.meta.env.VITE_PIXEL_AADHAAR_LOAN_ID || "").trim(),
     blogId: "aadhaarpe-loan-online-eligibility-check-apply",
+    language: "hi",
+    category: "",
+    enabled: true,
+    events: ["PageView"],
+  },
+  "aadhaar-loan-variant-2": {
+    pixelId: (
+      import.meta.env.VITE_PIXEL_AADHAAR_LOAN_VARIANT_2_ID || ""
+    ).trim(),
+    blogId: "aadhaarpe-loan-online-application-guide",
     language: "hi",
     category: "",
     enabled: true,
@@ -39,6 +59,16 @@ const BLOG_PIXELS = {
     enabled: true,
     events: ["PageView"],
   },
+  "student-loan-variant-2": {
+    pixelId: (
+      import.meta.env.VITE_PIXEL_STUDENT_LOAN_VARIANT_2_ID || ""
+    ).trim(),
+    blogId: "student-loan-online-education-finance-guide",
+    language: "hi",
+    category: "",
+    enabled: true,
+    events: ["PageView"],
+  },
   "home-loan": {
     pixelId: (import.meta.env.VITE_PIXEL_HOME_LOAN_ID || "").trim(),
     blogId: "home-loan-housing-finance-options",
@@ -55,9 +85,29 @@ const BLOG_PIXELS = {
     enabled: true,
     events: ["PageView"],
   },
+  "personal-loan-english-variant-2": {
+    pixelId: (
+      import.meta.env.VITE_PIXEL_PERSONAL_LOAN_ENGLISH_VARIANT_2_ID || ""
+    ).trim(),
+    blogId: "personal-loan-online-application-guide",
+    language: "en",
+    category: "",
+    enabled: true,
+    events: ["PageView"],
+  },
   "aadhaar-loan-english": {
     pixelId: (import.meta.env.VITE_PIXEL_AADHAAR_LOAN_ENGLISH_ID || "").trim(),
     blogId: "aadhaarpe-loan-online-check-eligibility-apply",
+    language: "en",
+    category: "",
+    enabled: true,
+    events: ["PageView"],
+  },
+  "aadhaar-loan-english-variant-2": {
+    pixelId: (
+      import.meta.env.VITE_PIXEL_AADHAAR_LOAN_ENGLISH_VARIANT_2_ID || ""
+    ).trim(),
+    blogId: "aadhaarpe-loan-online-application-process-guide",
     language: "en",
     category: "",
     enabled: true,

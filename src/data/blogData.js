@@ -43,14 +43,23 @@ export const getBlogContentKey = (blog) =>
     .toLowerCase()
     .replace(/-english$/, "");
 
+export const getBlogTopicKey = (blog) =>
+  String(blog?.category || blog?.pixelKey || "")
+    .trim()
+    .toLowerCase()
+    .replace(/-english(?=-|$)/, "")
+    .replace(/-variant-\d+$/, "");
 
 export const orderBlogsByPriority = (blogs, priorityBlog) => {
-  const priority = String(priorityBlog || "").trim().toLowerCase();
+  const priority = String(priorityBlog || "")
+    .trim()
+    .toLowerCase();
   if (!priority) return blogs;
 
   const isPriorityBlog = (blog) =>
-    String(blog?.id || "").trim().toLowerCase() === priority ||
-    getBlogContentKey(blog) === priority;
+    String(blog?.id || "")
+      .trim()
+      .toLowerCase() === priority || getBlogContentKey(blog) === priority;
 
   return [
     ...blogs.filter(isPriorityBlog),
@@ -982,6 +991,458 @@ const rawBlogPosts = [
         {
           heading: "Advertising Disclosure",
           text: "This website may display sponsored or promotional offers from third-party lenders or financial service providers. Compensation may be received for certain eligible interactions or referrals.\n\nParticipation is voluntary and subject to the respective provider's terms and eligibility requirements.",
+        },
+      ],
+    },
+  },
+  {
+    id: "personal-loan-online-apply-guide",
+    pixelKey: "personal-loan-variant-2",
+    variant: "variant-2",
+    language: "hi",
+    title: "ऑनलाइन पर्सनल लोन: पात्रता समझें और आवेदन की प्रक्रिया जानें",
+    category: "",
+    categoryName: "पर्सनल लोन",
+    date: "January 16, 2026",
+    author: "फाइनेंस सपोर्ट टीम",
+    excerpt:
+      "पर्सनल लोन की तलाश कर रहे हैं? ऑनलाइन उपलब्ध विकल्पों को समझें, अपनी संभावित पात्रता जांचें और आवेदन से पहले ब्याज, शुल्क और पुनर्भुगतान की शर्तों की जानकारी लें।",
+    imageFile: "personalLoan-v2.png",
+    content: {
+      sections: [
+        {
+          heading: "ऑनलाइन पर्सनल लोन के विकल्प",
+          text: "अचानक आने वाले व्यक्तिगत खर्चों या जरूरी वित्तीय जरूरतों के लिए कुछ पात्र आवेदकों को पर्सनल लोन के विकल्प मिल सकते हैं। ऑनलाइन प्लेटफॉर्म के माध्यम से उपलब्ध ऑफर की जानकारी देखना और अलग-अलग शर्तों की तुलना करना आसान हो सकता है।\n\nलोन की पात्रता आमतौर पर आवेदक की आय, रोजगार की स्थिति, क्रेडिट प्रोफाइल, मौजूदा वित्तीय दायित्वों और ऋणदाता की आंतरिक नीतियों जैसे कई कारकों पर निर्भर करती है।",
+        },
+
+        {
+          heading: "पर्सनल लोन की जानकारी के लिए आगे बढ़ें 💰👇",
+          text: "पर्सनल लोन के संभावित फायदे:\n\nऑनलाइन सुविधा: कई ऋणदाता डिजिटल माध्यम से आवेदन की सुविधा प्रदान करते हैं।\n\nविभिन्न लोन विकल्प: उपलब्ध राशि और शर्तें अलग-अलग ऋणदाताओं के अनुसार बदल सकती हैं।\n\nअवधि चुनने का विकल्प: पात्र उपयोगकर्ताओं को उपलब्ध विकल्पों में से उपयुक्त पुनर्भुगतान अवधि मिल सकती है।\n\nआसान पात्रता जांच: आवेदन से पहले संभावित पात्रता से संबंधित जानकारी प्राप्त की जा सकती है।\n\nडिजिटल प्रक्रिया: कुछ मामलों में आवेदन और दस्तावेज़ सत्यापन ऑनलाइन पूरा किया जा सकता है।",
+        },
+
+        {
+          heading: "पर्सनल लोन के लिए अपनी पात्रता समझें",
+          text: "पर्सनल लोन के लिए पात्रता प्रत्येक ऋणदाता के नियमों के अनुसार अलग हो सकती है। आपकी आय, क्रेडिट हिस्ट्री, नौकरी या व्यवसाय की स्थिति और मौजूदा EMI जैसे कारक आवेदन के मूल्यांकन में महत्वपूर्ण हो सकते हैं।\n\nलोन की संभावित राशि, ब्याज दर, अवधि और अन्य शुल्क आपके प्रोफाइल तथा संबंधित ऋणदाता के नियमों के आधार पर निर्धारित किए जाते हैं।\n\nकिसी भी ऑफर को स्वीकार करने से पहले उसकी पूरी जानकारी ध्यान से जांचें।",
+        },
+
+        {
+          heading: "ऑनलाइन पर्सनल लोन के लिए आवेदन प्रक्रिया",
+          text: "उपलब्ध ऑफर देखने के लिए Continue बटन पर क्लिक करें।\n\nअपनी जरूरत के अनुसार उपलब्ध वित्तीय विकल्पों की जानकारी देखें।\n\nलोन की राशि, ब्याज दर और पुनर्भुगतान अवधि जैसी महत्वपूर्ण जानकारी की तुलना करें।\n\nप्रोसेसिंग फीस और अन्य लागू शुल्कों को ध्यान से पढ़ें।\n\nउपयुक्त विकल्प मिलने पर संबंधित ऋणदाता की आवेदन प्रक्रिया पूरी करें।\n\nआवश्यक दस्तावेज़ और जानकारी जमा करने के बाद ऋणदाता द्वारा सत्यापन किया जा सकता है।\n\nलोन की मंजूरी पूरी तरह ऋणदाता की पात्रता जांच और क्रेडिट मूल्यांकन पर निर्भर करती है। लोन मिलना सुनिश्चित नहीं है।",
+        },
+
+        {
+          heading: "आवेदन करने से पहले क्या देखें?",
+          text: "पर्सनल लोन लेने का निर्णय जल्दबाजी में न करें। आवेदन से पहले ब्याज दर, प्रोसेसिंग शुल्क, EMI, लोन अवधि और कुल पुनर्भुगतान राशि को समझना जरूरी है।\n\nलेट पेमेंट या अन्य लागू शुल्कों के बारे में भी पहले से जानकारी लें। अपनी आय और मासिक बजट के अनुसार ही लोन राशि चुनें, ताकि भविष्य में EMI का भुगतान आसानी से किया जा सके।",
+        },
+
+        {
+          heading: "सुरक्षित ऑनलाइन आवेदन के लिए जरूरी सावधानियां",
+          text: "पर्सनल लोन के लिए आवेदन करते समय केवल भरोसेमंद वेबसाइट या संबंधित ऋणदाता के आधिकारिक माध्यम का उपयोग करें।\n\nOTP, UPI PIN, ATM PIN, इंटरनेट बैंकिंग पासवर्ड या अन्य गोपनीय जानकारी किसी अनजान व्यक्ति के साथ साझा न करें।\n\nकिसी ऑफर पर आगे बढ़ने से पहले ऋणदाता की जानकारी और वेबसाइट की विश्वसनीयता जांचें। लोन एग्रीमेंट में दिए गए सभी नियमों को पढ़ने के बाद ही निर्णय लें।",
+        },
+
+        {
+          heading: "अपनी भुगतान क्षमता को ध्यान में रखें",
+          text: "पर्सनल लोन आपकी वित्तीय जरूरत को पूरा करने में उपयोगी हो सकता है, लेकिन इसके साथ नियमित EMI की जिम्मेदारी भी आती है।\n\nलोन लेने से पहले अपने मासिक खर्च, मौजूदा EMI और भविष्य की वित्तीय जरूरतों को ध्यान में रखें। केवल उतनी ही राशि उधार लेने का प्रयास करें जिसका पुनर्भुगतान आपके बजट में आसानी से हो सके।\n\nअलग-अलग उपलब्ध विकल्पों की तुलना करने से आपके लिए उपयुक्त शर्तों को समझने में मदद मिल सकती है।",
+        },
+
+        {
+          heading: "अक्सर पूछे जाने वाले सवाल",
+          text: "",
+          faqs: [
+            {
+              question: "पर्सनल लोन के लिए ऑनलाइन आवेदन कैसे किया जा सकता है?",
+              answer:
+                "कई ऋणदाता ऑनलाइन आवेदन की सुविधा प्रदान करते हैं। आवेदन की प्रक्रिया, पात्रता और आवश्यक दस्तावेज़ संबंधित ऋणदाता के नियमों पर निर्भर करते हैं।",
+            },
+            {
+              question: "पर्सनल लोन की राशि कैसे तय होती है?",
+              answer:
+                "संभावित लोन राशि आवेदक की आय, क्रेडिट प्रोफाइल, मौजूदा देनदारियों और ऋणदाता की पात्रता नीतियों के आधार पर निर्धारित की जा सकती है।",
+            },
+            {
+              question: "क्या हर ऑनलाइन आवेदन स्वीकार हो जाता है?",
+              answer:
+                "नहीं। प्रत्येक आवेदन ऋणदाता की पात्रता, दस्तावेज़ सत्यापन और क्रेडिट मूल्यांकन प्रक्रिया के अधीन होता है।",
+            },
+            {
+              question: "पर्सनल लोन के लिए कौन से दस्तावेज़ मांगे जा सकते हैं?",
+              answer:
+                "ऋणदाता के अनुसार पहचान प्रमाण, पता प्रमाण, आय से संबंधित दस्तावेज़, बैंक स्टेटमेंट या अन्य आवश्यक जानकारी मांगी जा सकती है।",
+            },
+          ],
+        },
+
+        {
+          heading: "अस्वीकरण",
+          text: "इस वेबसाइट पर उपलब्ध जानकारी केवल सामान्य जानकारी और शैक्षिक उद्देश्य के लिए प्रदान की गई है। इसे वित्तीय सलाह, लोन की स्वीकृति या किसी निश्चित ऑफर की गारंटी नहीं माना जाना चाहिए।\n\nलोन की पात्रता, राशि, ब्याज दर, प्रोसेसिंग शुल्क, अवधि, EMI और राशि के वितरण का निर्णय संबंधित ऋणदाता द्वारा आवेदक की प्रोफाइल, दस्तावेज़ और क्रेडिट मूल्यांकन के आधार पर किया जाता है।\n\nकिसी भी वित्तीय उत्पाद के लिए आवेदन या उसे स्वीकार करने से पहले संबंधित ऋणदाता की सभी शर्तों और शुल्कों को ध्यानपूर्वक पढ़ें।\n\nविज्ञापन संबंधी खुलासा: यह वेबसाइट थर्ड-पार्टी वित्तीय सेवा प्रदाताओं के विज्ञापन या प्रमोशनल ऑफर प्रदर्शित कर सकती है। कुछ विज्ञापनों या ऑफर के साथ उपयोगकर्ता की इंटरैक्शन के आधार पर वेबसाइट को मुआवजा या कमीशन मिल सकता है।",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "personal-loan-online-application-guide",
+    pixelKey: "personal-loan-english-variant-2",
+    variant: "variant-2",
+    language: "en",
+    title: "Online Personal Loan: Explore Options, Eligibility & Application",
+    category: "",
+    categoryName: "Personal Loan",
+    date: "January 17, 2026",
+    author: "Finance Support Team",
+    excerpt:
+      "Explore personal loan options online, understand common eligibility factors, compare loan terms, and learn what to consider before submitting an application.",
+    imageFile: "e_personalLoan-v2.png",
+    content: {
+      sections: [
+        {
+          heading: "Explore Personal Loan Options Online",
+          text: "A personal loan may be an option for eligible individuals looking to manage planned expenses, emergency needs, or other personal financial requirements. Online platforms can make it easier to review available offers and understand the basic terms before applying.\n\nEligibility and loan availability can vary between lenders. Factors such as income, employment status, credit history, existing financial commitments, and the lender's internal policies may be considered during the evaluation process.",
+        },
+
+        {
+          heading: "Personal Loan के लिए Scroll करें 💰👇",
+          text: "Why Explore Personal Loan Options?\n\nDigital Access: Many lenders allow users to begin the application process online.\n\nMultiple Options: Available loan amounts, interest rates, and repayment periods may differ between lenders.\n\nSimple Comparison: Review important loan terms before selecting an offer.\n\nEligibility Information: Understand the factors that may influence your eligibility.\n\nConvenient Process: Depending on the lender, application and document verification may be completed digitally.",
+        },
+
+        {
+          heading: "Understand Your Loan Eligibility",
+          text: "Before applying, it is useful to understand the common factors lenders may consider. Your income, employment profile, credit history, existing loan obligations, and repayment capacity can influence the assessment.\n\nThe amount you may qualify for, applicable interest rate, repayment tenure, processing charges, and other terms are determined by the respective lender based on its eligibility criteria.\n\nReview the available information carefully and choose an option that matches your financial requirements.",
+        },
+
+        {
+          heading: "Steps to Apply for a Personal Loan",
+          text: "Click the Continue button to explore available options.\n\nReview the loan or financial offers presented to you.\n\nCompare the available interest rates, loan amounts, repayment periods, and applicable charges.\n\nChoose an offer that is appropriate for your requirements.\n\nRead the lender's terms and conditions before proceeding.\n\nSubmit the requested information and complete the lender's verification process.\n\nThe final decision is made by the respective lender after completing its eligibility and credit assessment.\n\nNote: Applying does not guarantee loan approval or disbursal. Loan terms, interest rates, fees, and repayment conditions can vary based on the lender and applicant profile.",
+        },
+
+        {
+          heading: "Review These Loan Details Carefully",
+          text: "Before accepting a personal loan, check the applicable interest rate, processing fee, repayment tenure, monthly EMI, late payment charges, and other relevant conditions.\n\nIt is also important to understand the total amount that may need to be repaid over the complete loan period. Select a loan amount and repayment schedule that fits within your regular budget.",
+        },
+
+        {
+          heading: "Protect Your Information Online",
+          text: "Use secure and trusted channels when submitting a personal loan application. Avoid sharing confidential banking information with unknown individuals or unverified websites.\n\nNever disclose your OTP, UPI PIN, debit or credit card PIN, banking password, or similar security credentials to anyone.\n\nBefore submitting personal information, verify the lender or financial service provider and make sure you understand how your information will be used.",
+        },
+
+        {
+          heading: "Plan Your Repayments Responsibly",
+          text: "Taking a personal loan creates a repayment obligation, so your expected EMI should be manageable within your monthly income and expenses.\n\nConsider your existing financial commitments before borrowing. Comparing different offers can help you understand the differences in interest rates, fees, repayment periods, and overall repayment costs.\n\nBorrowing only what you reasonably need can help keep your repayment responsibility manageable.",
+        },
+
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "How can I find personal loan options online?",
+              answer:
+                "You can review loan options provided through online platforms and participating lenders. The availability of offers depends on the lender's eligibility requirements and your profile.",
+            },
+            {
+              question: "What factors can affect personal loan eligibility?",
+              answer:
+                "Lenders may consider income, employment status, credit history, existing financial obligations, repayment capacity, and their own eligibility policies.",
+            },
+            {
+              question: "Can I choose my preferred loan tenure?",
+              answer:
+                "Some lenders may provide multiple repayment tenure options to eligible applicants. The available choices depend on the lender and your profile.",
+            },
+            {
+              question: "Will applying for a loan guarantee approval?",
+              answer:
+                "No. An application is subject to the lender's eligibility checks, document verification, credit assessment, and final approval process.",
+            },
+          ],
+        },
+
+        {
+          heading: "Disclaimer",
+          text: "The content available on this website is provided for general informational purposes only. It should not be considered financial advice, a recommendation, or a guarantee that any applicant will receive a loan.\n\nThe respective lender independently determines eligibility, loan amount, interest rate, processing fees, repayment tenure, approval, and disbursal based on its policies and assessment of the applicant.\n\nUsers should review the complete loan agreement, applicable charges, eligibility requirements, and terms and conditions before accepting any financial product.",
+        },
+
+        {
+          heading: "Advertiser Disclosure",
+          text: "This website may feature sponsored advertisements and promotional offers provided by third-party financial service providers. We may receive compensation or commission when users interact with certain advertisements or offers.\n\nAny decision to apply for or accept a financial product is voluntary and remains subject to the terms, conditions, and eligibility criteria of the respective provider.",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "aadhaarpe-loan-online-application-guide",
+    pixelKey: "aadhaar-loan-variant-2",
+    variant: "variant-2",
+    language: "hi",
+    title: "AadhaarPe Loan Online: लोन विकल्प, पात्रता और आवेदन की जानकारी",
+    category: "",
+    categoryName: "आधारपे लोन",
+    date: "January 18, 2026",
+    author: "फाइनेंस सपोर्ट टीम",
+    excerpt:
+      "AadhaarPe Loan के उपलब्ध विकल्पों को समझें, संभावित पात्रता की जानकारी लें और आवेदन करने से पहले ब्याज, EMI, शुल्क और पुनर्भुगतान से जुड़ी महत्वपूर्ण बातें जानें।",
+    imageFile: "aadharPe-v2.png",
+
+    content: {
+      sections: [
+        {
+          heading: "AadhaarPe Loan के ऑनलाइन विकल्प",
+          text: "व्यक्तिगत खर्च, मेडिकल जरूरत, शिक्षा, घरेलू आवश्यकताओं या अन्य वित्तीय जरूरतों के लिए पात्र उपयोगकर्ताओं को पर्सनल लोन के विकल्प उपलब्ध हो सकते हैं। AadhaarPe के माध्यम से कुछ उपयोगकर्ताओं को संबंधित ऋणदाताओं या वित्तीय सेवा प्रदाताओं के ऑफर दिखाई दे सकते हैं।\n\nलोन की उपलब्धता और पात्रता प्रत्येक ऋणदाता के नियमों पर निर्भर करती है। आय, रोजगार की स्थिति, क्रेडिट हिस्ट्री, मौजूदा वित्तीय दायित्व और पुनर्भुगतान क्षमता जैसे कारकों को आवेदन के मूल्यांकन में ध्यान में रखा जा सकता है।",
+        },
+
+        {
+          heading: "AadhaarPe Loan Options देखें 💰👇",
+          text: "AadhaarPe Loan से जुड़ी महत्वपूर्ण बातें\n\nऑनलाइन सुविधा: उपलब्ध वित्तीय विकल्पों की जानकारी डिजिटल माध्यम से देखी जा सकती है।\n\nपात्रता आधारित ऑफर: उपलब्ध ऑफर उपयोगकर्ता की प्रोफाइल और ऋणदाता के मानदंडों के अनुसार अलग हो सकते हैं।\n\nलोन राशि: संभावित लोन राशि संबंधित ऋणदाता द्वारा निर्धारित की जाती है।\n\nEMI विकल्प: पात्र उपयोगकर्ताओं को अलग-अलग पुनर्भुगतान अवधि के विकल्प मिल सकते हैं।\n\nडिजिटल आवेदन: उपयुक्त ऑफर उपलब्ध होने पर संबंधित ऋणदाता की ऑनलाइन आवेदन प्रक्रिया पूरी की जा सकती है।",
+        },
+
+        {
+          heading: "AadhaarPe Loan के लिए पात्रता समझें",
+          text: "लोन के लिए आवेदन करने से पहले अपनी संभावित पात्रता से जुड़े सामान्य कारकों को समझना उपयोगी है। ऋणदाता आपकी आय, क्रेडिट प्रोफाइल, रोजगार या व्यवसाय की स्थिति, मौजूदा EMI और अन्य वित्तीय दायित्वों को देख सकता है।\n\nलोन की राशि, ब्याज दर, EMI, अवधि और प्रोसेसिंग शुल्क आपकी प्रोफाइल और संबंधित ऋणदाता की नीतियों के अनुसार तय किए जाते हैं।\n\nइसलिए किसी भी उपलब्ध ऑफर को स्वीकार करने से पहले उसकी पूरी जानकारी ध्यान से पढ़ें।",
+        },
+
+        {
+          heading: "AadhaarPe Loan के लिए आवेदन कैसे करें",
+          text: "Continue बटन पर क्लिक करके उपलब्ध विकल्पों को देखें।\n\nउपलब्ध लोन या वित्तीय ऑफर की जानकारी जांचें।\n\nअपनी जरूरत के अनुसार उपयुक्त ऑफर चुनें।\n\nब्याज दर, EMI, लोन अवधि और लागू शुल्कों की तुलना करें।\n\nऋणदाता द्वारा मांगी गई आवश्यक जानकारी और दस्तावेज़ जमा करें।\n\nसंबंधित ऋणदाता की KYC और सत्यापन प्रक्रिया पूरी करें।\n\nअंतिम मंजूरी ऋणदाता की पात्रता और क्रेडिट मूल्यांकन के बाद ही तय की जाती है।\n\nनोट: केवल Aadhaar कार्ड उपलब्ध होने से लोन की मंजूरी सुनिश्चित नहीं होती। ऋणदाता अतिरिक्त KYC, PAN, आय प्रमाण, बैंक स्टेटमेंट, क्रेडिट जांच या अन्य दस्तावेज़ मांग सकता है।",
+        },
+
+        {
+          heading: "लोन लेने से पहले किन चीजों की तुलना करें?",
+          text: "किसी भी लोन ऑफर को स्वीकार करने से पहले ब्याज दर, APR, प्रोसेसिंग फीस, EMI, पुनर्भुगतान अवधि और लेट पेमेंट से जुड़े शुल्कों की जांच करें।\n\nइसके साथ ही पूरे लोन की अवधि में चुकाई जाने वाली अनुमानित कुल राशि को समझना भी जरूरी है। अपनी मासिक आय और खर्चों को ध्यान में रखते हुए ऐसी EMI चुनें जिसे नियमित रूप से चुकाना संभव हो।",
+        },
+
+        {
+          heading: "ऑनलाइन लोन लेते समय सुरक्षा का ध्यान रखें",
+          text: "लोन के लिए आवेदन करते समय सुरक्षित वेबसाइट और विश्वसनीय वित्तीय सेवा प्रदाता का उपयोग करें।\n\nOTP, UPI PIN, ATM PIN, कार्ड PIN या इंटरनेट बैंकिंग पासवर्ड जैसी गोपनीय जानकारी किसी अनजान व्यक्ति के साथ साझा न करें।\n\nकिसी भी ऑफर पर आगे बढ़ने से पहले संबंधित ऋणदाता की पहचान और वेबसाइट की जानकारी सत्यापित करें। लोन एग्रीमेंट और सभी लागू नियमों को पढ़ने के बाद ही निर्णय लें।",
+        },
+
+        {
+          heading: "लोन का इस्तेमाल जिम्मेदारी से करें",
+          text: "लोन आपकी जरूरी वित्तीय जरूरतों को पूरा करने में मदद कर सकता है, लेकिन इसके साथ नियमित भुगतान की जिम्मेदारी भी होती है।\n\nलोन लेने से पहले अपने मासिक खर्च, मौजूदा EMI और भविष्य की जरूरतों को ध्यान में रखें।\n\nजरूरत से अधिक राशि उधार लेने से बचें और ऐसी पुनर्भुगतान योजना चुनें जो आपके बजट के अनुसार हो।",
+        },
+
+        {
+          heading: "अक्सर पूछे जाने वाले सवाल",
+          text: "",
+          faqs: [
+            {
+              question:
+                "क्या AadhaarPe के माध्यम से ऑनलाइन लोन विकल्प देखे जा सकते हैं?",
+              answer:
+                "यदि प्लेटफॉर्म पर किसी संबंधित ऋणदाता या वित्तीय सेवा प्रदाता का ऑफर उपलब्ध है, तो पात्र उपयोगकर्ता उसकी जानकारी देखकर आवेदन प्रक्रिया आगे बढ़ा सकता है।",
+            },
+            {
+              question: "क्या Aadhaar कार्ड से ही लोन की पात्रता तय होती है?",
+              answer:
+                "नहीं। केवल Aadhaar कार्ड के आधार पर लोन की पात्रता तय नहीं होती। ऋणदाता आय, क्रेडिट प्रोफाइल, मौजूदा दायित्व और अन्य पात्रता मानदंडों पर विचार कर सकता है।",
+            },
+            {
+              question: "क्या AadhaarPe Loan की मंजूरी निश्चित होती है?",
+              answer:
+                "नहीं। प्रत्येक आवेदन संबंधित ऋणदाता की पात्रता जांच, KYC, दस्तावेज़ सत्यापन और क्रेडिट मूल्यांकन के अधीन होता है।",
+            },
+            {
+              question:
+                "AadhaarPe Loan के लिए कौन से दस्तावेज़ मांगे जा सकते हैं?",
+              answer:
+                "ऋणदाता Aadhaar या अन्य KYC दस्तावेज़ों के अलावा PAN, आय प्रमाण, बैंक स्टेटमेंट, पता प्रमाण या अन्य आवश्यक दस्तावेज़ मांग सकता है।",
+            },
+          ],
+        },
+
+        {
+          heading: "अस्वीकरण",
+          text: "इस वेबसाइट पर उपलब्ध जानकारी केवल सामान्य और शैक्षिक जानकारी के उद्देश्य से प्रदान की गई है। इसे वित्तीय सलाह या लोन की मंजूरी की गारंटी नहीं माना जाना चाहिए।\n\nलोन की पात्रता, राशि, ब्याज दर, EMI, प्रोसेसिंग शुल्क, अवधि, मंजूरी और राशि का वितरण संबंधित ऋणदाता द्वारा उसकी नीतियों और आवेदक के क्रेडिट मूल्यांकन के आधार पर निर्धारित किया जाता है।\n\nकिसी भी वित्तीय उत्पाद को स्वीकार करने से पहले संबंधित प्रदाता की सभी शर्तों, शुल्कों और नियमों को ध्यान से पढ़ें।",
+        },
+
+        {
+          heading: "विज्ञापन संबंधी खुलासा",
+          text: "यह वेबसाइट थर्ड-पार्टी ऋणदाताओं और वित्तीय सेवा प्रदाताओं के विज्ञापन या प्रमोशनल ऑफर प्रदर्शित कर सकती है। कुछ विज्ञापनों या ऑफर के साथ उपयोगकर्ता की इंटरैक्शन के आधार पर वेबसाइट को मुआवजा या कमीशन प्राप्त हो सकता है।\n\nकिसी भी ऑफर में भाग लेना स्वैच्छिक है और संबंधित प्रदाता की पात्रता, नियमों और शर्तों के अधीन है।",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "aadhaarpe-loan-online-application-process-guide",
+    pixelKey: "aadhaar-loan-english-variant-2",
+    variant: "variant-2",
+    language: "en",
+    title: "AadhaarPe Loan Online: Explore Eligibility, Options & Application",
+    category: "",
+    categoryName: "AadhaarPe Loan",
+    date: "January 18, 2026",
+    author: "Finance Support Team",
+    excerpt:
+      "Explore AadhaarPe Loan options, understand common eligibility factors, compare important loan terms, and learn what to review before submitting an application.",
+    imageFile: "e_aadharPeLoan-v2.png",
+
+    content: {
+      sections: [
+        {
+          heading: "Explore AadhaarPe Loan Options",
+          text: "Individuals looking for financial support for personal expenses, education, medical requirements, household needs, or other purposes may find loan options available through participating lenders or financial service providers.\n\nAadhaarPe may display available financial offers to eligible users. Loan availability and eligibility can vary depending on the lender's policies, income, employment profile, credit history, existing obligations, and repayment capacity.",
+        },
+
+        {
+          heading: "Explore AadhaarPe Loan Options 💰👇",
+          text: "Important things to know about AadhaarPe Loan\n\nOnline Access: Review available financial options through a digital process.\n\nProfile-Based Offers: Available offers may vary depending on your profile and lender criteria.\n\nLoan Amount: The amount you may qualify for is determined by the respective lender.\n\nRepayment Choices: Eligible applicants may have access to different repayment tenure options.\n\nDigital Application: If an appropriate offer is available, you may continue with the lender's online application process.",
+        },
+
+        {
+          heading: "Understand AadhaarPe Loan Eligibility",
+          text: "Before applying, it is useful to understand the factors that may be considered during a loan assessment. Lenders may review your income, employment or business profile, credit history, existing EMIs, financial obligations, and repayment capacity.\n\nThe applicable loan amount, interest rate, EMI, repayment period, and processing charges are determined according to the lender's policies and your individual profile.\n\nAlways review the complete offer details before deciding to proceed.",
+        },
+
+        {
+          heading: "How to Apply for AadhaarPe Loan",
+          text: "Click the Continue button to explore available options.\n\nReview the loan or financial offers displayed to you.\n\nSelect an option that matches your requirements.\n\nCompare the applicable interest rate, EMI, repayment tenure, and fees.\n\nProvide the information and documents requested by the lender.\n\nComplete the lender's KYC and verification process.\n\nThe final lending decision is made by the respective lender after completing its eligibility and credit assessment.\n\nNote: Having an Aadhaar card does not by itself guarantee loan approval. Additional KYC, PAN, income proof, bank statements, credit checks, or other documents may be required by the lender.",
+        },
+
+        {
+          heading: "Review Loan Terms Before Applying",
+          text: "Before accepting a loan offer, carefully review the applicable interest rate, APR, processing fee, monthly EMI, repayment tenure, late payment charges, and other conditions.\n\nYou should also understand the overall repayment amount for the full loan period. Choose a repayment schedule that you can reasonably manage based on your monthly income and expenses.",
+        },
+
+        {
+          heading: "Stay Safe During Online Loan Applications",
+          text: "Use secure websites and trusted financial service providers when applying for a loan.\n\nNever share confidential information such as OTPs, UPI PINs, ATM PINs, card PINs, or online banking passwords with unknown individuals.\n\nBefore submitting your information, verify the identity of the lender or financial service provider. Read the loan agreement and applicable terms carefully before accepting an offer.",
+        },
+
+        {
+          heading: "Borrow Within Your Financial Capacity",
+          text: "A loan may help manage planned or unexpected financial requirements, but it also creates a regular repayment obligation.\n\nConsider your existing expenses, current EMIs, income, and future financial commitments before borrowing.\n\nAvoid taking a larger loan than you reasonably need and select a repayment plan that fits your monthly budget.",
+        },
+
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Can I explore loan options through AadhaarPe online?",
+              answer:
+                "If an offer from a participating lender or financial service provider is available, eligible users may review the offer and continue with the respective application process.",
+            },
+            {
+              question: "Is loan eligibility determined only by Aadhaar?",
+              answer:
+                "No. Aadhaar alone does not determine loan eligibility. The lender may consider income, credit profile, existing financial obligations, repayment capacity, and other eligibility requirements.",
+            },
+            {
+              question: "Is AadhaarPe loan approval guaranteed?",
+              answer:
+                "No. Every application is subject to the respective lender's eligibility assessment, KYC, document verification, credit evaluation, and approval policies.",
+            },
+            {
+              question:
+                "Which documents may be required for a loan application?",
+              answer:
+                "Depending on the lender, applicants may be asked for Aadhaar or other KYC documents, PAN, income proof, bank statements, address proof, or additional verification documents.",
+            },
+          ],
+        },
+
+        {
+          heading: "Disclaimer",
+          text: "The information provided on this website is intended for general and educational purposes only. It should not be considered financial advice or a guarantee of loan approval.\n\nLoan eligibility, amount, interest rate, EMI, processing fees, repayment tenure, approval, and disbursal are determined by the respective lender based on its policies and assessment of the applicant.\n\nUsers should carefully review all applicable fees, terms, conditions, and requirements before accepting any financial product.",
+        },
+
+        {
+          heading: "Advertiser Disclosure",
+          text: "This website may display advertisements or promotional offers from third-party lenders and financial service providers. We may receive compensation or commission when users interact with certain advertisements or offers.\n\nParticipation in any offer is voluntary and remains subject to the eligibility requirements, terms, and conditions of the respective provider.",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "student-loan-online-education-finance-guide",
+    pixelKey: "student-loan-variant-2",
+    variant: "variant-2",
+    language: "hi",
+    title: "Student Loan Online: शिक्षा के खर्चों के लिए लोन विकल्प समझें",
+    category: "",
+    categoryName: "स्टूडेंट लोन",
+    date: "January 18, 2026",
+    author: "एजुकेशन फाइनेंस सहायता टीम",
+    excerpt:
+      "उच्च शिक्षा की फीस और अन्य योग्य शैक्षणिक खर्चों के लिए उपलब्ध Student Loan विकल्पों के बारे में जानें, पात्रता समझें और आवेदन से पहले जरूरी शर्तों की जांच करें।",
+    imageFile: "studentLoan-v2.png",
+
+    content: {
+      sections: [
+        {
+          heading: "उच्च शिक्षा के लिए Student Loan विकल्प",
+          text: "कॉलेज, यूनिवर्सिटी, प्रोफेशनल प्रोग्राम या अन्य उच्च शिक्षा से जुड़े खर्चों को मैनेज करने के लिए पात्र छात्रों और आवेदकों के लिए Student Loan के विकल्प उपलब्ध हो सकते हैं।\n\nलोन का उपयोग किन शिक्षा संबंधी खर्चों के लिए किया जा सकता है, यह संबंधित ऋणदाता और लोन योजना की शर्तों पर निर्भर करता है। पात्रता कोर्स, संस्थान, फीस, छात्र की प्रोफाइल और सह-आवेदक की वित्तीय जानकारी जैसे विभिन्न कारकों के आधार पर निर्धारित की जा सकती है।",
+        },
+
+        {
+          heading: "Student Loan Options Explore करें 🎓👇",
+          text: "Student Loan से जुड़ी महत्वपूर्ण बातें\n\nEducation Financing: पात्र शिक्षा खर्चों को पूरा करने के लिए उपलब्ध वित्तीय विकल्पों को समझें।\n\nLoan Amount: संभावित राशि कोर्स, फीस, संस्थान और ऋणदाता की नीतियों के अनुसार अलग-अलग किया जा सकता है।\n\nRepayment Options: उपलब्ध पुनर्भुगतान अवधि और EMI से जुड़ी जानकारी पहले से समझें।\n\nOnline Process: कुछ ऋणदाता ऑनलाइन आवेदन और दस्तावेज़ जमा करने की सुविधा प्रदान कर सकते हैं।\n\nOffer Comparison: अलग-अलग विकल्पों की ब्याज दर, फीस, अवधि और अन्य शर्तों की तुलना करें।",
+        },
+
+        {
+          heading: "Student Loan के लिए पात्रता समझें",
+          text: "Student Loan के लिए पात्रता कई बातों पर निर्भर कर सकती है। इसमें चुना गया कोर्स, शिक्षण संस्थान, शिक्षा की अनुमानित लागत, छात्र की जानकारी और सह-आवेदक की प्रोफाइल शामिल हो सकती है।\n\nकुछ मामलों में ऋणदाता आय, क्रेडिट प्रोफाइल, मौजूदा वित्तीय दायित्व और अन्य दस्तावेज़ों का भी मूल्यांकन कर सकता है।\n\nआवेदन करने से पहले संबंधित ऋणदाता की पात्रता शर्तों और आवश्यक दस्तावेज़ों की जानकारी जरूर जांचें।",
+        },
+
+        {
+          heading: "Student Loan के लिए आवेदन कैसे करें?",
+          text: "उपलब्ध Student Loan विकल्पों की जानकारी देखें।\n\nअपने कोर्स और शिक्षण संस्थान से संबंधित विवरण प्रदान करें।\n\nलोन की पात्रता और उपलब्ध राशि से जुड़ी शर्तें जांचें।\n\nब्याज दर, APR, EMI, फीस और पुनर्भुगतान अवधि को ध्यान से समझें।\n\nआवश्यक पहचान, एडमिशन और वित्तीय दस्तावेज़ जमा करें।\n\nयदि सह-आवेदक आवश्यक है, तो संबंधित जानकारी और दस्तावेज़ प्रदान करें।\n\nKYC और ऋणदाता की सत्यापन प्रक्रिया पूरी करें।\n\nअंतिम मंजूरी संबंधित ऋणदाता के मूल्यांकन और नीतियों के आधार पर तय की जाती है।",
+        },
+
+        {
+          heading: "लोन लेने से पहले किन खर्चों को समझें?",
+          text: "Student Loan लेने से पहले यह समझना जरूरी है कि लोन से कौन-कौन से शिक्षा संबंधी खर्च कवर किए जा सकते हैं। ट्यूशन फीस, परीक्षा शुल्क, हॉस्टल या अन्य खर्चों की उपलब्धता संबंधित लोन की शर्तों पर निर्भर कर सकती है।\n\nलोन की कुल लागत समझने के लिए ब्याज दर, प्रोसेसिंग फीस, EMI, पुनर्भुगतान अवधि और कुल भुगतान राशि की जांच करें।",
+        },
+
+        {
+          heading: "Repayment की योजना पहले से बनाएं",
+          text: "Student Loan के साथ भविष्य में नियमित पुनर्भुगतान की जिम्मेदारी आती है। इसलिए लोन लेने से पहले यह समझें कि EMI कब से शुरू होगी और उपलब्ध मोरेटोरियम या अन्य पुनर्भुगतान शर्तें क्या हैं।\n\nभविष्य की आय और वित्तीय जिम्मेदारियों को ध्यान में रखते हुए ऐसा विकल्प चुनें जिसकी repayment terms आपके लिए समझने और मैनेज करने योग्य हों।",
+        },
+
+        {
+          heading: "ऑनलाइन आवेदन करते समय सुरक्षा",
+          text: "Student Loan के लिए आवेदन करते समय भरोसेमंद बैंक, वित्तीय संस्थान या सुरक्षित ऑनलाइन प्लेटफॉर्म का उपयोग करें।\n\nOTP, UPI PIN, कार्ड PIN, इंटरनेट बैंकिंग पासवर्ड या अन्य गोपनीय सुरक्षा जानकारी किसी अनजान व्यक्ति के साथ साझा न करें।\n\nकिसी भी लोन ऑफर को स्वीकार करने से पहले संबंधित ऋणदाता की पहचान और लोन एग्रीमेंट की जानकारी ध्यान से जांचें।",
+        },
+
+        {
+          heading: "अक्सर पूछे जाने वाले सवाल",
+          text: "",
+          faqs: [
+            {
+              question:
+                "Student Loan के लिए पात्रता किन बातों पर निर्भर करती है?",
+              answer:
+                "पात्रता कोर्स, संस्थान, शिक्षा की लागत, छात्र की प्रोफाइल, सह-आवेदक की जानकारी और संबंधित ऋणदाता की नीतियों के आधार पर अलग-अलग हो सकती है।",
+            },
+            {
+              question: "Student Loan से कितनी राशि मिल सकती है?",
+              answer:
+                "उपलब्ध लोन राशि कोर्स की फीस, शिक्षा से जुड़े खर्च, संस्थान और संबंधित ऋणदाता की पात्रता एवं क्रेडिट मूल्यांकन के अनुसार निर्धारित किया जा सकता है।",
+            },
+            {
+              question: "क्या Student Loan की मंजूरी निश्चित होती है?",
+              answer:
+                "नहीं। अंतिम निर्णय संबंधित ऋणदाता की पात्रता जांच, दस्तावेज़ सत्यापन, KYC और आवश्यक क्रेडिट मूल्यांकन के बाद लिया जाता है।",
+            },
+            {
+              question:
+                "Student Loan के लिए कौन से दस्तावेज़ आवश्यक हो सकते हैं?",
+              answer:
+                "ऋणदाता पहचान और पता प्रमाण, एडमिशन लेटर, फीस स्ट्रक्चर, कोर्स से संबंधित जानकारी, आय दस्तावेज़ और सह-आवेदक के दस्तावेज़ मांग सकता है।",
+            },
+          ],
+        },
+
+        {
+          heading: "महत्वपूर्ण अस्वीकरण",
+          text: "इस वेबसाइट पर उपलब्ध जानकारी केवल सामान्य और शैक्षिक जानकारी के उद्देश्य से दी गई है। इसे वित्तीय सलाह या Student Loan की मंजूरी की गारंटी नहीं माना जाना चाहिए।\n\nलोन की पात्रता, राशि, ब्याज दर, APR, EMI, प्रोसेसिंग शुल्क, पुनर्भुगतान अवधि, मंजूरी और वितरण संबंधित ऋणदाता द्वारा उसकी नीतियों और आवेदक की प्रोफाइल के आधार पर निर्धारित किए जाते हैं।\n\nकिसी भी शिक्षा ऋण को स्वीकार करने से पहले ब्याज, शुल्क, पुनर्भुगतान शर्तों और अन्य लागू नियमों को ध्यानपूर्वक पढ़ें।",
+        },
+
+        {
+          heading: "विज्ञापन संबंधी जानकारी",
+          text: "यह वेबसाइट थर्ड-पार्टी ऋणदाताओं या वित्तीय सेवा प्रदाताओं के प्रायोजित विज्ञापन और प्रमोशनल ऑफर प्रदर्शित कर सकती है। कुछ विज्ञापनों, ऑफर या रेफरल के साथ योग्य इंटरैक्शन के आधार पर वेबसाइट को मुआवजा या कमीशन प्राप्त हो सकता है।\n\nकिसी भी ऑफर के लिए आवेदन करना स्वैच्छिक है और संबंधित प्रदाता की पात्रता, नियमों और शर्तों के अधीन है।",
         },
       ],
     },

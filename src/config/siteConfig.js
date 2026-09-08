@@ -13,7 +13,9 @@ const normalizeHost = (value = "") => {
     const url = new URL(
       candidate.includes("://") ? candidate : "http://" + candidate,
     );
-    return url.hostname.toLowerCase().replace(/\.$/, "");
+    const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
+    const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+    return isLocal && url.port ? `${hostname}:${url.port}` : hostname;
   } catch {
     return "";
   }
@@ -80,12 +82,13 @@ const REQUIRED_SITE_CONFIG = Object.freeze({
   },
 });
 
-const isAllowedEnvironmentHost = (domain) => {
+const isValidEnvironmentHost = (domain) => {
   const host = normalizeHost(domain);
-  return (
-    Object.prototype.hasOwnProperty.call(REQUIRED_SITE_CONFIG, host) ||
-    host === "localhost" ||
-    host === "127.0.0.1"
+  if (!host || host.includes("/") || host.includes("\\")) return false;
+  if (/^localhost(?::\d+)?$/.test(host)) return true;
+  if (/^127\.0\.0\.1(?::\d+)?$/.test(host)) return true;
+  return /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(
+    host,
   );
 };
 
@@ -97,7 +100,7 @@ const parseDomainConfig = () => {
     try {
       const parsed = JSON.parse(configString);
       Object.entries(parsed).forEach(([domain, config]) => {
-        if (isAllowedEnvironmentHost(domain)) {
+        if (isValidEnvironmentHost(domain)) {
           addDomainConfig(configs, domain, config);
         }
       });
@@ -106,7 +109,7 @@ const parseDomainConfig = () => {
       configString.split("|").forEach((entry) => {
         const match = entry.trim().match(/^(.*):(hi|en)(?::([^:]*))?$/i);
         if (!match) return;
-        if (isAllowedEnvironmentHost(match[1])) {
+        if (isValidEnvironmentHost(match[1])) {
           addDomainConfig(configs, match[1], {
             language: match[2],
             primaryCategory: match[3],
@@ -148,7 +151,9 @@ const FALLBACK_CONFIG = Object.freeze({
 
 export const getCurrentHost = () => {
   if (typeof window === "undefined") return normalizeHost(MAIN_DOMAIN);
-  return window.location.hostname.toLowerCase().replace(/\.$/, "");
+  const hostname = window.location.hostname.toLowerCase().replace(/\.$/, "");
+  const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+  return isLocal ? window.location.host.toLowerCase() : hostname;
 };
 
 export const getCurrentDomain = () => {

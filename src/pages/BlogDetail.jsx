@@ -10,7 +10,8 @@ import BlogPixel from "../components/BlogPixel";
 import LanguageToggle from "../components/LanguageToggle";
 
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
-import { getBlogPost, blogPosts } from "../data/blogData";
+
+import { getBlogPost, blogPosts, getBlogLanguage, getBlogTopicKey } from "../data/blogData";
 import { isBlogAvailableForLanguage, orderBlogsByPriority } from "../data/blogData";
 import { getCurrentSiteLanguage, getPriorityBlog, getCanonicalUrl } from "../config/siteConfig";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
@@ -45,8 +46,9 @@ const ENGLISH_AADHAAR_LOAN_SLUG =
 const AADHAAR_LOAN_SLUGS = [
   AADHAAR_LOAN_SLUG,
   ENGLISH_AADHAAR_LOAN_SLUG,
+  "aadhaarpe-loan-online-application-guide",
+  "aadhaarpe-loan-online-application-process-guide",
 ];
-
 const renderSectionText = (text) =>
   text.split("\n\n").map((block, index) => {
     const lines = block.split("\n").filter(Boolean);
@@ -66,9 +68,13 @@ const cleanPromptText = (value = "") =>
 
 const BlogScrollPrompt = ({ section }) => {
   const headingHasScroll = section.heading.includes("Scroll");
+  const textHasScroll = section.text?.includes("Scroll");
   const source = headingHasScroll
     ? section.heading
-    : section.text || section.heading;
+    : textHasScroll
+      ? section.text
+      : section.heading;
+  const sourceHasScroll = source.includes("Scroll");
   const [beforeScroll, afterScroll = ""] = source.split("Scroll");
   const cleanedLead = cleanPromptText(
     headingHasScroll ? beforeScroll : section.heading,
@@ -81,13 +87,17 @@ const BlogScrollPrompt = ({ section }) => {
     ? markerIndex > 0
       ? cleanedLead.slice(0, markerIndex).trim()
       : leadWords.slice(0, fallbackSplit).join(" ")
-    : cleanedLead;
-  const context = headingHasScroll
-    ? markerIndex > 0
-      ? cleanedLead.slice(markerIndex).trim()
-      : leadWords.slice(fallbackSplit).join(" ") ||
-        "\u0915\u0947 \u0932\u093f\u090f"
-    : cleanPromptText(beforeScroll);
+    : sourceHasScroll
+      ? cleanedLead
+      : leadWords.slice(0, fallbackSplit).join(" ");
+  const context = sourceHasScroll
+    ? headingHasScroll
+      ? markerIndex > 0
+        ? cleanedLead.slice(markerIndex).trim()
+        : leadWords.slice(fallbackSplit).join(" ") ||
+          "\u0915\u0947 \u0932\u093f\u090f"
+      : cleanPromptText(beforeScroll)
+    : leadWords.slice(fallbackSplit).join(" ");
   const actionSuffix = cleanPromptText(afterScroll);
   const accessibleText = [primary, context, "Scroll", actionSuffix]
     .filter(Boolean)
@@ -136,6 +146,14 @@ const BlogDetail = () => {
     loanCtaTexts[(Math.max(articleIndex, 0) + loanCtaOffset) % loanCtaTexts.length];
   const rewardTargetSlug =
     siteLanguage === "en" ? ENGLISH_AADHAAR_LOAN_SLUG : AADHAAR_LOAN_SLUG;
+  const aadhaarRewardTargets = sitePosts
+    .filter(
+      (item) =>
+        item.id !== post?.id &&
+        getBlogLanguage(item) === siteLanguage &&
+        getBlogTopicKey(item) === "aadhaar-loan",
+    )
+    .map((item) => item.id);
   const previousPost = articleIndex > 0 ? sitePosts[articleIndex - 1] : null;
   const nextPost =
     articleIndex >= 0 && articleIndex < sitePosts.length - 1
@@ -314,6 +332,7 @@ const BlogDetail = () => {
                             key={'rewarded-' + post.id}
                             post={post}
                             targetSlug={rewardTargetSlug}
+                            targetSlugs={aadhaarRewardTargets}
                             ctaText={loanCtaText}
                           />
                         )}

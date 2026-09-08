@@ -15,10 +15,13 @@ import localImage from "../assets/buttons/localImage.svg";
 
 const buttonImageMap = {
   "personal-loan-online-eligibility-check-apply": personalLoanBtn,
+  "personal-loan-online-apply-guide": personalLoanBtn,
   "aadhaarpe-loan-online-eligibility-check-apply": aadhaarLoanBtn,
+  "aadhaarpe-loan-online-application-guide": aadhaarLoanBtn,
   "car-loan-check-offers-apply-online": carLoanBtn,
   "gold-loan-check-offers-apply-online": goldLoanBtn,
   "student-loan-education-finance-options": studentLoanBtn,
+  "student-loan-online-education-finance-guide": studentLoanBtn,
   "home-loan-housing-finance-options": homeLoanBtn,
 };
 
