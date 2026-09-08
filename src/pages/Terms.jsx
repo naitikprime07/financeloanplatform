@@ -5,8 +5,8 @@ const Terms = () => {
   return (
     <>
       <Helmet>
-        <title>Terms & Conditions | Finvexa</title>
-        <meta name="description" content="Read the Terms & Conditions for using Finvexa." />
+        <title>Terms & Conditions | FinanceLoan</title>
+        <meta name="description" content="Read the Terms & Conditions for using FinanceLoan." />
         <link rel="canonical" href="https://finvexa.com/terms" />
       </Helmet>
 
@@ -18,7 +18,7 @@ const Terms = () => {
             <section className="content-section">
               <h2>1. Acceptance of Terms</h2>
               <p>
-                By accessing and using Finvexa, you accept and agree to be bound by the terms and provision of this agreement.
+                By accessing and using FinanceLoan, you accept and agree to be bound by the terms and provision of this agreement.
                 If you do not agree to abide by the above, please do not use this service.
               </p>
             </section>
@@ -34,8 +34,8 @@ const Terms = () => {
             <section className="content-section">
               <h2>3. Intellectual Property Rights</h2>
               <p>
-                Unless otherwise stated, Finvexa and/or its licensors own the intellectual property rights for all material
-                on Finvexa. All intellectual property rights are reserved. You may access this from Finvexa for your own
+                Unless otherwise stated, FinanceLoan and/or its licensors own the intellectual property rights for all material
+                on FinanceLoan. All intellectual property rights are reserved. You may access this from FinanceLoan for your own
                 personal use subjected to restrictions set in these terms and conditions.
               </p>
             </section>
@@ -44,8 +44,8 @@ const Terms = () => {
               <h2>4. User Content</h2>
               <p>
                 Parts of this website may offer an opportunity for users to post and exchange opinions and information.
-                Finvexa does not filter, edit, publish, or review Comments prior to their presence on the website.
-                Comments do not reflect the views and opinions of Finvexa, its agents, and/or affiliates.
+                FinanceLoan does not filter, edit, publish, or review Comments prior to their presence on the website.
+                Comments do not reflect the views and opinions of FinanceLoan, its agents, and/or affiliates.
               </p>
             </section>
 
@@ -61,7 +61,7 @@ const Terms = () => {
             <section className="content-section">
               <h2>6. External Links</h2>
               <p>
-                Our website may contain links to third-party websites or services that are not owned or controlled by Finvexa.
+                Our website may contain links to third-party websites or services that are not owned or controlled by FinanceLoan.
                 We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any
                 third-party websites or services.
               </p>

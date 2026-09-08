@@ -1,4 +1,4 @@
-const blogImages = import.meta.glob("../assets/images/*.{webp,png}", {
+const blogImages = import.meta.glob("../assets/images/*.{webp,png,svg}", {
   eager: true,
   query: "?url",
   import: "default",
@@ -18,6 +18,56 @@ export const categories = [
   { id: "business-growth", name: "Business Growth", slug: "business-growth" },
   { id: "crm-solutions", name: "CRM Solutions", slug: "crm-solutions" },
 ];
+
+// Helper function to detect blog language
+export const getBlogLanguage = (blog) => {
+  if (!blog) return "hi";
+  if (blog.language) return blog.language;
+  if (blog.pixelKey?.endsWith("-english")) return "en";
+  return blog.category ? "common" : "hi";
+};
+
+export const isBlogAvailableForLanguage = (blog, siteLanguage) => {
+  const blogLanguage = getBlogLanguage(blog);
+  return blogLanguage === "common" || blogLanguage === siteLanguage;
+};
+
+/**
+ * Filter blogs for current site based on domain language
+ * @param {Function} getCurrentSiteLanguage - Function to get current site language
+ * @returns {Array} Filtered blog posts
+ */
+export const getBlogContentKey = (blog) =>
+  String(blog?.pixelKey || blog?.category || "")
+    .trim()
+    .toLowerCase()
+    .replace(/-english$/, "");
+
+
+export const orderBlogsByPriority = (blogs, priorityBlog) => {
+  const priority = String(priorityBlog || "").trim().toLowerCase();
+  if (!priority) return blogs;
+
+  const isPriorityBlog = (blog) =>
+    String(blog?.id || "").trim().toLowerCase() === priority ||
+    getBlogContentKey(blog) === priority;
+
+  return [
+    ...blogs.filter(isPriorityBlog),
+    ...blogs.filter((blog) => !isPriorityBlog(blog)),
+  ];
+};
+
+export const getBlogsForCurrentSite = (
+  getCurrentSiteLanguage,
+  getCurrentBlog = () => null,
+) => {
+  const siteLanguage = getCurrentSiteLanguage();
+  const siteBlogs = blogPosts.filter((blog) =>
+    isBlogAvailableForLanguage(blog, siteLanguage),
+  );
+  return orderBlogsByPriority(siteBlogs, getCurrentBlog());
+};
 
 const rawBlogPosts = [
   {
@@ -95,7 +145,86 @@ const rawBlogPosts = [
     },
   },
   {
+    id: "personal-loan-online-check-eligibility-apply",
+    pixelKey: "personal-loan-english",
+    title: "Personal Loan Online: Check Eligibility & Apply",
+    category: "",
+    categoryName: "Personal Loan",
+    date: "January 16, 2026",
+    author: "Finance Support Team",
+    excerpt:
+      "Looking for financial support for personal expenses? Personal loan options may be available for eligible users based on factors such as income, credit profile, employment status, lender criteria, and repayment capacity.",
+    imageFile: "e_personalLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "Personal Loan Offers 2026",
+          text: "Looking for financial support for personal expenses? Personal loan options may be available for eligible users based on factors such as income, credit profile, employment status, lender criteria, and repayment capacity.\n\nUsers can explore available loan offers online, compare important details, and proceed with an application through participating lenders or financial service providers.",
+        },
+        {
+          heading: "Personal Loan के लिए Scroll करें 💰👇",
+          text: "Why Consider a Personal Loan?\n\nOnline Application: Apply digitally with a simple application process.\n\nFlexible Loan Amounts: Available loan amounts depend on lender eligibility criteria.\n\nFlexible Repayment: Choose from available repayment tenure options.\n\nQuick Eligibility Check: Check whether you may qualify for available loan offers.\n\nMinimal Documentation: Documentation requirements vary by lender.",
+        },
+        {
+          heading: "Check Your Personal Loan Eligibility",
+          text: "Explore available personal loan options based on your profile and eligibility.\n\nLoan amount, interest rate, tenure, processing fee, approval and disbursal depend on the lender's terms, credit assessment and eligibility criteria.\n\nSelect an available offer and continue to view further details.",
+        },
+        {
+          heading: "How to Apply",
+          text: "Click on the continue button\n\nView available loan or financial offers\n\nSelect an offer suitable for your requirements\n\nReview interest rate, fees, tenure and repayment terms\n\nComplete the lender's application and verification process\n\nApproval is subject to lender eligibility and credit assessment\n\nNote: Loan approval and disbursal are not guaranteed. Interest rates, loan amounts, processing fees and repayment terms may vary depending on the lender and applicant profile.",
+        },
+        {
+          heading: "Things to Check Before Taking a Loan",
+          text: "Before applying for a personal loan, carefully review the annual interest rate, processing charges, repayment tenure, monthly EMI, late payment charges and other applicable terms.\n\nBorrow only an amount that you can comfortably repay.",
+        },
+        {
+          heading: "Digital Safety",
+          text: "Always apply through trusted lenders and secure websites. Never share OTPs, UPI PINs, card PINs or banking passwords with unknown persons.\n\nVerify the lender's identity and carefully read the loan agreement before accepting any offer.",
+        },
+        {
+          heading: "Responsible Borrowing",
+          text: "A personal loan can help manage planned or unexpected expenses, but repayments should fit comfortably within your monthly budget.\n\nCompare multiple offers and understand the total repayment amount before making a decision.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Can I apply for a personal loan online?",
+              answer:
+                "Yes. Many lenders provide online personal loan application facilities. Eligibility and availability depend on the lender.",
+            },
+            {
+              question: "How much loan can I get?",
+              answer:
+                "The eligible amount depends on income, credit history, existing obligations and lender policies.",
+            },
+            {
+              question: "Is loan approval guaranteed?",
+              answer:
+                "No. Every application is subject to eligibility checks, document verification and lender approval.",
+            },
+            {
+              question: "What documents may be required?",
+              answer:
+                "Lenders may request identity proof, address proof, income documents, bank statements or other verification documents.",
+            },
+          ],
+        },
+        {
+          heading: "Disclaimer",
+          text: "The information provided on this website is for general informational purposes only and does not constitute financial advice or a guarantee of credit.\n\nLoan approval, loan amount, interest rate, processing charges, tenure and disbursal are determined solely by the respective lender based on eligibility and credit assessment.\n\nUsers should carefully review all terms and conditions before accepting any financial product.",
+        },
+        {
+          heading: "Advertiser Disclosure",
+          text: "This website may display sponsored advertisements or promotional offers from third-party financial service providers. We may receive compensation when users interact with certain advertisements or offers.\n\nParticipation is voluntary and subject to the terms and eligibility requirements of the respective provider.",
+        },
+      ],
+    },
+  },
+  {
     id: "aadhaarpe-loan-online-eligibility-check-apply",
+    pixelKey: "aadhaar-loan",
     title: "AadhaarPe Loan Online: पात्रता जांचें और आवेदन करें",
     category: "",
     categoryName: "आधारपे लोन",
@@ -165,7 +294,86 @@ const rawBlogPosts = [
     },
   },
   {
+    id: "aadhaarpe-loan-online-check-eligibility-apply",
+    pixelKey: "aadhaar-loan-english",
+    title: "AadhaarPe Loan Online: Check Eligibility & Apply",
+    category: "",
+    categoryName: "AadhaarPe Loan",
+    date: "January 17, 2026",
+    author: "Finance Support Team",
+    excerpt:
+      "Are you looking for financial support for personal expenses, education, medical needs, household expenses, or other requirements? Loan or financial offers available through AadhaarPe may be shown to eligible users.",
+    imageFile: "e_aadharPeLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "AadhaarPe Loan Offers 2026",
+          text: "Are you looking for financial support for personal expenses, education, medical needs, household expenses, or other requirements? Loan or financial offers available through AadhaarPe may be shown to eligible users.\n\nLoan eligibility may depend on factors such as your income, credit profile, employment status, repayment capacity, and the respective lender's eligibility criteria.",
+        },
+        {
+          heading: "AadhaarPe Loan Scroll to Check 💰👇",
+          text: "Key Features of AadhaarPe Loan\n\nOnline Process: Explore available loan options online.\n\nEligibility Check: Check available offers based on your profile.\n\nFlexible Loan Amounts: Eligible loan amounts are determined by the respective lender.\n\nFlexible EMI Options: Review available repayment tenure and EMI options.\n\nDigital Application: Continue with the online application if you find an eligible offer.",
+        },
+        {
+          heading: "Check Your AadhaarPe Loan Eligibility",
+          text: "Explore available loan offers based on your profile and eligibility.\n\nLoan amount, interest rate, EMI, tenure, processing fee, approval, and disbursal depend on the lender's terms, credit assessment, and eligibility criteria.",
+        },
+        {
+          heading: "How to Apply",
+          text: "Click the Continue button.\n\nView available loan or financial offers.\n\nSelect an offer suitable for your requirements.\n\nReview the interest rate, EMI, processing fee, and repayment tenure.\n\nSubmit the required information and documents.\n\nComplete the lender's verification process.\n\nFinal approval is subject to the lender's eligibility and credit assessment.\n\nNote: Having an Aadhaar card alone does not guarantee loan approval. The lender may require additional KYC, income proof, bank statements, credit checks, or other documents.",
+        },
+        {
+          heading: "Things to Check Before Taking a Loan",
+          text: "Before applying, carefully review the interest rate, APR, processing fee, monthly EMI, repayment tenure, late payment charges, and total repayment amount.\n\nBorrow only an amount that you can comfortably repay within your monthly budget.",
+        },
+        {
+          heading: "Digital Safety",
+          text: "Always apply through trusted lenders and secure websites. Never share your OTP, UPI PIN, ATM PIN, card PIN, or banking password with unknown persons.\n\nVerify the identity of the actual lender or financial service provider and carefully read the loan agreement before accepting any offer.",
+        },
+        {
+          heading: "Responsible Borrowing",
+          text: "A loan can help you manage planned or unexpected expenses, but repayments should fit comfortably within your monthly budget.\n\nCompare available offers and understand the total repayment amount before making a decision.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Can I apply for a loan online through AadhaarPe?",
+              answer:
+                "If an eligible offer from a lender or financial service provider is available on the platform, users may proceed with the respective application process.",
+            },
+            {
+              question: "How much loan can I get using Aadhaar?",
+              answer:
+                "The loan amount is not determined by Aadhaar alone. It may depend on income, credit profile, existing financial obligations, repayment capacity, and the lender's eligibility criteria.",
+            },
+            {
+              question: "Is AadhaarPe loan approval guaranteed?",
+              answer:
+                "No. Loan approval is subject to eligibility checks, KYC, document verification, credit assessment, and the respective lender's policies.",
+            },
+            {
+              question: "What documents may be required?",
+              answer:
+                "In addition to Aadhaar/KYC documents, lenders may request PAN, income proof, bank statements, address proof, or other verification documents.",
+            },
+          ],
+        },
+        {
+          heading: "Disclaimer",
+          text: "The information provided on this website is for general informational purposes only and does not constitute financial advice or a guarantee of credit.\n\nLoan approval, loan amount, interest rate, EMI, processing charges, tenure, and disbursal are determined solely by the respective lender based on eligibility and credit assessment.\n\nUsers should carefully review all applicable terms and conditions before accepting any loan offer.",
+        },
+        {
+          heading: "Advertiser Disclosure",
+          text: "This website may display advertisements or promotional offers from third-party lenders and financial service providers. We may receive compensation when users interact with certain advertisements or offers.\n\nParticipation is voluntary and subject to the terms, conditions, and eligibility requirements of the respective provider.",
+        },
+      ],
+    },
+  },
+  {
     id: "car-loan-check-offers-apply-online",
+    pixelKey: "car-loan",
     title: "Car Loan: अपनी पसंद की कार के लिए लोन विकल्प देखें",
     category: "",
     categoryName: "कार लोन",
@@ -229,7 +437,90 @@ const rawBlogPosts = [
     },
   },
   {
+    id: "car-loan-explore-financing-next-car",
+    pixelKey: "car-loan-english",
+    title: "Car Loan: Explore Financing Options for Your Next Car",
+    category: "",
+    categoryName: "Car Loan",
+    date: "January 21, 2026",
+    author: "Finance Assistance Team",
+    excerpt:
+      "Looking for financing to purchase a new or used car? Explore available Car Loan options and review offers that may be available based on your profile and the lender's eligibility criteria.",
+    imageFile: "e_carLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "Planning to Buy a Car?",
+          text: "Looking for financing to purchase a new or used car? Explore available Car Loan options and review offers that may be available based on your profile and the lender's eligibility criteria.",
+        },
+        {
+          heading: "Car Loan Scroll to Explore 🚗👇",
+          text: "Explore Car Financing Options\n\nOnline Access: View available car financing options online.\n\nEligibility-Based Offers: Offers may vary depending on your financial profile.\n\nEMI Choices: Compare available repayment periods and monthly EMI options.\n\nFlexible Loan Amounts: Eligible amounts are determined by the respective lender.\n\nDigital Process: Continue with an application for an offer that suits your requirements.",
+        },
+        {
+          heading: "Find a Car Loan Option for You",
+          text: "Provide the required details to explore financing options that may be available for your profile.\n\nBefore proceeding, compare the interest rate, APR, monthly EMI, processing charges, repayment tenure, and total repayment amount.",
+        },
+        {
+          heading: "Make Your Car Purchase Easier to Plan",
+          text: "Compare available financing options according to your car budget and repayment capacity. Consider the overall cost of borrowing instead of choosing an offer based only on the monthly EMI.",
+        },
+        {
+          heading: "How to Proceed",
+          text: "Explore available car financing offers.\n\nCompare loan terms from available providers.\n\nSelect an option suitable for your requirements.\n\nReview applicable rates, fees, and repayment terms.\n\nProvide the required information and documents.\n\nComplete KYC and lender verification.\n\nThe lender will make the final credit decision.",
+        },
+        {
+          heading: "Check Before You Apply",
+          text: "Review the down payment, interest rate, APR, processing fee, EMI, repayment period, prepayment or foreclosure charges, and total repayment amount before accepting an offer.\n\nChoose a repayment plan that fits comfortably within your monthly budget.",
+        },
+        {
+          heading: "Protect Your Financial Information",
+          text: "Use trusted and secure platforms when providing personal or financial information.\n\nNever share your OTP, UPI PIN, card PIN, banking password, or other confidential credentials with unknown persons.",
+        },
+        {
+          heading: "Responsible Borrowing",
+          text: "Consider your existing monthly expenses and financial commitments before taking a car loan. Compare available options and make sure you understand the complete repayment obligation.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Can I apply for a Car Loan online?",
+              answer:
+                "Many lenders provide online application facilities. Availability and eligibility depend on the respective lender.",
+            },
+            {
+              question: "How is my eligible Car Loan amount determined?",
+              answer:
+                "The amount may depend on factors such as the vehicle price, income, credit profile, existing financial obligations, repayment capacity, and lender criteria.",
+            },
+            {
+              question: "Is Car Loan approval guaranteed?",
+              answer:
+                "No. Approval is subject to the lender's eligibility requirements, KYC, document verification, and credit assessment.",
+            },
+            {
+              question: "Can financing be available for used cars?",
+              answer:
+                "Some lenders may provide financing for eligible used vehicles. Applicable terms, vehicle-age requirements, and availability vary by lender.",
+            },
+          ],
+        },
+        {
+          heading: "Important Disclaimer",
+          text: "The information provided here is for general informational purposes only and does not constitute financial advice or guarantee credit approval.\n\nLoan amount, interest rate, APR, EMI, fees, repayment tenure, approval, and disbursal are determined by the respective lender based on its policies and the applicant's eligibility and credit assessment.\n\nReview all applicable terms and conditions before accepting any financial product.",
+        },
+        {
+          heading: "Advertising Disclosure",
+          text: "This website may display sponsored or promotional offers from third-party lenders or financial service providers. Compensation may be received for certain eligible interactions or referrals.\n\nParticipation is voluntary and subject to the respective provider's terms and eligibility requirements.",
+        },
+      ],
+    },
+  },
+  {
     id: "gold-loan-check-offers-apply-online",
+    pixelKey: "gold-loan",
     title: "गोल्ड लोन: अपने सोने पर उपलब्ध लोन विकल्प देखें",
     category: "",
     categoryName: "गोल्ड लोन",
@@ -302,7 +593,86 @@ const rawBlogPosts = [
     },
   },
   {
+    id: "gold-loan-explore-options-against-gold",
+    pixelKey: "gold-loan-english",
+    title: "Gold Loan: Explore Loan Options Against Your Gold",
+    category: "",
+    categoryName: "Gold Loan",
+    date: "January 18, 2026",
+    author: "Finance Assistance Team",
+    excerpt:
+      "If you own eligible gold jewellery, you may explore Gold Loan options offered by participating lenders. Available loan amounts and terms depend on the value and purity of the pledged gold, your eligibility, and the lender's policies.",
+    imageFile: "e_goldLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "Need Funds for Your Financial Requirements?",
+          text: "If you own eligible gold jewellery, you may explore Gold Loan options offered by participating lenders. Available loan amounts and terms depend on the value and purity of the pledged gold, your eligibility, and the lender's policies.",
+        },
+        {
+          heading: "Gold Loan Scroll to Explore Options 🪙👇",
+          text: "Why Explore a Gold Loan?\n\nLoan Against Gold: Eligible gold jewellery may be used as security for the loan.\n\nMultiple Loan Amounts: The available amount depends on gold valuation and lender criteria.\n\nRepayment Choices: Review available repayment periods and payment options.\n\nTransparent Comparison: Check interest rates, charges, and other terms before proceeding.\n\nEligibility Check: Explore offers that may be available for your profile.",
+        },
+        {
+          heading: "Check Available Gold Loan Options",
+          text: "Provide the required information to explore available offers from participating lenders.\n\nBefore applying, review the interest rate, APR, processing charges, repayment tenure, applicable valuation charges, and total repayment amount.",
+        },
+        {
+          heading: "Turn Your Gold Into a Financing Option",
+          text: "A Gold Loan may help with planned or unexpected financial requirements without requiring you to sell eligible gold jewellery.\n\nThe lender will assess the pledged gold according to its valuation process before determining the eligible loan amount.",
+        },
+        {
+          heading: "How to Proceed",
+          text: "Explore available Gold Loan offers.\n\nReview the lender's eligibility requirements.\n\nSubmit eligible gold for valuation where required.\n\nCheck the offered loan amount and applicable charges.\n\nReview interest and repayment terms.\n\nComplete KYC and documentation.\n\nProceed only after understanding the lender's final terms.",
+        },
+        {
+          heading: "Check Before Accepting an Offer",
+          text: "Carefully review the gold valuation, loan-to-value terms, interest rate, APR, processing fee, repayment schedule, late-payment charges, and conditions relating to pledged gold.\n\nChoose an amount and repayment plan that fits comfortably within your financial capacity.",
+        },
+        {
+          heading: "Keep Your Information Secure",
+          text: "Use trusted financial providers and secure platforms. Never share your OTP, UPI PIN, card PIN, or banking password with unknown persons.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "How is the Gold Loan amount decided?",
+              answer:
+                "The eligible amount generally depends on factors such as the value and purity of the pledged gold and the lender's applicable lending criteria.",
+            },
+            {
+              question: "Is Gold Loan approval guaranteed?",
+              answer:
+                "No. Approval and the final loan amount are subject to the lender's eligibility requirements, gold valuation, KYC, verification, and applicable policies.",
+            },
+            {
+              question: "Do I have to sell my gold?",
+              answer:
+                "No. A Gold Loan generally involves pledging eligible gold as security rather than selling it. The lender's terms regarding release of pledged gold should be reviewed carefully.",
+            },
+            {
+              question: "What documents may be required?",
+              answer:
+                "Documentation requirements vary by lender and may include identity, address, KYC, and other applicable verification documents.",
+            },
+          ],
+        },
+        {
+          heading: "Important Disclaimer",
+          text: "This information is provided for general informational purposes only and does not guarantee loan approval. The eligible loan amount, interest rate, APR, fees, tenure, repayment conditions, gold valuation, and disbursal are determined by the respective lender.\n\nFailure to repay a secured Gold Loan may result in consequences involving the pledged gold in accordance with the loan agreement and applicable rules. Review all terms carefully before proceeding.",
+        },
+        {
+          heading: "Advertising Disclosure",
+          text: "This website may display sponsored or promotional financial offers from third-party lenders or service providers. Compensation may be received for certain eligible interactions or referrals.\n\nParticipation is voluntary and subject to the respective provider's eligibility requirements and terms.",
+        },
+      ],
+    },
+  },
+  {
     id: "student-loan-education-finance-options",
+    pixelKey: "student-loan",
     title: "Student Loan: शिक्षा के लिए उपलब्ध लोन विकल्प देखें",
     category: "",
     categoryName: "स्टूडेंट लोन",
@@ -375,7 +745,90 @@ const rawBlogPosts = [
     },
   },
   {
+    id: "student-loan-explore-education-financing",
+    pixelKey: "student-loan-english",
+    title: "Student Loan: Explore Education Financing Options",
+    category: "",
+    categoryName: "Student Loan",
+    date: "January 19, 2026",
+    author: "Education Finance Support Team",
+    excerpt:
+      "If you are looking for financial support for college, university, professional courses, or other eligible education expenses, you can explore available Student Loan options from participating lenders.",
+    imageFile: "e_studentLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "Planning Your Higher Education?",
+          text: "If you are looking for financial support for college, university, professional courses, or other eligible education expenses, you can explore available Student Loan options from participating lenders.\n\nLoan availability may depend on the course, educational institution, applicant profile, co-applicant details, repayment capacity, and the lender's eligibility requirements.",
+        },
+        {
+          heading: "Student Loan Scroll to Explore Options 🎓👇",
+          text: "Explore Student Loan Options\n\nEducation Financing: Explore loan options for eligible education-related expenses.\n\nFlexible Loan Amounts: Available amounts depend on lender eligibility criteria.\n\nRepayment Options: Review available repayment periods and EMI options.\n\nOnline Process: Start the application process digitally where available.\n\nCompare Offers: Review interest rates, fees, repayment terms, and other conditions.",
+        },
+        {
+          heading: "Check Available Student Loan Options",
+          text: "Provide the required education and profile details to explore financing options that may be available to you.\n\nBefore proceeding, review the interest rate, APR, EMI, repayment tenure, processing charges, and total repayment amount.",
+        },
+        {
+          heading: "Plan Your Education Financing",
+          text: "Student Loans may be available for eligible tuition fees and other approved education-related expenses. The expenses covered depend on the respective lender's terms and policies.",
+        },
+        {
+          heading: "How to Proceed",
+          text: "Explore available Student Loan offers.\n\nProvide your course and institution details.\n\nReview the eligibility requirements.\n\nCompare applicable rates, fees, and repayment periods.\n\nSubmit the required documents.\n\nComplete KYC and verification.\n\nWait for the lender's final credit decision.",
+        },
+        {
+          heading: "Check Before You Apply",
+          text: "Carefully review the interest rate, APR, repayment schedule, moratorium conditions, processing fee, loan tenure, EMI, and total repayment amount before accepting an offer.\n\nChoose a financing option only after understanding your future repayment obligations.",
+        },
+        {
+          heading: "Keep Your Information Secure",
+          text: "Apply through trusted financial providers and secure platforms. Never share your OTP, UPI PIN, card PIN, or banking password with unknown persons.",
+        },
+        {
+          heading: "Responsible Education Financing",
+          text: "Consider the expected cost of your education and your future repayment responsibilities before borrowing.\n\nCompare available options carefully and select a loan amount and repayment plan appropriate for your financial circumstances.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Who may be eligible for a Student Loan?",
+              answer:
+                "Eligibility may depend on the course, institution, applicant or co-applicant profile, documentation, and the respective lender's policies.",
+            },
+            {
+              question: "How is the Student Loan amount determined?",
+              answer:
+                "The available amount may depend on education costs, course details, institution, applicant profile, repayment capacity, and lender criteria.",
+            },
+            {
+              question: "Is Student Loan approval guaranteed?",
+              answer:
+                "No. Approval is subject to eligibility requirements, KYC, document verification, credit assessment, and the lender's policies.",
+            },
+            {
+              question: "What documents may be required?",
+              answer:
+                "Depending on the lender, applicants may be asked for identity and address proof, admission documents, fee details, income documents, bank statements, and co-applicant information.",
+            },
+          ],
+        },
+        {
+          heading: "Important Disclaimer",
+          text: "The information provided here is for general informational purposes only and does not guarantee Student Loan approval.\n\nLoan amount, interest rate, APR, EMI, fees, repayment tenure, approval, and disbursal are determined by the respective lender based on its policies and the applicant's eligibility.\n\nCarefully review all applicable charges, repayment conditions, and lender terms before accepting any financial product.",
+        },
+        {
+          heading: "Advertising Disclosure",
+          text: "This website may display sponsored or promotional offers from third-party lenders or financial service providers. Compensation may be received for certain eligible interactions or referrals.\n\nParticipation is voluntary and subject to the respective provider's terms and eligibility requirements.",
+        },
+      ],
+    },
+  },
+  {
     id: "home-loan-housing-finance-options",
+    pixelKey: "home-loan",
     title: "होम लोन: अपने घर के लिए फाइनेंस विकल्प देखें",
     category: "",
     categoryName: "होम लोन",
@@ -447,6 +900,88 @@ const rawBlogPosts = [
         {
           heading: "महत्वपूर्ण अस्वीकरण",
           text: "यह जानकारी केवल सामान्य जानकारी के उद्देश्य से है और Home Loan की मंजूरी की गारंटी नहीं देती।\n\nलोन राशि, ब्याज दर, APR, EMI, शुल्क, अवधि, मंजूरी और वितरण संबंधित ऋणदाता की नीतियों, प्रॉपर्टी मूल्यांकन और आवेदक की पात्रता पर निर्भर करते हैं।\n\nकिसी भी Home Loan ऑफर को स्वीकार करने से पहले सभी नियम, शुल्क और पुनर्भुगतान की शर्तें ध्यान से पढ़ें।\n\nविज्ञापन संबंधी जानकारी: इस वेबसाइट पर थर्ड-पार्टी ऋणदाताओं या वित्तीय सेवा प्रदाताओं के प्रायोजित अथवा प्रमोशनल ऑफर दिखाए जा सकते हैं। कुछ योग्य इंटरैक्शन या रेफरल पर वेबसाइट को कमीशन प्राप्त हो सकता है।\n\nकिसी भी ऑफर को चुनना स्वैच्छिक है और संबंधित प्रदाता की पात्रता एवं शर्तों के अधीन है।",
+        },
+      ],
+    },
+  },
+  {
+    id: "home-loan-explore-financing-dream-home",
+    pixelKey: "home-loan-english",
+    title: "Home Loan: Explore Financing Options for Your Dream Home",
+    category: "",
+    categoryName: "Home Loan",
+    date: "January 20, 2026",
+    author: "Home Finance Support Team",
+    excerpt:
+      "Looking for financial support to purchase, construct, or renovate a home? Explore available Home Loan options from participating lenders and compare offers based on your requirements and eligibility.",
+    imageFile: "e_homeLoan.png",
+    content: {
+      sections: [
+        {
+          heading: "Planning to Buy or Build a Home?",
+          text: "Looking for financial support to purchase, construct, or renovate a home? Explore available Home Loan options from participating lenders and compare offers based on your requirements and eligibility.\n\nLoan availability may depend on factors such as income, employment, property details, credit profile, repayment capacity, and the lender's eligibility criteria.",
+        },
+        {
+          heading: "Home Loan Scroll to Explore Options 🏠👇",
+          text: "Explore Home Financing Options\n\nHome Purchase: Explore financing options for eligible residential properties.\n\nFlexible Loan Amounts: Available amounts depend on property value and lender criteria.\n\nRepayment Options: Compare available EMI and repayment tenure options.\n\nOnline Eligibility Check: Explore offers that may be available for your profile.\n\nCompare Loan Terms: Review rates, charges, and repayment conditions before proceeding.",
+        },
+        {
+          heading: "Find a Home Loan Option for You",
+          text: "Provide the required personal and property details to explore available Home Loan options.\n\nBefore applying, compare the interest rate, APR, EMI, processing charges, repayment tenure, and total repayment amount.",
+        },
+        {
+          heading: "Take the Next Step Toward Your Home",
+          text: "Whether you are planning to purchase a new home, buy a resale property, construct a house, or renovate an existing property, suitable financing options may be available depending on the lender.",
+        },
+        {
+          heading: "How to Proceed",
+          text: "Explore available Home Loan offers.\n\nProvide the required property and applicant details.\n\nReview eligibility requirements.\n\nCompare interest rates and repayment terms.\n\nCheck processing and other applicable charges.\n\nSubmit the required documents.\n\nComplete KYC and property verification.\n\nWait for the lender's final decision.",
+        },
+        {
+          heading: "Things to Check Before Applying",
+          text: "Carefully review the interest rate, APR, EMI, repayment tenure, processing fee, property-related charges, prepayment conditions, and total repayment amount.\n\nChoose a loan amount and EMI that fit comfortably within your long-term financial plan.",
+        },
+        {
+          heading: "Protect Your Financial Information",
+          text: "Apply through trusted lenders and secure platforms. Never share your OTP, UPI PIN, card PIN, banking password, or other confidential credentials with unknown persons.",
+        },
+        {
+          heading: "Plan Your Repayment Carefully",
+          text: "A Home Loan can be a long-term financial commitment. Consider your regular income, existing expenses, and other financial obligations before choosing a repayment plan.",
+        },
+        {
+          heading: "Frequently Asked Questions",
+          text: "",
+          faqs: [
+            {
+              question: "Who may be eligible for a Home Loan?",
+              answer:
+                "Eligibility may depend on income, employment or business profile, age, credit assessment, property details, repayment capacity, and the respective lender's policies.",
+            },
+            {
+              question: "How is the eligible Home Loan amount determined?",
+              answer:
+                "The lender may consider the property value, applicant income, existing financial obligations, repayment capacity, credit profile, and its applicable lending criteria.",
+            },
+            {
+              question: "Is Home Loan approval guaranteed?",
+              answer:
+                "No. Approval is subject to the lender's eligibility requirements, KYC, income verification, property assessment, documentation, and credit evaluation.",
+            },
+            {
+              question: "What documents may be required?",
+              answer:
+                "Depending on the lender, applicants may need to provide identity and address proof, income documents, bank statements, property documents, and other applicable verification records.",
+            },
+          ],
+        },
+        {
+          heading: "Important Disclaimer",
+          text: "This information is provided for general informational purposes only and does not guarantee Home Loan approval.\n\nLoan amount, interest rate, APR, EMI, fees, tenure, approval, and disbursal are determined by the respective lender based on its policies, property assessment, and applicant eligibility.\n\nReview all applicable terms, charges, and repayment conditions carefully before accepting any Home Loan offer.",
+        },
+        {
+          heading: "Advertising Disclosure",
+          text: "This website may display sponsored or promotional offers from third-party lenders or financial service providers. Compensation may be received for certain eligible interactions or referrals.\n\nParticipation is voluntary and subject to the respective provider's terms and eligibility requirements.",
         },
       ],
     },
@@ -869,4 +1404,62 @@ export const getBlogsByCategory = (categoryId) => {
 
 export const getCategoryBySlug = (slug) => {
   return categories.find((cat) => cat.slug === slug);
+};
+
+/**
+ * Get categories for current site based on domain language
+ * @param {Function} getCurrentSiteLanguage - Function to get current site language
+ * @returns {Array} Filtered categories
+ */
+export const getCategoriesForCurrentSite = (
+  getCurrentSiteLanguage,
+  getCurrentBlog = () => null,
+) => {
+  // Categories are derived from every blog available for the current language.
+  const siteBlogs = getBlogsForCurrentSite(
+    getCurrentSiteLanguage,
+    getCurrentBlog,
+  );
+  const siteCategoryIds = new Set(
+    siteBlogs.map((blog) => blog.category).filter(Boolean),
+  );
+  return categories.filter((cat) => siteCategoryIds.has(cat.id));
+};
+
+/**
+ * Get blogs for current site ordered by primary category
+ * Primary category blogs appear first, followed by other blogs
+ * @param {Function} getCurrentSiteLanguage - Function to get current site language
+ * @param {Function} getPrimaryCategory - Function to get primary category
+ * @returns {Array} Ordered blog posts
+ */
+export const getBlogsForCurrentSiteOrdered = (
+  getCurrentSiteLanguage,
+  getPrimaryCategory,
+  getCurrentBlog = () => null,
+) => {
+  const siteBlogs = getBlogsForCurrentSite(
+    getCurrentSiteLanguage,
+    getCurrentBlog,
+  );
+  const primaryCat = getPrimaryCategory();
+
+  if (!primaryCat) {
+    // No primary category configured; domain priority ordering is already applied.
+    return siteBlogs;
+  }
+
+  const matchesPrimaryContent = (blog) => {
+    const contentKey = blog.pixelKey?.replace(/-english$/, "");
+    return blog.category === primaryCat || contentKey === primaryCat;
+  };
+
+  const primaryBlogs = siteBlogs.filter(matchesPrimaryContent);
+  const otherBlogs = siteBlogs.filter((blog) => !matchesPrimaryContent(blog));
+
+  // Preserve legacy category ordering, while domain priority always wins.
+  return orderBlogsByPriority(
+    [...primaryBlogs, ...otherBlogs],
+    getCurrentBlog(),
+  );
 };

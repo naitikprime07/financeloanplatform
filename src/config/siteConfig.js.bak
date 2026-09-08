@@ -1,0 +1,81 @@
+/**
+ * Centralized Site Configuration
+ * Manages domain and language settings based on environment variables
+ */
+
+// Domain Configuration from environment variables
+export const MAIN_DOMAIN = import.meta.env.VITE_MAIN_DOMAIN || 'http://localhost:5173';
+export const ENGLISH_DOMAIN = import.meta.env.VITE_ENGLISH_DOMAIN || 'http://localhost:5174';
+export const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE || 'hi';
+
+/**
+ * Get the current domain from window.location
+ * @returns {string} Current domain URL
+ */
+export const getCurrentDomain = () => {
+  if (typeof window === 'undefined') return MAIN_DOMAIN;
+  return window.location.origin;
+};
+
+/**
+ * Determine the site language based on current domain
+ * @returns {'hi'|'en'} Site language code
+ */
+export const getCurrentSiteLanguage = () => {
+  const currentDomain = getCurrentDomain();
+
+  // Check if current domain matches English domain
+  if (currentDomain === ENGLISH_DOMAIN) {
+    return 'en';
+  }
+
+  // Default to Hindi for main domain
+  return 'hi';
+};
+
+/**
+ * Check if current site is Hindi
+ * @returns {boolean}
+ */
+export const isHindiSite = () => {
+  return getCurrentSiteLanguage() === 'hi';
+};
+
+/**
+ * Check if current site is English
+ * @returns {boolean}
+ */
+export const isEnglishSite = () => {
+  return getCurrentSiteLanguage() === 'en';
+};
+
+/**
+ * Get the base URL for the opposite language site
+ * @returns {string} URL for language switch
+ */
+export const getLanguageSwitchDomain = () => {
+  return isHindiSite() ? ENGLISH_DOMAIN : MAIN_DOMAIN;
+};
+
+/**
+ * Get the full URL for switching languages
+ * @param {string} [path='/'] - Path to append to domain
+ * @returns {string} Full URL for language switch
+ */
+export const getLanguageSwitchUrl = (path = '/') => {
+  const targetDomain = getLanguageSwitchDomain();
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${targetDomain}${cleanPath}`;
+};
+
+export default {
+  MAIN_DOMAIN,
+  ENGLISH_DOMAIN,
+  DEFAULT_LANGUAGE,
+  getCurrentDomain,
+  getCurrentSiteLanguage,
+  isHindiSite,
+  isEnglishSite,
+  getLanguageSwitchDomain,
+  getLanguageSwitchUrl,
+};

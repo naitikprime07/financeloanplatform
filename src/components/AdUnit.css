@@ -71,6 +71,14 @@
     box-sizing: border-box;
 }
 
+.blog-ad-frame--poster {
+    position: relative;
+    width: min(300px, 100%);
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
 .blog-normal-ad {
     width: 100%;
     max-width: 100%;
@@ -192,4 +200,41 @@
     .blog-ad-frame {
         margin: 16px auto;
     }
+}
+/* In-article placements must reserve their creative's full space in normal flow. */
+.blog-ad-frame--featured,
+.blog-ad-frame--poster,
+.blog-ad-frame--middle {
+    position: relative;
+    display: flow-root;
+    clear: both;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.blog-ad-frame--featured .blog-normal-ad,
+.blog-ad-frame--poster .blog-normal-ad,
+.blog-ad-frame--middle .blog-normal-ad,
+.blog-ad-frame--featured .ad-unit,
+.blog-ad-frame--poster .ad-unit,
+.blog-ad-frame--middle .ad-unit {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.blog-ad-frame--featured .ad-unit > div,
+.blog-ad-frame--featured .ad-unit iframe,
+.blog-ad-frame--poster .ad-unit > div,
+.blog-ad-frame--poster .ad-unit iframe,
+.blog-ad-frame--middle .ad-unit > div,
+.blog-ad-frame--middle .ad-unit iframe {
+    max-width: 100% !important;
+    box-sizing: border-box;
 }

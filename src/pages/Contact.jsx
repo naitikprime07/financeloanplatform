@@ -33,8 +33,8 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us | Finvexa</title>
-        <meta name="description" content="Get in touch with the Finvexa team. We're here to help with your questions and feedback." />
+        <title>Contact Us | FinanceLoan</title>
+        <meta name="description" content="Get in touch with the FinanceLoan team. We're here to help with your questions and feedback." />
         <link rel="canonical" href="https://finvexa.com/contact" />
       </Helmet>
 

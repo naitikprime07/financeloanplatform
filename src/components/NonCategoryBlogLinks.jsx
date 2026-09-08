@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { blogPosts } from "../data/blogData";
+import { blogPosts, getBlogLanguage, orderBlogsByPriority } from "../data/blogData";
+import { getCurrentBlog } from "../config/siteConfig";
 import "./NonCategoryBlogLinks.css";
 
 import personalLoanBtn from "../assets/buttons/personalLoan.svg";
@@ -8,6 +9,12 @@ import carLoanBtn from "../assets/buttons/carLoan.svg";
 import goldLoanBtn from "../assets/buttons/goldLoan.svg";
 import studentLoanBtn from "../assets/buttons/studentLoan.svg";
 import homeLoanBtn from "../assets/buttons/homeLoan.svg";
+import ePersonalLoanBtn from "../assets/buttons/e_personalLoan.svg";
+import eAadhaarLoanBtn from "../assets/buttons/e_aadharPeLoan.svg";
+import eCarLoanBtn from "../assets/buttons/e_carLoan.svg";
+import eGoldLoanBtn from "../assets/buttons/e_goldLoan.svg";
+import eStudentLoanBtn from "../assets/buttons/e_studentLoan.svg";
+import eHomeLoanBtn from "../assets/buttons/e_homeLoan.svg";
 
 const buttonMap = {
   "personal-loan-online-eligibility-check-apply": personalLoanBtn,
@@ -16,6 +23,12 @@ const buttonMap = {
   "gold-loan-check-offers-apply-online": goldLoanBtn,
   "student-loan-education-finance-options": studentLoanBtn,
   "home-loan-housing-finance-options": homeLoanBtn,
+  "personal-loan-online-check-eligibility-apply": ePersonalLoanBtn,
+  "aadhaarpe-loan-online-check-eligibility-apply": eAadhaarLoanBtn,
+  "car-loan-explore-financing-next-car": eCarLoanBtn,
+  "gold-loan-explore-options-against-gold": eGoldLoanBtn,
+  "student-loan-explore-education-financing": eStudentLoanBtn,
+  "home-loan-explore-financing-dream-home": eHomeLoanBtn,
 };
 
 const NonCategoryBlogLinks = ({
@@ -24,9 +37,22 @@ const NonCategoryBlogLinks = ({
   rewardStatus,
   activeTargetSlug,
 }) => {
-  if (currentPostId !== "aadhaarpe-loan-online-eligibility-check-apply") return null;
+  const aadhaarBlogs = [
+    "aadhaarpe-loan-online-eligibility-check-apply", // Hindi
+    "aadhaarpe-loan-online-check-eligibility-apply"  // English
+  ];
 
-  const posts = blogPosts.filter((post) => !post.category && post.id !== currentPostId);
+  if (!aadhaarBlogs.includes(currentPostId)) return null;
+
+  const currentPost = blogPosts.find((post) => post.id === currentPostId);
+  const currentLanguage = getBlogLanguage(currentPost);
+  const posts = orderBlogsByPriority(blogPosts.filter(
+    (post) =>
+      !post.category &&
+      post.id !== currentPostId &&
+      getBlogLanguage(post) === currentLanguage,
+  ), getCurrentBlog());
+
   if (!posts.length) return null;
 
   const unavailable = rewardStatus === "failed";

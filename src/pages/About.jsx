@@ -5,20 +5,20 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Us | Finvexa</title>
-        <meta name="description" content="Learn about Finvexa - your trusted source for business insights, CRM solutions, and growth strategies." />
+        <title>About Us | FinanceLoan</title>
+        <meta name="description" content="Learn about FinanceLoan - your trusted source for business insights, CRM solutions, and growth strategies." />
         <link rel="canonical" href="https://finvexa.com/about" />
       </Helmet>
 
       <div className="static-page">
         <div className="container">
           <div className="static-content">
-            <h1>About Finvexa</h1>
+            <h1>About FinanceLoan</h1>
 
             <section className="content-section">
               <h2>Who We Are</h2>
               <p>
-                Finvexa is your comprehensive destination for business insights and technology solutions. We specialize in providing
+                FinanceLoan is your comprehensive destination for business insights and technology solutions. We specialize in providing
                 in-depth content about CRM solutions, sales automation, customer management, and business growth strategies.
               </p>
               <p>

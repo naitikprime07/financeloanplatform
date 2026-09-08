@@ -1,7 +1,7 @@
 {
   "name": "finvexa-website",
   "version": "1.0.0",
-  "description": "Finvexa - Finance News and Business Insights",
+  "description": "FinanceLoan - Finance News and Business Insights",
   "type": "module",
   "scripts": {
     "dev": "vite",

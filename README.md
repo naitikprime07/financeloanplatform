@@ -1,4 +1,4 @@
-# Finvexa Website
+# FinanceLoan Website
 
 Finance news and business insights platform built with React and Vite.
 

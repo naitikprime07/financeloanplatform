@@ -192,11 +192,17 @@ ul {
 }
 
 .desktop-side-ad-left {
-  left: max(16px, calc((100vw - 1520px) / 2));
+  left: max(16px, calc(50vw - 816px));
 }
 
 .desktop-side-ad-right {
-  right: max(16px, calc((100vw - 1520px) / 2));
+  right: max(16px, calc(50vw - 816px));
+}
+
+@media (min-width: 1536px) {
+  .main-content {
+    padding-inline: 192px;
+  }
 }
 
 @media (max-width: 1535px) {

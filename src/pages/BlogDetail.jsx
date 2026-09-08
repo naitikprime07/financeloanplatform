@@ -7,12 +7,15 @@ import BlogAd from "../components/BlogAd";
 import BlogRewardedAd from "../components/BlogRewardedAd";
 import BlogBottomImage from "../components/BlogBottomImage";
 import BlogPixel from "../components/BlogPixel";
+import LanguageToggle from "../components/LanguageToggle";
 
 import NonCategoryBlogLinks from "../components/NonCategoryBlogLinks";
 import { getBlogPost, blogPosts } from "../data/blogData";
+import { isBlogAvailableForLanguage, orderBlogsByPriority } from "../data/blogData";
+import { getCurrentSiteLanguage, getCurrentBlog, getCanonicalUrl } from "../config/siteConfig";
 import { BLOG_VIEW_EVENT_NAME, useBlogViewTracking } from "../tracking";
 import "./BlogDetail.css";
-const LOAN_CTA_TEXTS = [
+const HINDI_LOAN_CTA_TEXTS = [
   "लोन अप्लाई",
   "अभी लोन लें",
   "लोन के लिए",
@@ -24,7 +27,25 @@ const LOAN_CTA_TEXTS = [
   "लोन चेक करें",
 ];
 
+const ENGLISH_LOAN_CTA_TEXTS = [
+  "Apply for Loan",
+  "Get Loan Now",
+  "Apply Now",
+  "Get Your Loan",
+  "Apply Today",
+  "Apply for a Loan",
+  "Get Loan Now",
+  "Start Your Loan",
+  "Check Your Loan",
+];
+
 const AADHAAR_LOAN_SLUG = "aadhaarpe-loan-online-eligibility-check-apply";
+const ENGLISH_AADHAAR_LOAN_SLUG =
+  "aadhaarpe-loan-online-check-eligibility-apply";
+const AADHAAR_LOAN_SLUGS = [
+  AADHAAR_LOAN_SLUG,
+  ENGLISH_AADHAAR_LOAN_SLUG,
+];
 
 const renderSectionText = (text) =>
   text.split("\n\n").map((block, index) => {
@@ -89,22 +110,36 @@ const BlogScrollPrompt = ({ section }) => {
 
 const BlogDetail = () => {
   const { slug } = useParams();
-  const post = getBlogPost(slug);
+  const requestedPost = getBlogPost(slug);
+  const siteLanguage = getCurrentSiteLanguage();
+  const post =
+    requestedPost &&
+    isBlogAvailableForLanguage(requestedPost, siteLanguage)
+      ? requestedPost
+      : null;
   const middlePosterRef = useRef(null);
   const [loanCtaOffset] = useState(
-    () => Math.floor(Math.random() * LOAN_CTA_TEXTS.length),
+    () => Math.floor(Math.random() * HINDI_LOAN_CTA_TEXTS.length),
   );
   useBlogViewTracking(post);
 
+  const sitePosts = orderBlogsByPriority(
+    blogPosts.filter((item) => isBlogAvailableForLanguage(item, siteLanguage)),
+    getCurrentBlog(),
+  );
   const articleIndex = post
-    ? blogPosts.findIndex((item) => item.id === post.id)
+    ? sitePosts.findIndex((item) => item.id === post.id)
     : -1;
+  const loanCtaTexts =
+    siteLanguage === "en" ? ENGLISH_LOAN_CTA_TEXTS : HINDI_LOAN_CTA_TEXTS;
   const loanCtaText =
-    LOAN_CTA_TEXTS[(Math.max(articleIndex, 0) + loanCtaOffset) % LOAN_CTA_TEXTS.length];
-  const previousPost = articleIndex > 0 ? blogPosts[articleIndex - 1] : null;
+    loanCtaTexts[(Math.max(articleIndex, 0) + loanCtaOffset) % loanCtaTexts.length];
+  const rewardTargetSlug =
+    siteLanguage === "en" ? ENGLISH_AADHAAR_LOAN_SLUG : AADHAAR_LOAN_SLUG;
+  const previousPost = articleIndex > 0 ? sitePosts[articleIndex - 1] : null;
   const nextPost =
-    articleIndex >= 0 && articleIndex < blogPosts.length - 1
-      ? blogPosts[articleIndex + 1]
+    articleIndex >= 0 && articleIndex < sitePosts.length - 1
+      ? sitePosts[articleIndex + 1]
       : null;
 
   if (!post)
@@ -122,13 +157,13 @@ const BlogDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{post.title} | Finvexa</title>
+        <title>{post.title} | FinanceLoan</title>
         <meta name="description" content={post.excerpt} />
-        <meta property="og:title" content={`${post.title} | Finvexa`} />
+        <meta property="og:title" content={`${post.title} | FinanceLoan`} />
         <meta property="og:description" content={post.excerpt} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content={post.image} />
-        <link rel="canonical" href={`https://finvexa.com/blog/${slug}`} />
+        <link rel="canonical" href={getCanonicalUrl(`/blog/${slug}`)} />
         <script type="application/json" data-event-name={BLOG_VIEW_EVENT_NAME}>
           {JSON.stringify({
             event: BLOG_VIEW_EVENT_NAME,
@@ -166,12 +201,15 @@ const BlogDetail = () => {
             <article className="blog-detail-content">
               <header className="blog-detail-header">
                 <BlogPixel blog={post} />
-                <Link
-                  className="blog-category-badge"
-                  to={post.category ? `/category/${post.category}` : "/"}
-                >
-                  {post.categoryName}
-                </Link>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+                  <Link
+                    className="blog-category-badge"
+                    to={post.category ? `/category/${post.category}` : "/"}
+                  >
+                    {post.categoryName}
+                  </Link>
+                  <LanguageToggle />
+                </div>
                 <h1 className="blog-detail-title">{post.title}</h1>
                 <div className="blog-detail-meta">
                   <span className="blog-meta-avatar" aria-hidden="true">
@@ -258,7 +296,7 @@ const BlogDetail = () => {
                           slot="MIDDLE_2"
                           placement="poster"
                         />
-                        {post.id === AADHAAR_LOAN_SLUG ? (
+                        {AADHAAR_LOAN_SLUGS.includes(post.id) ? (
                           <BlogRewardedAd
                             key={'guide-rewarded-' + post.id}
                             post={post}
@@ -275,7 +313,7 @@ const BlogDetail = () => {
                           <BlogRewardedAd
                             key={'rewarded-' + post.id}
                             post={post}
-                            targetSlug={AADHAAR_LOAN_SLUG}
+                            targetSlug={rewardTargetSlug}
                             ctaText={loanCtaText}
                           />
                         )}
@@ -297,7 +335,7 @@ const BlogDetail = () => {
                   {post.categoryName}
                 </Link>
                 <span>Business insights</span>
-                <span>Finvexa guides</span>
+                <span>FinanceLoan guides</span>
               </div>
               <nav
                 className="article-navigation"
@@ -327,7 +365,7 @@ const BlogDetail = () => {
                   <section>
                     <h3>Disclaimer</h3>
                     <p>
-                      Finvexa provides general informational and educational
+                      FinanceLoan provides general informational and educational
                       content. Verify important financial or business decisions
                       with an appropriately qualified professional.
                     </p>

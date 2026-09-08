@@ -4,15 +4,27 @@ import carLoanImg from '../assets/blogBottomImages/carLoan.svg';
 import goldLoanImg from '../assets/blogBottomImages/goldLoan.svg';
 import studentLoanImg from '../assets/blogBottomImages/studentLoan.svg';
 import homeLoanImg from '../assets/blogBottomImages/homeLoan.svg';
+import ePersonalLoanImg from '../assets/blogBottomImages/e_personalLoan.png';
+import eAadharPeLoanImg from '../assets/blogBottomImages/e_aadharPeLoan.png';
+import eCarLoanImg from '../assets/blogBottomImages/e_carLoan.png';
+import eGoldLoanImg from '../assets/blogBottomImages/e_goldLoan.png';
+import eStudentLoanImg from '../assets/blogBottomImages/e_studentLoan.png';
+import eHomeLoanImg from '../assets/blogBottomImages/e_homeLoan.png';
 import './BlogBottomImage.css';
 
 const blogImageMap = {
   'personal-loan-online-eligibility-check-apply': personalLoanImg,
+  'personal-loan-online-check-eligibility-apply': ePersonalLoanImg,
   'aadhaarpe-loan-online-eligibility-check-apply': aadharPeLoanImg,
+  'aadhaarpe-loan-online-check-eligibility-apply': eAadharPeLoanImg,
   'car-loan-check-offers-apply-online': carLoanImg,
+  'car-loan-explore-financing-next-car': eCarLoanImg,
   'gold-loan-check-offers-apply-online': goldLoanImg,
+  'gold-loan-explore-options-against-gold': eGoldLoanImg,
   'student-loan-education-finance-options': studentLoanImg,
+  'student-loan-explore-education-financing': eStudentLoanImg,
   'home-loan-housing-finance-options': homeLoanImg,
+  'home-loan-explore-financing-dream-home': eHomeLoanImg,
 };
 
 const BlogBottomImage = ({ postId, imageRef }) => {

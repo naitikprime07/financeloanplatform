@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 import AdUnit from './AdUnit';
-import { blogPosts } from '../data/blogData';
+import { blogPosts, isBlogAvailableForLanguage, orderBlogsByPriority } from '../data/blogData';
+import { getCurrentSiteLanguage, getCurrentBlog } from '../config/siteConfig';
 import './BlogSidebar.css';
 
 const BlogSidebar = ({ currentPostId }) => {
-  const trendingPosts = blogPosts.filter((post) => post.id !== currentPostId).slice(0, 4);
+  const siteLanguage = getCurrentSiteLanguage();
+  const trendingPosts = orderBlogsByPriority(
+    blogPosts.filter((post) =>
+      post.id !== currentPostId &&
+      isBlogAvailableForLanguage(post, siteLanguage),
+    ),
+    getCurrentBlog(),
+  )
+    .slice(0, 4);
   return <aside className="blog-sidebar" aria-label="Trending articles">
     <section className="blog-sidebar-card">
       <div className="blog-sidebar-heading"><span>Popular stories</span><h2>Trending Now</h2></div>

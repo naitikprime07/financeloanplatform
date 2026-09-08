@@ -56,7 +56,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .7px;
-    margin-bottom: 18px
+    margin-bottom: 0
 }
 
 .blog-detail-title {
@@ -388,25 +388,21 @@
 }
 
 .faq-item summary::before {
-    content: '+';
+    content: '';
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: 8px;
+    width: 50px;
+    height: 28px;
+    background:
+        radial-gradient(circle at 11px 14px, #ffffff 9px, transparent 9.5px),
+        #0066cc;
+    border-radius: 14px;
     box-shadow:
-        0 2px 4px rgba(0, 102, 204, 0.2),
-        0 4px 8px rgba(0, 102, 204, 0.15);
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        inset 0 1px 3px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 102, 204, 0.35);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-item summary::after {
@@ -415,30 +411,31 @@
     left: 24px;
     top: 50%;
     transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
-    color: var(--primary-color);
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.08) 0%, rgba(26, 115, 232, 0.12) 100%);
+    color: #0891b2;
+    background: #cffafe;
     border-radius: 50%;
     margin-right: 12px;
 }
 
 .faq-item[open] summary::before {
-    transform: translateY(-50%) rotate(45deg);
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background:
+        radial-gradient(circle at 39px 14px, #ffffff 9px, transparent 9.5px),
+        #10b981;
     box-shadow:
-        0 3px 6px rgba(16, 185, 129, 0.3),
-        0 6px 12px rgba(16, 185, 129, 0.2);
+        inset 0 1px 3px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(16, 185, 129, 0.35);
 }
 
 .faq-item[open] summary::after {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.15) 100%);
-    color: #10b981;
+    background: #d1fae5;
+    color: #059669;
 }
 
 .faq-item summary strong {
@@ -973,16 +970,25 @@
     }
 
     .faq-item summary::before {
-        width: 28px;
-        height: 28px;
-        font-size: 20px;
+        width: 45px;
+        height: 24px;
         right: 16px;
+        background:
+            radial-gradient(circle at 10px 12px, #ffffff 8px, transparent 8.5px),
+            #0066cc;
+        border-radius: 12px;
+    }
+
+    .faq-item[open] summary::before {
+        background:
+            radial-gradient(circle at 35px 12px, #ffffff 8px, transparent 8.5px),
+            #10b981;
     }
 
     .faq-item summary::after {
-        width: 24px;
-        height: 24px;
-        font-size: 14px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
         left: 20px;
     }
 
@@ -1023,17 +1029,25 @@
     }
 
     .faq-item summary::before {
-        width: 26px;
-        height: 26px;
-        font-size: 18px;
+        width: 42px;
+        height: 22px;
         right: 14px;
-        border-radius: 6px;
+        background:
+            radial-gradient(circle at 9px 11px, #ffffff 7px, transparent 7.5px),
+            #0066cc;
+        border-radius: 11px;
+    }
+
+    .faq-item[open] summary::before {
+        background:
+            radial-gradient(circle at 33px 11px, #ffffff 7px, transparent 7.5px),
+            #10b981;
     }
 
     .faq-item summary::after {
-        width: 22px;
-        height: 22px;
-        font-size: 13px;
+        width: 26px;
+        height: 26px;
+        font-size: 15px;
         left: 18px;
     }
 
@@ -1192,7 +1206,7 @@
     }
 }
 
-/* Reference-aligned Finvexa blog presentation */
+/* Reference-aligned FinanceLoan blog presentation */
 .blog-detail-page {
     padding: 24px 0 64px;
     background:
@@ -1237,7 +1251,7 @@
 }
 
 .blog-category-badge {
-    margin-bottom: 14px;
+    margin-bottom: 0;
     padding: 6px 11px;
     border-radius: 4px;
     background: #0069d9;
@@ -1921,6 +1935,136 @@
 
 @media (max-width: 767px) {
     .blog-top-ad-frame {
+        width: 100%;
+        max-width: 100%;
         margin: 20px auto;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .blog-top-ad-frame .ad-unit-wrapper,
+    .blog-top-ad-frame .ad-unit {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .blog-top-ad-frame .ad-unit > div,
+    .blog-top-ad-frame .ad-unit iframe {
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+/* Simple FAQ accordion */
+.faq-section {
+    margin: 32px 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.faq-item {
+    margin: 0 0 12px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e6ea;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.faq-item:hover,
+.faq-item[open] {
+    transform: none;
+    background: #ffffff;
+    border-color: #d5dbe1;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+}
+
+.faq-item summary {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 16px 52px 16px 18px;
+    color: #273444;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.faq-item summary:hover {
+    color: #273444;
+}
+
+.faq-item summary::after {
+    display: none;
+}
+
+.faq-item summary::before,
+.faq-item[open] summary::before {
+    right: 18px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    color: #0873cf;
+    background: #eef6ff;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: none;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.faq-item summary::before {
+    content: '+';
+}
+
+.faq-item[open] summary::before {
+    content: '\2212';
+}
+
+.faq-item summary strong {
+    padding-left: 0;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.faq-item p {
+    margin: 0;
+    padding: 0 18px 18px;
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+@media (max-width: 480px) {
+    .faq-section {
+        margin: 24px 0;
+        padding: 0;
+    }
+
+    .faq-item summary {
+        min-height: 58px;
+        padding: 14px 46px 14px 15px;
+        font-size: 14px;
+    }
+
+    .faq-item summary::before,
+    .faq-item[open] summary::before {
+        right: 14px;
+        width: 22px;
+        height: 22px;
+        font-size: 16px;
+    }
+
+    .faq-item p {
+        padding: 0 15px 15px;
+        font-size: 13px;
     }
 }

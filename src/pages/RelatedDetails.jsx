@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { getBlogPost } from "../data/blogData";
+import { getBlogPost, isBlogAvailableForLanguage } from "../data/blogData";
+import { getCurrentSiteLanguage } from "../config/siteConfig";
 import "./RelatedDetails.css";
 
 import personalLoanBtn from "../assets/buttons/personalLoan.svg";
@@ -24,7 +25,12 @@ const buttonImageMap = {
 const RelatedDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const post = getBlogPost(slug);
+  const requestedPost = getBlogPost(slug);
+  const post =
+    requestedPost &&
+    isBlogAvailableForLanguage(requestedPost, getCurrentSiteLanguage())
+      ? requestedPost
+      : null;
   const [mobile, setMobile] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -87,7 +93,7 @@ const RelatedDetails = () => {
   return (
     <>
       <Helmet>
-        <title>{post.title} - Apply Now | Finvexa</title>
+        <title>{post.title} - Apply Now | FinanceLoan</title>
         <meta name="description" content={post.excerpt} />
       </Helmet>
 

@@ -5,8 +5,8 @@ const Privacy = () => {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy | Finvexa</title>
-        <meta name="description" content="Read the Privacy Policy for Finvexa to understand how we collect, use, and protect your information." />
+        <title>Privacy Policy | FinanceLoan</title>
+        <meta name="description" content="Read the Privacy Policy for FinanceLoan to understand how we collect, use, and protect your information." />
         <link rel="canonical" href="https://finvexa.com/privacy" />
       </Helmet>
 
@@ -18,7 +18,7 @@ const Privacy = () => {
             <section className="content-section">
               <h2>Data Controller & Applicable Laws</h2>
               <p>
-                Finvexa ("we," "us," or "our") operates the website and is committed to protecting your privacy.
+                FinanceLoan ("we," "us," or "our") operates the website and is committed to protecting your privacy.
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
               </p>
             </section>

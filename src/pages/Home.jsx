@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import AdUnit from '../components/AdUnit';
-import { blogPosts } from '../data/blogData';
+import { getBlogsForCurrentSiteOrdered } from '../data/blogData';
+import { getCurrentSiteLanguage, getPrimaryCategory, getCurrentBlog, getCanonicalUrl } from '../config/siteConfig';
 import './Home.css';
 
 const POSTS_PER_PAGE = 12;
@@ -11,9 +12,12 @@ const POSTS_PER_PAGE = 12;
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(blogPosts.length / POSTS_PER_PAGE);
+  // Filter and order blogs based on current site language and primary category
+  const filteredBlogs = useMemo(() => getBlogsForCurrentSiteOrdered(getCurrentSiteLanguage, getPrimaryCategory, getCurrentBlog), []);
+
+  const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-  const currentPosts = blogPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+  const currentPosts = filteredBlogs.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -23,12 +27,12 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Finvexa - Latest Business News, CRM Reviews, and Growth Strategies</title>
-        <meta name="description" content="Finvexa brings you latest business insights, CRM reviews, sales automation strategies, and expert guides. Explore trending topics and business solutions." />
-        <meta property="og:title" content="Finvexa - Latest Business News & Insights" />
+        <title>FinanceLoan - Latest Business News, CRM Reviews, and Growth Strategies</title>
+        <meta name="description" content="FinanceLoan brings you latest business insights, CRM reviews, sales automation strategies, and expert guides. Explore trending topics and business solutions." />
+        <meta property="og:title" content="FinanceLoan - Latest Business News & Insights" />
         <meta property="og:description" content="Stay updated with business news, CRM reviews, sales automation trends, and expert insights." />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://finvexa.com" />
+        <link rel="canonical" href={getCanonicalUrl('/')} />
       </Helmet>
 
       <div className="home-page">
@@ -89,7 +93,7 @@ const Home = () => {
           <div className="disclaimer-section">
             <h2>DISCLAIMER</h2>
             <p>
-              The information provided on Finvexa is for general informational and educational purposes only. It is not
+              The information provided on FinanceLoan is for general informational and educational purposes only. It is not
               a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other
               qualified health provider with any questions you may have regarding a medical condition.
             </p>
@@ -115,4 +119,3 @@ const Home = () => {
 };
 
 export default Home;
-

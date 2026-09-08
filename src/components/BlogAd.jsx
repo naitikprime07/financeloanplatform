@@ -1,8 +1,8 @@
 import AdUnit from "./AdUnit";
 
 const BlogAd = ({ slot, placement, className = "" }) => {
-  // Use horizontal ad format for poster placement to match wide image
-  const adSize = placement === "poster" ? "blog-horizontal" : "blog-normal";
+  // Keep this slot compatible with the actual width of the poster column.
+  const adSize = placement === "poster" ? "blog-poster" : "blog-normal";
 
   return (
     <div className={`blog-ad-frame blog-ad-frame--${placement}`.trim()}>
