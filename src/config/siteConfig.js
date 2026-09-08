@@ -43,32 +43,39 @@ const addDomainConfig = (configs, domain, config = {}) => {
 const createDefaultDomainConfigs = () => {
   const configs = {};
 
-  addDomainConfig(configs, "financeloanplatform.com", {
-    language: "en",
-    blog: null,
-  });
-  addDomainConfig(configs, "www.financeloanplatform.com", {
-    language: "en",
-    blog: null,
-  });
-  addDomainConfig(configs, "hi.financeloanplatform.com", {
-    language: "hi",
-    blog: null,
-  });
-  addDomainConfig(configs, "personal_en.financeloanplatform.com", {
-    language: "en",
-    blog: "personal-loan",
-  });
-  addDomainConfig(configs, "personalloan_hi.financeloanplatform.com", {
-    language: "hi",
-    blog: "personal-loan",
-  });
+  const defaults = {
+    "financeloanplatform.com": { language: "en", blog: null },
+    "www.financeloanplatform.com": { language: "en", blog: null },
+    "hi.financeloanplatform.com": { language: "hi", blog: null },
+    "personalloan-en.financeloanplatform.com": {
+      language: "en",
+      blog: "personal-loan",
+    },
+    "personalloan-hi.financeloanplatform.com": {
+      language: "hi",
+      blog: "personal-loan",
+    },
+    "carloan-en.financeloanplatform.com": {
+      language: "en",
+      blog: "car-loan",
+    },
+    "carloan-hi.financeloanplatform.com": {
+      language: "hi",
+      blog: "car-loan",
+    },
+    "aadhaarpeloan-en.financeloanplatform.com": {
+      language: "en",
+      blog: "aadhaar-loan",
+    },
+    "aadhaarpeloan-hi.financeloanplatform.com": {
+      language: "hi",
+      blog: "aadhaar-loan",
+    },
+  };
 
-  // Alias for the alternate spelling included in the deployment test list.
-  addDomainConfig(configs, "personaloan_hi.financeloanplatform.com", {
-    language: "hi",
-    blog: "personal-loan",
-  });
+  Object.entries(defaults).forEach(([domain, config]) =>
+    addDomainConfig(configs, domain, config),
+  );
 
   return configs;
 };
