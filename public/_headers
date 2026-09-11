@@ -1,46 +1,17 @@
 # Cloudflare Pages Headers Configuration
-# This file configures HTTP response headers for the entire site
-# to ensure Google Ad Manager (GAM) ads can load and render properly
 
-# Apply these headers to all pages
 /*
-  # Security: Prevent your site from being embedded in other sites (clickjacking protection)
-  # but still allow third-party ad iframes to be embedded IN your site
   X-Frame-Options: SAMEORIGIN
-
-  # Cross-Origin-Opener-Policy: Allow cross-origin windows to communicate
-  # CRITICAL for GAM rewarded video ads - they use postMessage between iframe and parent
-  # "unsafe-none" is the most permissive and matches Vercel's default behavior
   Cross-Origin-Opener-Policy: unsafe-none
-
-  # Cross-Origin-Embedder-Policy: Allow loading cross-origin resources
-  # CRITICAL for video ad rendering - ads load video content from Google CDNs
-  # "unsafe-none" allows all cross-origin resources (images, videos, scripts)
   Cross-Origin-Embedder-Policy: unsafe-none
-
-  # Cross-Origin-Resource-Policy: Allow other origins to load resources from your site
-  # Needed for GAM tracking pixels and ad creatives
   Cross-Origin-Resource-Policy: cross-origin
-
-  # Referrer Policy: Send full referrer to same-origin, origin only to cross-origin
-  # Helps with ad targeting while maintaining some privacy
   Referrer-Policy: strict-origin-when-cross-origin
-
-  # Permissions Policy: Disable FLoC (privacy protection)
-  # This won't affect GAM ads
   Permissions-Policy: interest-cohort=()
 
-  # Content Security Policy: Allow inline scripts and styles needed for GAM
-  # Note: CSP is intentionally permissive for ad compatibility
-  # If you want stricter CSP, you'll need to carefully test with your ads
-  # Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://securepubads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagservices.com *.google.com *.googlesyndication.com; frame-src https://tpc.googlesyndication.com https://googleads.g.doubleclick.net *.google.com *.googlesyndication.com; img-src 'self' data: https: http:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://securepubads.g.doubleclick.net *.google.com *.googlesyndication.com;
-
-# Ensure ads.txt is served with correct content type
 /ads.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=3600
 
-# Cache static assets
 /*.js
   Cache-Control: public, max-age=31536000, immutable
 
@@ -59,6 +30,5 @@
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
 
-# Don't cache HTML (for SPA routing)
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
